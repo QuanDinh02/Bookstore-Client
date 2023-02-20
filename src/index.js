@@ -7,6 +7,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Provider } from 'react-redux';
 import store from './redux/store';
 
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600&display=swap');
+</style>
+
 ReactDOM.render(
   <Provider store={store}>
     <React.StrictMode>
