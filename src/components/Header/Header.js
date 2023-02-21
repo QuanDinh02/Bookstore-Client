@@ -5,11 +5,20 @@ import { MdPhoneIphone } from 'react-icons/md';
 import { CiSearch } from 'react-icons/ci';
 import { BsCart3 } from 'react-icons/bs';
 import { HiOutlineMenuAlt2 } from 'react-icons/hi';
-import { SlArrowDown } from 'react-icons/sl';
+import { SlArrowDown, SlArrowUp } from 'react-icons/sl';
 import { IoCallSharp } from 'react-icons/io5';
 import { RiWechatFill } from 'react-icons/ri';
+import BookCategory from '../Content/BookCategory/BookCategory';
+import { useState } from 'react';
 
 const Header = () => {
+
+    const [showBookCategory, setShowBookCategory] = useState(true);
+
+    const handleShowBookCategory = () => {
+        setShowBookCategory(!showBookCategory);
+    }
+
     return (
         <div className='header-container'>
             <div className='title'>
@@ -67,26 +76,34 @@ const Header = () => {
             </div>
             <div className='navigation d-flex align-items-center'>
                 <div className='content container d-flex'>
-                    <div className='menu col-3 d-flex justify-content-between'>
+                    <div className='menu col-3 d-flex justify-content-between' onClick={handleShowBookCategory}>
                         <HiOutlineMenuAlt2 className='menu-icon' />
                         <span className='menu-title'>Book Category</span>
                         <div className='arrow-icon'>
-                            <SlArrowDown className='downside-arrow-icon' />
+                            {showBookCategory === false ?
+                                <SlArrowDown className='downside-arrow-icon' />
+                                :
+                                <SlArrowUp className='downside-arrow-icon' />
+                            }
                         </div>
 
                     </div>
                     <div className='contact col-9 d-flex align-items-center justify-content-end'>
                         <div className='hotline pe-3'>
-                            <IoCallSharp className='icon pe-1'/>
+                            <IoCallSharp className='icon pe-1' />
                             <span className='text'>Hotline: <strong>1900 0080</strong></span>
                         </div>
                         <div className='online-support ps-3'>
-                            <RiWechatFill className='icon pe-1'/>
+                            <RiWechatFill className='icon pe-1' />
                             <span className='text'>Online Support</span>
                         </div>
                     </div>
                 </div>
-
+            </div>
+            <div className='bookCategory container d-flex'>
+                <BookCategory
+                    show={showBookCategory}
+                />
             </div>
         </div>
     )

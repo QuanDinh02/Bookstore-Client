@@ -1,0 +1,17 @@
+.app-container {
+    height: 1500px;
+    position: relative;
+
+    .header-section {
+        position: absolute;
+        width: 100%;
+        z-index: 2;
+    }
+
+    .homepage-section {
+        position: absolute;
+        width: 100%;
+        top: 10.2rem;
+        z-index: 1;
+    }
+}

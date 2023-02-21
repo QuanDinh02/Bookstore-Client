@@ -3,7 +3,6 @@ $main-red-color  : #CA2027;
 
 .header-container {
     font-family: 'Montserrat', sans-serif;
-    height: 1500px;
 
     .title {
         min-height      : 2.25rem;
@@ -119,6 +118,11 @@ $main-red-color  : #CA2027;
         color           : white;
 
         .menu {
+            
+            &:hover {
+                cursor: pointer;
+            }
+
             .menu-icon {
                 font-size: 2rem;
             }
@@ -162,20 +166,4 @@ $main-red-color  : #CA2027;
 
 .red {
     border: 1px solid red;
-}
-
-.green {
-    border: 1px solid green;
-}
-
-.blue {
-    border: 1px solid blue;
-}
-
-.tomato {
-    border: 1px solid tomato;
-}
-
-.purple {
-    border: 1px solid purple;
 }

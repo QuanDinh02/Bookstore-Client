@@ -1,0 +1,65 @@
+.homepage-content-container {
+    .poster {
+        margin-left   : 0.25rem;
+        height        : 42.5rem;
+        display       : flex;
+        flex-direction: column;
+
+        .poster-top {
+            flex-basis: 60%;
+            display       : flex;
+
+            .poster-top-left {
+                flex-basis: 60%;
+
+            }
+
+            .poster-top-right {
+                flex-basis: 40%;
+
+            }
+        }
+
+        .poster-bottom {
+            flex-basis: 40%;
+            display       : flex;
+            flex-direction: row;
+
+            .poster-bottom-left {
+                flex-basis: 60%;
+                display: flex;
+                flex-direction: row;
+
+                .first, .second {
+                    flex-basis: 50%;
+                }
+            }
+
+            .poster-bottom-right {
+                flex-basis: 40%;
+            }
+        }
+
+    }
+}
+
+
+.green {
+    border: 1px solid green;
+}
+
+.blue {
+    border: 1px solid blue;
+}
+
+.tomato {
+    border: 1px solid tomato;
+}
+
+.purple {
+    border: 1px solid purple;
+}
+
+.gray {
+    border: 1px solid rgb(171, 171, 171);
+}
