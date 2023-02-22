@@ -5,10 +5,13 @@ $main-red-color  : #CA2027;
     font-family: 'Montserrat', sans-serif;
 
     .title {
+
         min-height      : 2.25rem;
         background-color: #F3F3F3;
 
         .content {
+            padding: 0 4rem;
+
             .item {
                 color    : #66645C;
                 font-size: 0.9rem;
@@ -34,9 +37,12 @@ $main-red-color  : #CA2027;
     }
 
     .main {
-        min-height: 5rem;
+        min-height      : 5rem;
+        background-color: white;
 
         .content {
+            padding: 0 4rem;
+
             .brand-box {
                 font-size  : 2.25rem;
                 font-weight: 700;
@@ -77,10 +83,11 @@ $main-red-color  : #CA2027;
                 .search-btn {
                     cursor          : pointer;
                     flex-basis      : 17%;
-                    border-radius   : 30px;
+                    border-radius   : 1.8rem;
                     font-weight     : 600;
                     color           : white;
                     background-color: $main-green-color;
+                    padding: 1px 0;
                 }
             }
         }
@@ -117,50 +124,59 @@ $main-red-color  : #CA2027;
         background-color: $main-green-color;
         color           : white;
 
-        .menu {
-            
-            &:hover {
-                cursor: pointer;
-            }
+        .content {
+            padding: 0 4rem;
 
-            .menu-icon {
-                font-size: 2rem;
-            }
+            .menu {
 
-            .menu-title {
-                font-size: 1.2rem;
-            }
+                &:hover {
+                    cursor: pointer;
+                }
 
-            .arrow-icon {
-                .downside-arrow-icon {
+                .menu-icon {
+                    font-size: 2rem;
+                }
+
+                .menu-title {
                     font-size: 1.2rem;
                 }
-            }
-        }
 
-        .contact {
-
-            .icon {
-                font-size: 1.2rem;
-            }
-
-            .text {
-                font-size: 0.85rem;
+                .arrow-icon {
+                    .downside-arrow-icon {
+                        font-size: 1.2rem;
+                    }
+                }
             }
 
-            .hotline {
-                border-right: 2px solid white;
-            }
+            .contact {
 
-            .online-support {
+                .icon {
+                    font-size: 1.2rem;
+                }
+
                 .text {
-                    &:hover {
-                        cursor         : pointer;
-                        text-decoration: underline;
+                    font-size: 0.85rem;
+                }
+
+                .hotline {
+                    border-right: 2px solid white;
+                }
+
+                .online-support {
+                    .text {
+                        &:hover {
+                            cursor         : pointer;
+                            text-decoration: underline;
+                        }
                     }
                 }
             }
         }
+
+    }
+
+    .bookCategory {
+        padding: 0 4rem;
     }
 }
 

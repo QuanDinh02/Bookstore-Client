@@ -2,7 +2,7 @@ import './App.scss';
 // import { useSelector, useDispatch } from "react-redux";
 // import {increaseCounter,decreaseCounter} from "./redux/action/actions";
 import Header from '../src/components/Header/Header';
-import HomepageContent from './components/Content/HomepageContent';
+import HomepageContent from './components/Content/Homepage/HomepageContent';
 
 function App() {
   // const count = useSelector(state => state.counter.count);

@@ -44,7 +44,7 @@ const Header = () => {
                     <div className='brand-box col-3'>
                         Mega<span className='brand'>book</span>.com
                     </div>
-                    <div className='searchBar col-5'>
+                    <div className='searchBar col-6'>
                         <div className='search-box flex-grow-1 py-1 ms-1'>
                             <div className='icon d-flex justify-content-center align-items-center'><CiSearch /></div>
                             <div className='search'>
@@ -57,7 +57,7 @@ const Header = () => {
                         </div>
 
                     </div>
-                    <div className='shoppingCart col-2 d-flex justify-content-end align-items-center'>
+                    <div className='shoppingCart col-1 d-flex justify-content-end align-items-center'>
                         <div className='cartBorder red p-2'>
                             <BsCart3 className='icon' />
                         </div>
