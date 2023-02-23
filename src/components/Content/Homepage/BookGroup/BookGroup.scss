@@ -1,10 +1,138 @@
+$light-gray-color: #66645C;
+$light-gray-border: #cbcac8;
+$red-color       : #F03737;
+$main-red-color  : #CA2027;
+$main-green-color: #087B44;
+
 .book-group-container {
-    
-    height: 400px;
+
     .book-group-title {
-        font-size     : 1.2rem;
-        font-weight   : 600;
-        letter-spacing: 0.03125rem;
-        margin-bottom : 2.5rem;
+        display: flex;
+        justify-content: space-between;
+
+        .title {
+            font-size     : 1.2rem;
+            font-weight   : 600;
+            letter-spacing: 0.03125rem;
+            margin-bottom : 2.5rem;
+        }
+
+        .redirect {
+            color: $main-green-color;
+            &:hover {
+                cursor: pointer;
+                text-decoration: underline;
+            }
+        }
+
+    }
+
+    .book-group-main {
+        .book {
+            cursor    : pointer;
+            width     : 16.25rem;
+            min-height: 14rem;
+
+            margin-bottom: 2rem;
+            padding      : 0.5625rem 0 0.5625rem 0.5625rem;
+
+            background-color: white;
+            display         : flex;
+            flex-direction  : column;
+            justify-content: space-between;
+
+            border: 1px solid $light-gray-border;
+
+            .content {
+                padding-bottom: 1.2rem;
+                display       : flex;
+                flex-grow: 1;
+
+                .book-image {
+                    flex-basis: 38%;
+
+                    img {
+                        width : 100%;
+                        height: 100%;
+                    }
+                }
+
+                .book-info {
+                    flex-basis   : 62%;
+                    width        : 9.375rem;
+                    padding-right: 0.5rem;
+                    padding-left : 0.5rem;
+
+                    .title {
+                        overflow   : hidden;
+                        white-space: nowrap;
+                        font-weight: bold;
+                        font-size  : 0.9rem;
+
+                        &:hover {
+                            color          : $main-green-color;
+                            text-decoration: underline;
+                        }
+                    }
+
+                    .author {
+                        font-size     : 0.85rem;
+                        color         : $light-gray-color;
+                        padding-bottom: 0.85rem;
+                        border-bottom : 1px solid #cccbc7;
+                    }
+
+                    .description {
+                        padding-top: 0.5rem;
+                        font-size  : 0.85rem;
+                    }
+                }
+
+                border-bottom: 1px dashed #cccbc7;
+            }
+
+            .price-container {
+                display        : flex;
+                align-items    : center;
+                justify-content: space-between;
+                padding-right  : 1rem;
+                padding-top    : 0.5rem;
+                
+
+                .unit {
+                    text-decoration: underline;
+                }
+
+                .sale-off {
+                    color           : white;
+                    padding         : 4px 8px;
+                    font-size       : 0.85rem;
+                    background-color: $red-color;
+                    font-weight     : 700;
+                    border-radius   : 0.3rem;
+                }
+
+                .price-box {
+                    display: flex;
+                    gap    : 0.5rem;
+
+                    .old-price {
+                        letter-spacing : 0.0625rem;
+                        text-decoration: line-through;
+                        font-size      : 0.8125rem;
+                        font-weight    : 600;
+                    }
+
+                    .price {
+                        letter-spacing: 0.0625rem;
+                        font-size     : 0.875rem;
+                        font-weight   : 600;
+                        color         : $main-red-color;
+                    }
+                }
+
+            }
+
+        }
     }
 }
