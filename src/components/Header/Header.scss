@@ -3,11 +3,14 @@ $main-red-color  : #CA2027;
 
 .header-container {
     font-family: 'Montserrat', sans-serif;
+    position   : relative;
+    height: 100%;
 
     .title {
-
+        width           : 100%;
         min-height      : 2.25rem;
         background-color: #F3F3F3;
+        position        : relative;
 
         .content {
             padding: 0 4rem;
@@ -34,11 +37,16 @@ $main-red-color  : #CA2027;
 
             }
         }
+
     }
 
     .main {
+        width           : 100%;
         min-height      : 5rem;
         background-color: white;
+        position        : sticky;
+        top             : 0;
+        z-index         : 4;
 
         .content {
             padding: 0 4rem;
@@ -52,74 +60,77 @@ $main-red-color  : #CA2027;
                     color: $main-red-color;
                 }
             }
-        }
 
-        .searchBar {
-            display    : flex;
-            align-items: center;
+            .searchBar {
+                display    : flex;
+                align-items: center;
 
-            .search-box {
-                display         : flex;
-                border-radius   : 30px;
-                border          : 1px solid rgb(204, 204, 204);
-                background-color: #F3F3F3;
+                .search-box {
+                    display         : flex;
+                    border-radius   : 30px;
+                    border          : 1px solid rgb(204, 204, 204);
+                    background-color: #F3F3F3;
 
-                .icon {
-                    flex-basis: 8%;
-                    font-size : 1.25rem;
+                    .icon {
+                        flex-basis: 8%;
+                        font-size : 1.25rem;
+                    }
+
+                    .search {
+                        flex-basis: 75%;
+
+                        input {
+                            width           : 100%;
+                            outline         : none;
+                            border          : none;
+                            background-color: #F3F3F3;
+                        }
+                    }
+
+                    .search-btn {
+                        cursor          : pointer;
+                        flex-basis      : 17%;
+                        border-radius   : 1.8rem;
+                        font-weight     : 600;
+                        color           : white;
+                        background-color: $main-green-color;
+                        padding         : 1px 0;
+                    }
                 }
+            }
 
-                .search {
-                    flex-basis: 75%;
+            .shoppingCart {
+                .cartBorder {
+                    border-radius: 50%;
+                    border       : 2px solid $main-green-color;
+                    width        : fit-content;
 
-                    input {
-                        width           : 100%;
-                        outline         : none;
-                        border          : none;
-                        background-color: #F3F3F3;
+                    .icon {
+                        color    : $main-green-color;
+                        font-size: 2rem;
                     }
                 }
 
-                .search-btn {
-                    cursor          : pointer;
-                    flex-basis      : 17%;
-                    border-radius   : 1.8rem;
-                    font-weight     : 600;
-                    color           : white;
-                    background-color: $main-green-color;
-                    padding: 1px 0;
+            }
+
+            .login-logout {
+                a {
+                    text-decoration: none;
+                    color          : black;
+                    font-size      : 1rem;
+
+                    &:hover {
+                        color: $main-green-color;
+                    }
                 }
             }
         }
 
-        .shoppingCart {
-            .cartBorder {
-                border-radius: 50%;
-                border       : 2px solid $main-green-color;
-                width        : fit-content;
-
-                .icon {
-                    color    : $main-green-color;
-                    font-size: 2rem;
-                }
-            }
-
-        }
-
-        .login-logout {
-            a {
-                text-decoration: none;
-                color          : black;
-                font-size      : 1rem;
-
-                &:hover {
-                    color: $main-green-color;
-                }
-            }
-        }
     }
 
     .navigation {
+        width           : 100%;
+        position        : absolute;
         min-height      : 2.8rem;
         background-color: $main-green-color;
         color           : white;

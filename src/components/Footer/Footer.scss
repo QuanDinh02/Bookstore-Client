@@ -1,0 +1,16 @@
+$light-gray-color: #66645C;
+$red-color       : #F03737;
+$main-green-color: #087B44;
+
+.footer-container {
+    background-color: $main-green-color;
+
+    .content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        
+        color: white;
+        height: 2rem;
+    }
+}

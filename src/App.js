@@ -3,6 +3,7 @@ import './App.scss';
 // import {increaseCounter,decreaseCounter} from "./redux/action/actions";
 import Header from '../src/components/Header/Header';
 import HomepageContent from './components/Content/Homepage/HomepageContent';
+import Footer from './components/Footer/Footer';
 
 function App() {
   // const count = useSelector(state => state.counter.count);
@@ -23,6 +24,9 @@ function App() {
       </div>
       <div className='homepage-section'>
         <HomepageContent />
+      </div>
+      <div className='footer-section'>
+        <Footer/>
       </div>
 
     </div>

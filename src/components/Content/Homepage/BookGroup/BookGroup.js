@@ -10,7 +10,6 @@ const BookGroup = () => {
                 <div>
                     <span className='redirect'>See more</span> <IoIosArrowForward />
                 </div>
-
             </div>
             <div className='book-group-main d-flex flex-wrap justify-content-around'>
                 <div className='book'>

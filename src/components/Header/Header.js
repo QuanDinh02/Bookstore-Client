@@ -20,7 +20,7 @@ const Header = () => {
     }
 
     return (
-        <div className='header-container'>
+        <div className='header-container blue'>
             <div className='title'>
                 <div className='content container d-flex pt-2'>
                     <div className='item d-flex align-items-bottom gap-2'>
