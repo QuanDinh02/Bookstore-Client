@@ -4,12 +4,13 @@ $main-green-color: #087B44;
 
 .footer-container {
     background-color: $main-green-color;
-
+    width: 100%;
+    margin-top: 2rem;
+    
     .content {
         display: flex;
         justify-content: center;
         align-items: center;
-        
         color: white;
         height: 2rem;
     }

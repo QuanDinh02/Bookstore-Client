@@ -3,15 +3,16 @@ import poster from '../../../assets/image/poster.png';
 import HighlightBook from './HighlightBook/HighlightBook';
 import BookGroup from './BookGroup/BookGroup';
 import ColumnBookGroup from './ColumnBookGroup/ColumnBookGroup';
+import Footer from '../../Footer/Footer';
 
 const HomepageContent = () => {
     return (
         <div className="homepage-content-container ">
             <div className='container'>
                 <div className="poster-section d-flex">
-                    <div className="col-3">
+                    <div className="col-md-3">
                     </div>
-                    <div className="poster col-9">
+                    <div className="poster col-12 col-md-9">
                         <div className='poster-top'>
                             <div className='poster-top-left'>
                                 <img src={poster} alt='poster' />
@@ -39,7 +40,7 @@ const HomepageContent = () => {
                 </div>
 
                 <div className='content-section d-flex justify-content-between'>
-                    <div className='content-left tomato col-12 col-xl-9 '>
+                    <div className='content-left tomato col-12 col-xl-9 pe-xxl-3'>
                         <HighlightBook />
                         <BookGroup />
                     </div>
@@ -49,7 +50,7 @@ const HomepageContent = () => {
                     </div>
                 </div>
             </div>
-
+            <Footer/>
         </div>
     )
 }

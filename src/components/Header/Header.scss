@@ -3,14 +3,12 @@ $main-red-color  : #CA2027;
 
 .header-container {
     font-family: 'Montserrat', sans-serif;
-    position   : relative;
-    height: 100%;
+    width      : 100%;
 
     .title {
         width           : 100%;
         min-height      : 2.25rem;
         background-color: #F3F3F3;
-        position        : relative;
 
         .content {
             padding: 0 4rem;
@@ -44,12 +42,9 @@ $main-red-color  : #CA2027;
         width           : 100%;
         min-height      : 5rem;
         background-color: white;
-        position        : sticky;
-        top             : 0;
-        z-index         : 4;
 
         .content {
-            padding: 0 4rem;
+            padding: 0 3.5rem;
 
             .brand-box {
                 font-size  : 2.25rem;
@@ -67,7 +62,7 @@ $main-red-color  : #CA2027;
 
                 .search-box {
                     display         : flex;
-                    border-radius   : 30px;
+                    border-radius   : 1.875rem;
                     border          : 1px solid rgb(204, 204, 204);
                     background-color: #F3F3F3;
 
@@ -123,6 +118,15 @@ $main-red-color  : #CA2027;
                         color: $main-green-color;
                     }
                 }
+
+                .login {
+                    border-right : 1px solid black;
+                    padding-right: 0.4rem;
+                }
+
+                .register {
+                    padding-left: 0.4rem;
+                }
             }
         }
 
@@ -130,7 +134,6 @@ $main-red-color  : #CA2027;
 
     .navigation {
         width           : 100%;
-        position        : absolute;
         min-height      : 2.8rem;
         background-color: $main-green-color;
         color           : white;
@@ -189,8 +192,26 @@ $main-red-color  : #CA2027;
     .bookCategory {
         padding: 0 4rem;
     }
+
 }
 
 .red {
     border: 1px solid red;
+}
+
+@media only screen and (max-width: 767px) {
+    .header-container {
+        .main {
+            background-color: $main-green-color;
+            padding-bottom: 1rem;
+            .content {
+                .brand-box {
+                    color: white;
+                    .brand {
+                        color: white;
+                    }
+                }
+            }
+        }
+    }
 }
