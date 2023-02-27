@@ -4,8 +4,25 @@ import HighlightBook from './HighlightBook/HighlightBook';
 import BookGroup from './BookGroup/BookGroup';
 import ColumnBookGroup from './ColumnBookGroup/ColumnBookGroup';
 import Footer from '../../Footer/Footer';
+// import { postCreateABook } from '../../Services/apiServices';
+// import { useState } from 'react';
 
 const HomepageContent = () => {
+
+    // const [test, setTest] = useState('');
+    // const [previewImage, setPreviewImage]= useState('');
+
+    // const handleTest = (event) => {
+    //     setTest(event.target.files[0]);
+    // }
+
+    // const handleSave = async () => {
+    //     let result = await postCreateABook(test);
+    //     if(result && result.EC === 0) {
+    //         setPreviewImage(`data:image/jpeg;base64,${result.DT.image}`);
+    //     }
+    // }
+
     return (
         <div className="homepage-content-container ">
             <div className='container'>
@@ -49,8 +66,20 @@ const HomepageContent = () => {
                         <ColumnBookGroup />
                     </div>
                 </div>
+                {/* <div className='test-section'>
+                    <div className='form-group'>
+                        <label htmlFor='test' className='btn btn-primary'>Upload</label>
+                        <input classname='form-control' type='file' id='test' onChange={(event) => handleTest(event)}/>
+                    </div>
+                    <div>
+                        <img src={previewImage}/>
+                    </div>
+                    <div>
+                        <button className='btn btn-warning mt-3' onClick={handleSave}>Save</button>
+                    </div>
+                </div> */}
             </div>
-            <Footer/>
+            <Footer />
         </div>
     )
 }

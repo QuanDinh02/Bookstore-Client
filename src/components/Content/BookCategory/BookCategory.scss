@@ -1,8 +1,8 @@
 .book-category {
-    border: 1px solid rgb(187, 186, 186);
-    margin-top: 0.2rem;
+    border          : 1px solid rgb(187, 186, 186);
+    margin-top      : 0.2rem;
     background-color: white;
-    
+
     .category-item {
 
         padding      : 0.85rem 0.3rem 0.5rem 2rem;
@@ -10,7 +10,7 @@
 
         .category-title {
             font-size: 0.95rem;
-            color: #66645C;
+            color    : #66645C;
         }
 
         .icon {
@@ -35,4 +35,31 @@
 
 .book-category-detail {
     background-color: white;
+    min-height      : 42.5rem;
+    padding         : 2rem 2rem 2rem 2.5rem;
+
+    .content {
+        font-size: 0.95rem;
+
+        .title {
+            font-weight     : 600;
+            background-color: white;
+
+            &:hover {
+                cursor         : pointer;
+                text-decoration: underline;
+            }
+        }
+
+        .title-box {
+            margin-bottom: 0.5rem;
+            .title-name {
+                &:hover {
+                    cursor         : pointer;
+                    text-decoration: underline;
+                }
+            }
+        }
+
+    }
 }

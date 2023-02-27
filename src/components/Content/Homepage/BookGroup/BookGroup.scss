@@ -117,14 +117,12 @@ $main-green-color: #087B44;
                     gap    : 0.5rem;
 
                     .old-price {
-                        letter-spacing : 0.0625rem;
                         text-decoration: line-through;
                         font-size      : 0.8125rem;
-                        font-weight    : 600;
+                        font-weight    : 500;
                     }
 
                     .price {
-                        letter-spacing: 0.0625rem;
                         font-size     : 0.875rem;
                         font-weight   : 600;
                         color         : $main-red-color;
