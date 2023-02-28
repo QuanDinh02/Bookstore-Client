@@ -11,4 +11,8 @@ const getAllBookCategoryGroup = async () => {
     return await axios.get('/api/book-category/group');
 }
 
-export { postCreateABook, getAllBookCategoryGroup }
+const getHighlightBook = async (id) => {
+    return await axios.get(`/api/book/${id}`);
+}
+
+export { postCreateABook, getAllBookCategoryGroup, getHighlightBook }
