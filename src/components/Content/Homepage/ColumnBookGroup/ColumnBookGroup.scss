@@ -49,7 +49,14 @@ $main-green-color: #087B44;
                 }
 
                 .rate {
-                    color: rgb(255, 196, 0);
+                    .star {
+                        color: rgb(255, 196, 0);
+                    }
+
+                    .no-star {
+                        color: rgb(198, 196, 196);
+                    }
+
                 }
 
                 .price {

@@ -4,24 +4,8 @@ import HighlightBook from './HighlightBook/HighlightBook';
 import BookGroup from './BookGroup/BookGroup';
 import ColumnBookGroup from './ColumnBookGroup/ColumnBookGroup';
 import Footer from '../../Footer/Footer';
-// import { postCreateABook } from '../../Services/apiServices';
-// import { useState } from 'react';
 
 const HomepageContent = () => {
-
-    // const [test, setTest] = useState('');
-    // const [previewImage, setPreviewImage]= useState('');
-
-    // const handleTest = (event) => {
-    //     setTest(event.target.files[0]);
-    // }
-
-    // const handleSave = async () => {
-    //     let result = await postCreateABook(test);
-    //     if(result && result.EC === 0) {
-    //         setPreviewImage(`data:image/jpeg;base64,${result.DT.image}`);
-    //     }
-    // }
 
     return (
         <div className="homepage-content-container ">
@@ -63,30 +47,39 @@ const HomepageContent = () => {
                             backgroud_color='dark-green'
                             book_id={4}
                         />
-                        <BookGroup />
+                        <BookGroup 
+                            group_title='Best Sale Book'
+                            book_group_id={3}
+                        />
                         <HighlightBook
                             book_title='Comic'
                             backgroud_color='red-pink'
                             book_id={3}
                         />
+                        <BookGroup 
+                            group_title='Science Book'
+                            book_group_id={2}
+                        />
                     </div>
                     <div className='content-right d-none d-xl-block col-xl-3'>
-                        <ColumnBookGroup />
-                        <ColumnBookGroup />
+                        <ColumnBookGroup 
+                            group_title='Best Sale Book In Week'
+                            book_group_id={3}
+                        />
+                        <ColumnBookGroup 
+                            group_title='New Imported Books'
+                            book_group_id={3}
+                        />
+                        <ColumnBookGroup 
+                            group_title='Best Sale Book In Week'
+                            book_group_id={3}
+                        />
+                        <ColumnBookGroup 
+                            group_title='Best Sale Book In Week'
+                            book_group_id={3}
+                        />
                     </div>
                 </div>
-                {/* <div className='test-section'>
-                    <div className='form-group'>
-                        <label htmlFor='test' className='btn btn-primary'>Upload</label>
-                        <input classname='form-control' type='file' id='test' onChange={(event) => handleTest(event)}/>
-                    </div>
-                    <div>
-                        <img src={previewImage}/>
-                    </div>
-                    <div>
-                        <button className='btn btn-warning mt-3' onClick={handleSave}>Save</button>
-                    </div>
-                </div> */}
             </div>
             <Footer />
         </div>

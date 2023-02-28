@@ -1,5 +1,4 @@
 import './HighlightBook.scss';
-import HighlighBook from '../../../../assets/image/HighlightBook.png';
 import { getHighlightBook } from '../../../Services/apiServices';
 import { useEffect, useState } from 'react';
 
