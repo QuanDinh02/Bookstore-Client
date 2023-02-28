@@ -57,11 +57,20 @@ const HomepageContent = () => {
                 </div>
 
                 <div className='content-section d-flex justify-content-between'>
-                    <div className='content-left tomato col-12 col-xl-9 pe-xxl-3'>
-                        <HighlightBook />
+                    <div className='content-left col-12 col-xl-9 pe-xxl-3'>
+                        <HighlightBook
+                            book_title='Best New Book'
+                            backgroud_color='dark-green'
+                            book_id={4}
+                        />
                         <BookGroup />
+                        <HighlightBook
+                            book_title='Comic'
+                            backgroud_color='red-pink'
+                            book_id={3}
+                        />
                     </div>
-                    <div className='content-right green d-none d-xl-block col-xl-3'>
+                    <div className='content-right d-none d-xl-block col-xl-3'>
                         <ColumnBookGroup />
                         <ColumnBookGroup />
                     </div>

@@ -3,7 +3,9 @@ import HighlighBook from '../../../../assets/image/HighlightBook.png';
 import { getHighlightBook } from '../../../Services/apiServices';
 import { useEffect, useState } from 'react';
 
-const HighlightBook = () => {
+const HighlightBook = (props) => {
+
+    const { book_title, backgroud_color, book_id } = props;
 
     const [bookData, setBookData] = useState({
         id: '',
@@ -31,15 +33,15 @@ const HighlightBook = () => {
     }
 
     useEffect(() => {
-        fetchHighlightBook(5);
+        fetchHighlightBook(book_id);
     }, []);
 
     return (
-        <div className='highlight-book-container blue'>
+        <div className='highlight-book-container'>
             <div className='book-category-title'>
-                Best New Book
+                {book_title}
             </div>
-            <div className='book-content d-flex flex-column flex-lg-row align-items-center align-items-lg-start justify-content-between'>
+            <div className={`book-content d-flex flex-column flex-lg-row align-items-center align-items-lg-start justify-content-between ${backgroud_color}`}>
                 <div className='book-image col-9 col-md-6 col-lg-3 mb-4'>
                     <img src={bookData.image} alt='' title={`${bookData.name}`} />
                 </div>
@@ -52,13 +54,13 @@ const HighlightBook = () => {
                     </div>
                     <div className='description'>
                         {bookData.description}
-                        {/* Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                        Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                        when an unknown printer took a galley of type and scrambled it to make
-                        a type specimen book. It has survived not only five centuries, but also the
-                        leap into electronic typesetting, remaining essentially unchanged. It was
-                        popularised in the 1960s with the release of Letraset sheets containing Lorem
-                        Ipsum passages */}
+                        <span>
+                            Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                            Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                            when an unknown printer took a galley of type and scrambled it to make
+                            a type specimen book.
+                        </span>
+
                     </div>
                     <div className='buy-box d-md-flex flex-md-row justify-content-md-between '>
                         <div className='left mt-2 col-12 col-md-7 d-flex align-items-center gap-2 gap-xxl-3 justify-content-around justify-content-md-start'>

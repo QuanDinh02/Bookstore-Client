@@ -1,7 +1,16 @@
 $red-pink-color: #F26C63;
 $red-color     : #F03737;
+$main-green-color: #087B44;
 
 .highlight-book-container {
+
+    .red-pink {
+        background-color: $red-pink-color;
+    }
+
+    .dark-green {
+        background-color: $main-green-color;
+    }
 
     .book-category-title {
         font-size     : 1.2rem;
@@ -11,7 +20,6 @@ $red-color     : #F03737;
     }
 
     .book-content {
-        background-color: $red-pink-color;
         padding         : 2.625rem;
 
         .book-image {
