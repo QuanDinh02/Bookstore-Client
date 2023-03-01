@@ -3,7 +3,6 @@ import poster from '../../../assets/image/poster.png';
 import HighlightBook from './HighlightBook/HighlightBook';
 import BookGroup from './BookGroup/BookGroup';
 import ColumnBookGroup from './ColumnBookGroup/ColumnBookGroup';
-import Footer from '../../Footer/Footer';
 
 const HomepageContent = () => {
 
@@ -81,7 +80,6 @@ const HomepageContent = () => {
                     </div>
                 </div>
             </div>
-            <Footer />
         </div>
     )
 }

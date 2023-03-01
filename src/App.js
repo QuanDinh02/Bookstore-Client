@@ -2,7 +2,9 @@ import './App.scss';
 // import { useSelector, useDispatch } from "react-redux";
 // import {increaseCounter,decreaseCounter} from "./redux/action/actions";
 import Header from '../src/components/Header/Header';
-import HomepageContent from './components/Content/Homepage/HomepageContent';
+import { BrowserRouter as Router } from "react-router-dom";
+import AppRoutes from './routes/AppRoutes';
+import Footer from './components/Footer/Footer';
 
 function App() {
   // const count = useSelector(state => state.counter.count);
@@ -17,14 +19,18 @@ function App() {
   // }
 
   return (
-    <div className="app-container">
-      <div className='header-section'>
-        <Header />
+    <Router>
+      <div className="app-container">
+        <div className='header-container-section'>
+          <Header />
+        </div>
+        <div className='content-container-section'>
+          <AppRoutes />
+          <Footer />
+        </div>
       </div>
-      <div className='homepage-section'>
-        <HomepageContent />
-      </div>
-    </div>
+    </Router>
+
   );
 }
 

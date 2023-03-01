@@ -20,7 +20,7 @@ const ColumnBookGroup = (props) => {
     }, []);
 
     return (
-        <div className='column-book-group-container tomato'>
+        <div className='column-book-group-container'>
             <div className='book-group-title'>
                 {group_title}
             </div>

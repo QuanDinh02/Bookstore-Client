@@ -2,21 +2,33 @@ import { useEffect, useState } from "react"
 import { IoIosArrowForward } from "react-icons/io";
 import './BookCategory.scss';
 import { getAllBookCategoryGroup } from "../../Services/apiServices";
+import { useHistory } from "react-router-dom";
 
 const BookCategory = (props) => {
 
-    const { show, showDetailBookCategory, setShowDetailBookCategory } = props;
+    const {
+        show, setShowBookCategory,
+        showDetailBookCategory, setShowDetailBookCategory
+    } = props;
+
     const [listOfBookCategoryGroup, setListOfBookCategoryGroup] = useState([]);
 
     const [listOfBookCategory, setListOfBookCategory] = useState([]);
     const [listOfAuthors, setListOfAuthors] = useState([]);
     const [listOfPublishers, setListOfPublishers] = useState([]);
 
-    const handleSelectItem = (item) => {
+    const history = useHistory();
+
+    const handleShowDetailBookCategory = (item) => {
         setShowDetailBookCategory(true);
         setListOfBookCategory(item.book_categories);
         setListOfAuthors(item.Authors);
         setListOfPublishers(item.Publishers);
+    }
+
+    const handleSelectItem = (book_group_id) => {
+        setShowBookCategory(false);
+        history.push(`/book-category/${book_group_id}`)
     }
 
     const fetchAllBookCategoryGroup = async () => {
@@ -44,7 +56,8 @@ const BookCategory = (props) => {
                                     <div
                                         key={`book-category-group-${item.group_id}`}
                                         className="category-item d-flex align-items-center justify-content-between"
-                                        onClick={() => handleSelectItem(item)}
+                                        onClick={() => handleSelectItem(item.group_id)}
+                                        onMouseEnter={() => handleShowDetailBookCategory(item)}
                                     >
                                         <span className="category-title">{item.group_name}</span>
                                         <IoIosArrowForward className="icon" />
@@ -88,6 +101,7 @@ const BookCategory = (props) => {
                                             return (
                                                 <div
                                                     key={`author-${item.id}`}
+                                                    className='title-box'
                                                 >
                                                     <span
                                                         className="title-name"
@@ -109,6 +123,7 @@ const BookCategory = (props) => {
                                             return (
                                                 <div
                                                     key={`publisher-${item.id}`}
+                                                    className='title-box'
                                                 >
                                                     <span
                                                         className="title-name"

@@ -10,10 +10,11 @@ import { IoCallSharp } from 'react-icons/io5';
 import { RiWechatFill } from 'react-icons/ri';
 import BookCategory from '../Content/BookCategory/BookCategory';
 import { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 const Header = () => {
 
-    const [showBookCategory, setShowBookCategory] = useState(true);
+    const [showBookCategory, setShowBookCategory] = useState(false);
     const [showDetailBookCategory, setShowDetailBookCategory] = useState(false);
 
     const handleShowBookCategory = () => {
@@ -23,6 +24,8 @@ const Header = () => {
     const MouseLeave = () => {
         setShowDetailBookCategory(false)
     }
+
+    const history = useHistory();
 
     return (
         <div className='header-container'>
@@ -44,7 +47,7 @@ const Header = () => {
             </div>
             <div className='main d-flex align-items-center'>
                 <div className='content container d-flex flex-column flex-xl-row justify-content-between'>
-                    <div className='brand-box col-12 col-xl-3 text-center'>
+                    <div className='brand-box col-12 col-xl-3 text-center' onClick={() => history.push('/')}>
                         Mega<span className='brand'>book</span>.com
                     </div>
                     <div className='col-12 col-xl-9 d-flex justify-content-around gap-4'>
@@ -110,6 +113,7 @@ const Header = () => {
             >
                 <BookCategory
                     show={showBookCategory}
+                    setShowBookCategory={setShowBookCategory}
                     showDetailBookCategory={showDetailBookCategory}
                     setShowDetailBookCategory={setShowDetailBookCategory}
                 />

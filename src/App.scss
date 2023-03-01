@@ -3,24 +3,23 @@
     position        : relative;
     background-color: #F2F5F7;
 
-    .header-section {
+    .header-container-section {
         position: absolute;
         width   : 100%;
         z-index : 3;
     }
 
-    .homepage-section {
+    .content-container-section {
         position: absolute;
         width   : 100%;
         top     : 10.2rem;
         z-index : 2;
     }
-
 }
 
 @media only screen and (max-width: 767px) {
     .app-container {
-        .homepage-section {
+        .content-container-section {
             top: 7rem;
         }
     }

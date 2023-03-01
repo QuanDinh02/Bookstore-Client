@@ -51,6 +51,10 @@ $main-red-color  : #CA2027;
                 font-weight: 700;
                 color      : $main-green-color;
 
+                &:hover {
+                    cursor: pointer;
+                }
+                
                 .brand {
                     color: $main-red-color;
                 }
