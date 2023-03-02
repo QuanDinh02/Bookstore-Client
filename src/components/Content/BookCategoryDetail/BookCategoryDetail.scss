@@ -1,0 +1,227 @@
+$red-color        : #F03737;
+$main-red-color   : #CA2027;
+$main-green-color : #087B44;
+$light-gray-color : #8a8984;
+$more-light-gray-color : #F9F9F9;
+
+.book-category-detail-container {
+    font-family  : 'Montserrat', sans-serif;
+    margin-bottom: 2rem;
+
+    .book-category-detail-content {
+        padding: 0 4rem;
+
+        .breadcrumb-container {
+            a {
+                text-decoration: none;
+                color          : rgb(77, 77, 77);
+
+                &:hover {
+                    color          : $main-green-color;
+                    text-decoration: underline;
+                }
+            }
+        }
+
+        .content {
+            .sidebar {
+                .book-category-sidebar {
+                    border    : 1px solid rgb(187, 186, 186);
+                    margin-top: 0;
+
+                    .category-item {
+
+                        padding      : 0.5rem 0.3rem 0.5rem 1rem;
+                        border-bottom: 1px solid rgb(235, 235, 235);
+
+                        .category-title,
+                        .category-title-fixed {
+                            font-size: 0.9rem;
+                            color    : #66645C;
+                        }
+
+                        .category-title {
+                            &:hover {
+                                color: $main-green-color;
+                            }
+                        }
+
+                        .category-title-fixed {
+                            font-weight: 600;
+                        }
+
+                        .section {
+                            font-size: 1;
+                            padding  : 0.6rem 0;
+                        }
+
+                        .icon {
+                            font-size: 1.25rem;
+                            color    : rgb(185, 182, 182)
+                        }
+
+                        &:hover {
+                            cursor: pointer;
+
+                            .icon {
+                                font-size: 1.4rem;
+                                color    : rgb(171, 171, 171);
+                            }
+                        }
+
+                    }
+
+                    .no-cursor-pointer {
+                        &:hover {
+                            cursor: auto;
+                        }
+
+                    }
+                }
+            }
+
+            .main {
+                padding: 0 1.5rem 0 3rem;
+
+                .book-category-title {
+                    color    : $main-green-color;
+                    font-size: 1.2rem;
+
+                    padding-top   : 1rem;
+                    padding-bottom: 0.5rem;
+
+                    border-bottom: 1px dashed black;
+                }
+
+                .sort-container {
+                    .select-sort {}
+
+                    .sort-icon {
+                        .grid-display {
+                            padding         : 0.1rem 0.2rem;
+                            background-color: #E0E0E0;
+
+                            .grid-display-icon {
+                                font-size: 1.25rem;
+                            }
+                        }
+
+                        .row-display {
+                            padding-bottom  : 0.1rem;
+                            background-color: #E0E0E0;
+
+                            .row-display-icon {
+                                font-size: 1.4rem;
+                            }
+                        }
+                    }
+                }
+
+                .content-container {
+
+                    padding-bottom: 5rem;
+                    border-bottom: 1px dashed black;
+
+                    .book {
+                        .book-image {
+                            img {
+                                &:hover {
+                                    cursor    : pointer;
+                                    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+                                }
+                            }
+
+                        }
+
+                        .book-content {
+                            .book-title {
+                                font-size         : 0.9rem;
+
+                                //css for display 2 line text
+                                display           : -webkit-box;
+                                -webkit-line-clamp: 2;
+                                -webkit-box-orient: vertical;
+                                overflow          : hidden;
+                                text-overflow     : ellipsis;
+
+                                &:hover {
+                                    cursor         : pointer;
+                                    text-decoration: underline;
+                                    color          : $main-green-color;
+                                }
+                            }
+
+                            .book-author {
+                                font-size: 0.8rem;
+                                color    : $light-gray-color;
+                            }
+
+                            .book-price {
+                                font-size      : 0.9rem;
+                                text-decoration: line-through;
+
+                                .unit {
+                                    text-decoration: underline;
+                                }
+                            }
+
+                            .book-current-price {
+                                font-size: 0.95rem;
+                                color    : $main-red-color;
+
+                                .unit {
+                                    text-decoration: underline;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                .pagination-container {
+                    .page-active-background {
+                        background-color: $main-green-color !important;
+                        color: white !important;
+                    }
+
+                    .pre-next {
+                        color: $main-green-color;
+                    }
+
+                    .page-background {
+                        color: black;
+                        background-color: $more-light-gray-color;
+                    }
+                }
+            }
+        }
+    }
+
+}
+
+.breadcrumb-item {
+    +.breadcrumb-item::before {
+        content   : ">" !important;
+        align-self: baseline;
+        color     : #7d8daa;
+    }
+}
+
+.green {
+    border: 1px solid green;
+}
+
+.blue {
+    border: 1px solid blue;
+}
+
+.tomato {
+    border: 1px solid tomato;
+}
+
+.purple {
+    border: 1px solid purple;
+}
+
+.gray {
+    border: 1px solid rgb(171, 171, 171);
+}
