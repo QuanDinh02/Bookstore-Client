@@ -1,7 +1,7 @@
-$red-color        : #F03737;
-$main-red-color   : #CA2027;
-$main-green-color : #087B44;
-$light-gray-color : #8a8984;
+$red-color             : #F03737;
+$main-red-color        : #CA2027;
+$main-green-color      : #087B44;
+$light-gray-color      : #8a8984;
 $more-light-gray-color : #F9F9F9;
 
 .book-category-detail-container {
@@ -25,6 +25,11 @@ $more-light-gray-color : #F9F9F9;
 
         .content {
             .sidebar {
+                height                    : fit-content;
+                border-bottom             : 0.25rem solid $light-gray-color;
+                border-bottom-left-radius : 3px;
+                border-bottom-right-radius: 3px;
+
                 .book-category-sidebar {
                     border    : 1px solid rgb(187, 186, 186);
                     margin-top: 0;
@@ -97,22 +102,34 @@ $more-light-gray-color : #F9F9F9;
                     .select-sort {}
 
                     .sort-icon {
-                        .grid-display {
-                            padding         : 0.1rem 0.2rem;
-                            background-color: #E0E0E0;
+                        .multicolumn-display {
+                            padding: 0.1rem 0.2rem;
 
-                            .grid-display-icon {
+                            &:hover {
+                                cursor          : pointer;
+                                background-color: #E0E0E0;
+                            }
+
+                            .multicolumn-display-icon {
                                 font-size: 1.25rem;
                             }
                         }
 
                         .row-display {
-                            padding-bottom  : 0.1rem;
-                            background-color: #E0E0E0;
+                            padding-bottom: 0.1rem;
+
+                            &:hover {
+                                cursor          : pointer;
+                                background-color: #E0E0E0;
+                            }
 
                             .row-display-icon {
                                 font-size: 1.4rem;
                             }
+                        }
+
+                        .active {
+                            background-color: #E0E0E0;
                         }
                     }
                 }
@@ -120,67 +137,169 @@ $more-light-gray-color : #F9F9F9;
                 .content-container {
 
                     padding-bottom: 5rem;
-                    border-bottom: 1px dashed black;
+                    border-bottom : 1px dashed black;
 
-                    .book {
-                        .book-image {
-                            img {
-                                &:hover {
-                                    cursor    : pointer;
-                                    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+                    .multiColumn-display {
+                        .book {
+                            .book-image {
+
+                                .bottom-0 {
+                                    bottom: -0.625rem !important;
                                 }
-                            }
 
-                        }
-
-                        .book-content {
-                            .book-title {
-                                font-size         : 0.9rem;
-
-                                //css for display 2 line text
-                                display           : -webkit-box;
-                                -webkit-line-clamp: 2;
-                                -webkit-box-orient: vertical;
-                                overflow          : hidden;
-                                text-overflow     : ellipsis;
-
-                                &:hover {
-                                    cursor         : pointer;
-                                    text-decoration: underline;
-                                    color          : $main-green-color;
+                                img {
+                                    &:hover {
+                                        cursor    : pointer;
+                                        box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+                                    }
                                 }
-                            }
 
-                            .book-author {
-                                font-size: 0.8rem;
-                                color    : $light-gray-color;
-                            }
-
-                            .book-price {
-                                font-size      : 0.9rem;
-                                text-decoration: line-through;
-
-                                .unit {
-                                    text-decoration: underline;
+                                .end-1 {
+                                    right: 1rem;
                                 }
+
+                                .sale-off {}
                             }
 
-                            .book-current-price {
-                                font-size: 0.95rem;
-                                color    : $main-red-color;
+                            .book-content {
+                                .book-title {
+                                    font-size: 0.9rem;
 
-                                .unit {
-                                    text-decoration: underline;
+                                    //css for display 2 line text
+                                    display           : -webkit-box;
+                                    -webkit-line-clamp: 2;
+                                    -webkit-box-orient: vertical;
+                                    overflow          : hidden;
+                                    text-overflow     : ellipsis;
+
+                                    &:hover {
+                                        cursor         : pointer;
+                                        text-decoration: underline;
+                                        color          : $main-green-color;
+                                    }
+                                }
+
+                                .book-author {
+                                    font-size: 0.8rem;
+                                    color    : $light-gray-color;
+                                }
+
+                                .book-price {
+                                    font-size      : 0.9rem;
+                                    text-decoration: line-through;
+
+                                    .unit {
+                                        text-decoration: underline;
+                                    }
+                                }
+
+                                .book-current-price {
+                                    font-size: 0.95rem;
+                                    color    : $main-red-color;
+
+                                    .unit {
+                                        text-decoration: underline;
+                                    }
                                 }
                             }
                         }
                     }
+
+                    .Row-display {
+
+                        .book-row {
+
+                            border-bottom: 1px dashed black;
+
+                            .book-row-image {
+
+                                .bottom-0 {
+                                    bottom: -0.625rem !important;
+                                }
+
+                                .end-0 {
+                                    right: 0.625rem !important;
+                                }
+
+                                .end-1 {
+                                    right: 1.5rem;
+                                }
+
+                                img {
+                                    &:hover {
+                                        cursor    : pointer;
+                                        box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+                                    }
+                                }
+
+                                .sale-off {}
+                            }
+
+                            .book-row-content {
+                                .book-title {
+                                    font-size: 0.9rem;
+
+                                    &:hover {
+                                        cursor         : pointer;
+                                        text-decoration: underline;
+                                        color          : $main-green-color;
+                                    }
+                                }
+
+                                .book-author {
+                                    font-size: 0.8rem;
+                                    color    : $light-gray-color;
+                                }
+
+                                .price-box {
+                                    .book-current-price {
+                                        font-size: 1.2rem;
+                                        color    : $main-red-color;
+
+                                        .unit {
+                                            text-decoration: underline;
+                                        }
+                                    }
+
+                                    .book-price {
+                                        font-size      : 0.9rem;
+                                        text-decoration: line-through;
+
+                                        .unit {
+                                            text-decoration: underline;
+                                        }
+                                    } 
+                                }
+
+                                .add-to-cart-btn {
+                                    button {
+                                        font-size: 0.875rem;
+                                    }
+                                    
+                                }
+
+                                .book-description {
+                                    
+                                    //css for display 2 line text
+                                    display           : -webkit-box;
+                                    -webkit-line-clamp: 2;
+                                    -webkit-box-orient: vertical;
+                                    overflow          : hidden;
+                                    text-overflow     : ellipsis;
+
+                                    font-size: 0.8rem;
+                                    letter-spacing: 0.2px;
+                                }
+                            }
+                        }
+                    }
+
                 }
 
                 .pagination-container {
                     .page-active-background {
                         background-color: $main-green-color !important;
-                        color: white !important;
+                        color           : white !important;
                     }
 
                     .pre-next {
@@ -188,7 +307,7 @@ $more-light-gray-color : #F9F9F9;
                     }
 
                     .page-background {
-                        color: black;
+                        color           : black;
                         background-color: $more-light-gray-color;
                     }
                 }
