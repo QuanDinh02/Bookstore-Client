@@ -1,6 +1,9 @@
 import { IoIosArrowForward } from "react-icons/io";
 
-const BookCategoryDetailSidebar = () => {
+const BookCategoryDetailSidebar = (props) => {
+
+    const { data } = props;
+
     return (
         <div className="book-category-sidebar">
             <div className="category-item d-flex align-items-center justify-content-between">
@@ -27,42 +30,44 @@ const BookCategoryDetailSidebar = () => {
             <div className="category-item no-cursor-pointer d-flex align-items-center justify-content-between">
                 <span className="category-title-fixed section">BOOK CATEGORY</span>
             </div>
-            <div className="category-item d-flex align-items-center justify-content-between">
-                <span className="category-title">Book</span>
-                <IoIosArrowForward className="icon" />
-            </div>
-            <div className="category-item d-flex align-items-center justify-content-between">
-                <span className="category-title">Book</span>
-                <IoIosArrowForward className="icon" />
-            </div>
-            <div className="category-item d-flex align-items-center justify-content-between">
-                <span className="category-title">Book</span>
-                <IoIosArrowForward className="icon" />
-            </div>
-            <div className="category-item d-flex align-items-center justify-content-between">
-                <span className="category-title">Book</span>
-                <IoIosArrowForward className="icon" />
-            </div>
+            {
+                data?.book_categories?.map(item => {
+                    return (
+                        <div key={`category-item-${item.id}`} className="category-item d-flex align-items-center justify-content-between">
+                            <span className="category-title">{item.name}</span>
+                            <IoIosArrowForward className="icon" />
+                        </div>
+                    )
+                })
+            }
 
             <div className="category-item no-cursor-pointer d-flex align-items-center justify-content-between">
                 <span className="category-title-fixed section">AUTHOR</span>
             </div>
-            <div className="category-item d-flex align-items-center justify-content-between">
-                <span className="category-title">Author</span>
-                <IoIosArrowForward className="icon" />
+            {
+                data?.Authors?.map(item => {
+                    return (
+                        <div key={`category-item-author-${item.id}`} className="category-item d-flex align-items-center justify-content-between">
+                            <span className="category-title">{item.name}</span>
+                            <IoIosArrowForward className="icon" />
+                        </div>
+                    )
+                })
+            }
+            
+            <div className="category-item no-cursor-pointer d-flex align-items-center justify-content-between">
+                <span className="category-title-fixed section">PUBLISHERS</span>
             </div>
-            <div className="category-item d-flex align-items-center justify-content-between">
-                <span className="category-title">Author</span>
-                <IoIosArrowForward className="icon" />
-            </div>
-            <div className="category-item d-flex align-items-center justify-content-between">
-                <span className="category-title">Author</span>
-                <IoIosArrowForward className="icon" />
-            </div>
-            <div className="category-item d-flex align-items-center justify-content-between">
-                <span className="category-title">Author</span>
-                <IoIosArrowForward className="icon" />
-            </div>
+            {
+                data?.Publishers?.map(item => {
+                    return (
+                        <div key={`category-item-publisher-${item.id}`} className="category-item d-flex align-items-center justify-content-between">
+                            <span className="category-title">{item.name}</span>
+                            <IoIosArrowForward className="icon" />
+                        </div>
+                    )
+                })
+            }
 
         </div>
     )

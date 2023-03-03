@@ -28,7 +28,7 @@ const ColumnBookGroup = (props) => {
                 {bookList && bookList.length > 0 &&
                     bookList.map((item) => {
                         return (
-                            <div className='book' key={`book-item-${item.id}`}>
+                            <div className='book' key={`book-column-item-${item.id}`}>
                                 <div className='book-image'>
                                     <img src={`data:image/jpeg;base64,${item.image}`} alt='' title={item.name} />
                                 </div>

@@ -9,8 +9,8 @@ import { SlArrowDown, SlArrowUp } from 'react-icons/sl';
 import { IoCallSharp } from 'react-icons/io5';
 import { RiWechatFill } from 'react-icons/ri';
 import BookCategory from '../Content/BookCategory/BookCategory';
-import { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 
 const Header = () => {
 
@@ -26,6 +26,15 @@ const Header = () => {
     }
 
     const history = useHistory();
+    const location = useLocation();
+
+    useEffect(()=> {
+        if(location.pathname === '/') {
+            setShowBookCategory(true);
+        } else {
+            setShowBookCategory(false);
+        }
+    },[location.pathname]);
 
     return (
         <div className='header-container'>
