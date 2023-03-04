@@ -16,19 +16,30 @@ const BookCategory = (props) => {
     const [listOfBookCategory, setListOfBookCategory] = useState([]);
     const [listOfAuthors, setListOfAuthors] = useState([]);
     const [listOfPublishers, setListOfPublishers] = useState([]);
+    const [bookGroupID, setBookGroupID] = useState(0);
 
     const history = useHistory();
 
     const handleShowDetailBookCategory = (item) => {
         setShowDetailBookCategory(true);
+        setBookGroupID(item.group_id);
         setListOfBookCategory(item.book_categories);
         setListOfAuthors(item.Authors);
         setListOfPublishers(item.Publishers);
     }
 
-    const handleSelectItem = (book_group_id) => {
+    const handleSelectItem = (type, id, name='None') => {
         setShowBookCategory(false);
-        history.push(`/book-category/${book_group_id}`)
+        switch (type) {
+            case 'BOOK_CATEROGY_GROUP':
+                history.push(`/book-category/${id}`, { book_category_id: -1 })
+                break;
+            case 'BOOK_CATEROGY':
+                history.push(`/book-category/${bookGroupID}`, { book_category_id: id, book_category_name: name})
+                break;
+            default:
+                break;
+        }
     }
 
     const fetchAllBookCategoryGroup = async () => {
@@ -36,7 +47,6 @@ const BookCategory = (props) => {
         if (result && result.EC === 0) {
             setListOfBookCategoryGroup(result.DT);
         }
-
     }
 
     useEffect(() => {
@@ -56,7 +66,7 @@ const BookCategory = (props) => {
                                     <div
                                         key={`book-category-group-${item.group_id}`}
                                         className="category-item d-flex align-items-center justify-content-between"
-                                        onClick={() => handleSelectItem(item.group_id)}
+                                        onClick={() => handleSelectItem('BOOK_CATEROGY_GROUP',item.group_id)}
                                         onMouseEnter={() => handleShowDetailBookCategory(item)}
                                     >
                                         <span className="category-title">{item.group_name}</span>
@@ -80,6 +90,7 @@ const BookCategory = (props) => {
                                                 <div
                                                     key={`book-category-${item.id}`}
                                                     className='title-box'
+                                                    onClick={() => handleSelectItem('BOOK_CATEROGY',item.id,item.name)}
                                                 >
                                                     <span
                                                         className="title-name"

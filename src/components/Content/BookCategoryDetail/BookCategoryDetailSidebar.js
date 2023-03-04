@@ -1,8 +1,20 @@
 import { IoIosArrowForward } from "react-icons/io";
+import { useHistory } from "react-router-dom";
 
 const BookCategoryDetailSidebar = (props) => {
 
     const { data } = props;
+    const history = useHistory();
+
+    const handleSelectSubBookCategory = (type, id, name='None') => {
+        switch (type) {
+            case 'BOOK_CATEROGY':
+                history.push(`/book-category/${data?.group_id}`, { book_category_id: id, book_category_name: name})
+                break;
+            default:
+                break;
+        }
+    }
 
     return (
         <div className="book-category-sidebar">
@@ -33,7 +45,11 @@ const BookCategoryDetailSidebar = (props) => {
             {
                 data?.book_categories?.map(item => {
                     return (
-                        <div key={`category-item-${item.id}`} className="category-item d-flex align-items-center justify-content-between">
+                        <div
+                            key={`category-item-${item.id}`}
+                            className="category-item d-flex align-items-center justify-content-between"
+                            onClick={() => handleSelectSubBookCategory('BOOK_CATEROGY',item.id,item.name)}
+                        >
                             <span className="category-title">{item.name}</span>
                             <IoIosArrowForward className="icon" />
                         </div>
@@ -54,7 +70,7 @@ const BookCategoryDetailSidebar = (props) => {
                     )
                 })
             }
-            
+
             <div className="category-item no-cursor-pointer d-flex align-items-center justify-content-between">
                 <span className="category-title-fixed section">PUBLISHERS</span>
             </div>

@@ -1,16 +1,17 @@
-import { useParams } from 'react-router-dom';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
 import './BookCategoryDetail.scss';
 import { Link } from 'react-router-dom';
 import { RxDashboard } from "react-icons/rx";
 import { AiOutlineMenu } from "react-icons/ai";
 import { BsCart3 } from "react-icons/bs";
 
-import CertainBook from '../../../assets/image/CertainBook.png';
 import ReactPaginate from 'react-paginate';
 import BookCategoryDetailSidebar from './BookCategoryDetailSidebar';
 import { useEffect, useState } from 'react';
 import MediaQuery, { useMediaQuery } from 'react-responsive';
-import { getABookCategoryGroup, getBooksByCategoryGroup } from '../../Services/apiServices';
+import {
+    getABookCategoryGroup, getBooksByCategoryGroup, getBooksByBookCategory
+} from '../../Services/apiServices';
 
 const BookCategoryDetail = () => {
 
@@ -18,7 +19,8 @@ const BookCategoryDetail = () => {
     const [multiColumn, setMultiColumn] = useState(true);
     const [bookCategoryGroup, setBookCategoryGroup] = useState({});
     const [booksData, setBooksData] = useState([]);
-
+    const location = useLocation();
+    
     const isExtraExtraLarge = useMediaQuery({
         query: '(min-width: 1400px)'
     })
@@ -27,6 +29,7 @@ const BookCategoryDetail = () => {
         query: '(max-width: 992px)'
     })
 
+    // handle pagination
     const handlePageClick = () => {
 
     }
@@ -60,10 +63,22 @@ const BookCategoryDetail = () => {
         }
     }
 
+    const handleSelectSubBookCategory = async (book_category_id) => {
+        let result = await getBooksByBookCategory(book_category_id)
+        if (result && result.EC === 0) {
+            setBooksData(result.DT);
+        }
+    }
+
     useEffect(() => {
         fetchABookGroup(id);
-        fetchBooksByGroup(id);
-    }, [id]);
+        if (location.state.book_category_id === -1) {
+            fetchBooksByGroup(id);
+        } else {
+            handleSelectSubBookCategory(location.state.book_category_id);
+        }
+
+    }, [id, location.state.book_category_id]);
 
     return (
         <div className="book-category-detail-container">
@@ -75,8 +90,19 @@ const BookCategoryDetail = () => {
                                 <Link to='/'>Homepage</Link>
                             </li>
                             <li className="breadcrumb-item">
-                                <Link to={`/book-category/${id}`}>{bookCategoryGroup?.group_name}</Link>
+                                <Link to={{
+                                    pathname: `/book-category/${id}`,
+                                    state: { book_category_id: -1 }
+                                }}
+                                >
+                                    {bookCategoryGroup?.group_name}
+                                </Link>
                             </li>
+                            {location.state.book_category_id !== -1 &&
+                                <li className="breadcrumb-item">
+                                    <Link to='/'>{location.state.book_category_name}</Link>
+                                </li>
+                            }
                         </ol>
                     </nav>
                 </div>
@@ -87,8 +113,12 @@ const BookCategoryDetail = () => {
                         />
                     </div>
                     <div className='main col-12 col-md-9 '>
-                        <div className='book-category-title' >
-                            {bookCategoryGroup?.group_name} Books
+                        <div className='book-category-title' > 
+                            {location.state.book_category_id !== -1 ?
+                                location.state.book_category_name
+                                :
+                                bookCategoryGroup?.group_name
+                            } Books
                         </div>
                         <div className='sort-container d-flex justify-content-end mt-4'>
                             <div className='select-sort col-8 col-md-6 col-xl-4'>
