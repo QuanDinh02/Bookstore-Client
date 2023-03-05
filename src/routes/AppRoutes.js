@@ -3,8 +3,8 @@ import {
     Route,
 } from "react-router-dom";
 import BookCategoryDetail from "../components/Content/BookCategoryDetail/BookCategoryDetail";
-
 import HomepageContent from "../components/Content/Homepage/HomepageContent";
+import BookDetail from "../components/Content/Book/BookDetail";
 
 const AppRoutes = () => {
     return (
@@ -14,6 +14,9 @@ const AppRoutes = () => {
             </Route>
             <Route path="/book-category/:id">
                 <BookCategoryDetail />
+            </Route>
+            <Route path="/book/:id">
+                <BookDetail />
             </Route>
             <Route path="*">
                 <div className="container">

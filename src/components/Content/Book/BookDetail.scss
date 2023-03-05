@@ -1,0 +1,250 @@
+$red-color             : #F03737;
+$main-red-color        : #CA2027;
+$main-green-color      : #087B44;
+$light-gray-color      : #8a8984;
+$more-light-gray-color : #F9F9F9;
+
+.book-detail-container {
+    font-family  : 'Montserrat', sans-serif;
+    margin-bottom: 2rem;
+
+    .book-detail {
+        padding: 0 4rem;
+
+        .breadcrumb-container {
+            border-bottom: 1px solid $light-gray-color;
+
+            a {
+                text-decoration: none;
+                color          : rgb(77, 77, 77);
+
+                &:hover {
+                    color          : $main-green-color;
+                    text-decoration: underline;
+                }
+            }
+        }
+
+        .content {
+            .book-main-info {
+                margin: auto !important;
+
+                .book-image {
+                    width: fit-content;
+
+                    img {
+                        width : 15rem;
+                        height: 23.625rem;
+                    }
+                }
+
+                .book-info {
+                    padding: 0 3rem 0 1rem;
+
+                    .book-title {
+                        font-size     : 1.5rem;
+                        letter-spacing: 0.05rem;
+                    }
+
+                    .book-author {
+                        font-size     : 0.82rem;
+                        letter-spacing: 0.02rem;
+
+                        .author {
+                            color: $main-green-color;
+
+                            &:hover {
+                                cursor         : pointer;
+                                text-decoration: underline;
+                            }
+                        }
+                    }
+
+                    .book-publishing-company {
+                        font-size     : 0.82rem;
+                        letter-spacing: 0.02rem;
+                    }
+
+                    .book-publisher {
+                        font-size     : 0.82rem;
+                        letter-spacing: 0.02rem;
+
+                        .publisher {
+                            color: $main-green-color;
+
+                            &:hover {
+                                cursor         : pointer;
+                                text-decoration: underline;
+                            }
+                        }
+                    }
+
+                    .rate {
+                        .star {
+                            color: rgb(255, 196, 0);
+                        }
+
+                        .note {
+                            font-size: 0.82rem;
+                        }
+                    }
+
+                    .brief-description-content {
+                        display           : -webkit-box;
+                        -webkit-line-clamp: 3;
+                        -webkit-box-orient: vertical;
+                        overflow          : hidden;
+                        text-overflow     : ellipsis;
+
+                        font-size  : 1.05rem;
+                        line-height: 28px;
+                        color      : rgb(103, 103, 103);
+                    }
+
+                    .service-info {
+                        border-top: 1px dashed black;
+
+                        .service-title {
+                            font-size: 1.1rem;
+                        }
+
+                        .service-item {
+                            font-size     : 0.82rem;
+                            letter-spacing: 0.02rem;
+                            margin-bottom : 0.3125rem;
+
+                            .check-icon {
+                                color    : $main-green-color;
+                                font-size: 1.2rem;
+                            }
+                        }
+                    }
+                }
+
+                .payment-info {
+                    border       : 5px solid rgb(216, 214, 214);
+                    border-radius: 5px;
+
+                    .payment-title {
+                        font-size: 1.1rem;
+                    }
+
+                    .main {
+                        border-top   : 1px dashed rgb(133, 133, 133);
+                        border-bottom: 1px dashed rgb(133, 133, 133);
+
+                        .price {
+
+                            .price-value {
+                                letter-spacing : 0.02rem;
+                                text-decoration: line-through;
+                            }
+
+                            .unit {
+                                text-decoration: underline;
+                            }
+                        }
+
+                        .current_price {
+                            .current-price-value {
+                                letter-spacing: 0.02rem;
+                                font-size     : 1.25rem;
+                                color         : $main-red-color;
+                            }
+
+                            .unit {
+                                text-decoration: underline;
+                            }
+                        }
+
+                        .sale-off {
+                            .sale-off-value {
+                                letter-spacing: 0.02rem;
+                                color         : $main-green-color;
+                            }
+
+                            .unit {
+                                text-decoration: underline;
+                            }
+                        }
+
+                        .quality {
+                            font-size: 0.82rem;
+
+                            .value {
+                                color: $main-green-color;
+                            }
+                        }
+                    }
+
+                    .book-status {
+                        color: $main-green-color;
+
+                        .check-icon {
+                            font-size: 1.2rem;
+                        }
+                    }
+
+                    .add-to-cart-btn {
+                        button {
+                            width: 100%;
+                        }
+
+                    }
+                }
+            }
+
+            .book-detail-nav {
+                border-bottom: 1px dashed black;
+
+                .tab {
+                    padding-bottom: 1rem;
+                    border-bottom : 3px solid white;
+
+                    .navigation-link {
+                        text-decoration: none;
+                        color          : #888888;
+                    }
+
+                    &:hover {
+                        cursor             : pointer;
+                        border-bottom-color: $main-green-color;
+
+                        .navigation-link {
+                            color: $main-green-color;
+                        }
+
+                    }
+                }
+            }
+        }
+    }
+}
+
+.breadcrumb-item {
+    +.breadcrumb-item::before {
+        content   : ">" !important;
+        align-self: baseline;
+        color     : #7d8daa;
+    }
+}
+
+.green {
+    border: 1px solid green;
+}
+
+.blue {
+    border: 1px solid blue;
+}
+
+.tomato {
+    border: 1px solid tomato;
+}
+
+.purple {
+    border: 1px solid purple;
+}
+
+.gray {
+    border: 1px solid rgb(171, 171, 171);
+}

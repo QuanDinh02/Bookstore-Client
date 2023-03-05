@@ -161,7 +161,7 @@ const BookCategoryDetail = () => {
                                                             -15%
                                                         </span>
                                                     </div>
-                                                    <div className='book-content mt-4 px-3'>
+                                                    <div className='book-content mt-4 px-4 px-lg-3'>
                                                         <div className='book-title' title={item.name}>
                                                             <span>{item.name}</span>
                                                         </div>
@@ -189,7 +189,7 @@ const BookCategoryDetail = () => {
                                             booksData && booksData.length > 0 &&
                                             booksData.map((item) => {
                                                 return (
-                                                    <div key={`row-book-item-${item.id}`} className='book-row row row-cols-2 mb-3 pb-4'>
+                                                    <div key={`row-book-item-${item.id}`} className='book-row row mb-3 pb-4'>
                                                         <div className='book-row-image col-3 d-flex flex-column align-items-center position-relative'>
                                                             <img src={`data:image/jpeg;base64,${item.image}`} alt='' title={item.name} />
                                                             <span
