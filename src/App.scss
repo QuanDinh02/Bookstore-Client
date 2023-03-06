@@ -1,19 +1,13 @@
 .app-container {
-    //height: 2500px;
-    position        : relative;
     background-color: #F2F5F7;
 
     .header-container-section {
-        position: absolute;
-        width   : 100%;
-        z-index : 3;
+        width  : 100%;
     }
 
     .content-container-section {
-        position: absolute;
-        width   : 100%;
-        top     : 10.2rem;
-        z-index : 2;
+        width  : 100%;
+        top    : 10.2rem;
     }
 }
 

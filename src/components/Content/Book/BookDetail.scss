@@ -80,10 +80,6 @@ $more-light-gray-color : #F9F9F9;
                     }
 
                     .rate {
-                        .star {
-                            color: rgb(255, 196, 0);
-                        }
-
                         .note {
                             font-size: 0.82rem;
                         }
@@ -195,15 +191,20 @@ $more-light-gray-color : #F9F9F9;
             }
 
             .book-detail-nav {
-                border-bottom: 1px dashed black;
+                border-bottom   : 1px dashed black;
+                background-color: white;
 
                 .tab {
+                    padding-top   : 1rem;
                     padding-bottom: 1rem;
-                    border-bottom : 3px solid white;
+
+                    border-bottom: 3px solid white;
 
                     .navigation-link {
                         text-decoration: none;
                         color          : #888888;
+                        font-size      : 1.125rem;
+                        letter-spacing : 0.02rem;
                     }
 
                     &:hover {
@@ -217,8 +218,122 @@ $more-light-gray-color : #F9F9F9;
                     }
                 }
             }
+
+            .book-full-detail-info {
+                .sroll-top-distance {
+                    padding-top: 4.375rem;
+                }
+
+                .detailed-information {
+                    letter-spacing: 0.02rem;
+
+                    table {
+                        tr {
+                            font-size: 0.8125rem;
+
+                            td {
+                                &:nth-child(1) {
+                                    font-weight: 600;
+                                }
+
+                                &:nth-child(2) {
+                                    width: 70%;
+                                }
+                            }
+
+                            &:nth-child(even) td:nth-child(2) {
+                                background-color: #FAFAFA;
+                            }
+                        }
+                    }
+                }
+
+                .book-description {
+                    font-size  : 1.05rem;
+                    line-height: 1.75rem;
+                    color      : rgb(103, 103, 103);
+                }
+
+                .customer-responses {
+                    .title {
+                        color: $main-green-color;
+                    }
+
+                    .comments {
+                        .comment-container {
+                            border-bottom: 1px dashed rgb(193, 193, 193);
+
+                            .commentor-image {
+                                img {
+                                    width : 5rem;
+                                    height: 5rem;
+                                }
+                            }
+
+                            .main {
+                                .comment-title {
+                                    font-weight: 600;
+                                }
+
+                                .commentor-name {
+                                    font-size: 0.8125rem;
+
+                                    .user-name {
+                                        color      : $main-green-color;
+                                        font-weight: 600;
+
+                                        &:hover {
+                                            text-decoration: underline;
+                                        }
+                                    }
+                                }
+
+                                .comment-content {
+                                    font-size: 0.95rem;
+                                }
+                            }
+                        }
+                    }
+
+                    .total-comments {
+                        .average-point {
+                            font-size  : 2rem;
+                            font-weight: 600;
+                        }
+
+                        .total {
+                            .star-icon {
+                                font-size: 1.65rem;
+                            }
+
+                            .value {
+                                font-size: 0.9rem;
+                            }
+                        }
+
+                        .rating-item {
+                            .star-rating {}
+
+                            .rating-progress-bar {
+                                height: 8px;
+                                width : 138px;
+
+                            }
+
+                            .value {
+                                font-size: 0.8rem;
+                                color    : rgb(152, 152, 152);
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
+}
+
+.star {
+    color: rgb(255, 196, 0);
 }
 
 .breadcrumb-item {

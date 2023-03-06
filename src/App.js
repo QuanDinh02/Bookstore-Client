@@ -20,11 +20,11 @@ function App() {
 
   return (
     <Router>
-      <div className="app-container">
-        <div className='header-container-section'>
+      <div className="app-container position-relative">
+        <div className='header-container-section position-absolute'>
           <Header />
         </div>
-        <div className='content-container-section'>
+        <div className='content-container-section position-absolute'>
           <AppRoutes />
           <Footer />
         </div>

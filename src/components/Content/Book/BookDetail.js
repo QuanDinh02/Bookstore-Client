@@ -1,9 +1,13 @@
 import './BookDetail.scss';
 import { Link } from 'react-router-dom';
 import Onepiece from '../../../assets/image/Onepiece.png';
+import userImage from '../../../assets/image/user.png';
+
 import { IoIosStar } from "react-icons/io";
 import { AiFillCheckCircle } from "react-icons/ai";
 import { BsCart3 } from "react-icons/bs";
+import BookReview from './BookReview';
+import StarRating from './StarRating';
 
 const BookDetail = (props) => {
 
@@ -35,7 +39,7 @@ const BookDetail = (props) => {
                         </ol>
                     </nav>
                 </div>
-                <div className='content mt-4 red d-flex flex-column'>
+                <div className='content position-relative mt-4 red d-flex flex-column'>
                     <div className='book-main-info row g-3 g-xl-1 justify-content-center justify-content-lg-between'>
                         <div className='book-image d-flex justify-content-center col'>
                             <img src={Onepiece} />
@@ -115,68 +119,139 @@ const BookDetail = (props) => {
                             </div>
                         </div>
                     </div>
-                    <div className='book-detail-nav d-flex gap-5 mt-5 mb-3'>
+                    <div className='book-detail-nav sticky-top d-none d-lg-block d-lg-flex gap-5 mt-5'>
                         <div className='tab me-3 pe-3'>
-                            <a className='navigation-link' href="#scrollspyHeading1">BOOK INTRODUCE</a>
+                            <a className='navigation-link' href="#scrollspyHeading1">Detailed Information</a>
                         </div>
                         <div className='tab me-3 px-3'>
-                            <a className='navigation-link' href="#scrollspyHeading2">DETAIL INFOMATION</a>
+                            <a className='navigation-link' href="#scrollspyHeading2">Book Description</a>
                         </div>
                         <div className='tab me-3 px-3'>
-                            <a className='navigation-link' href="#scrollspyHeading3">COMMENTS</a>
+                            <a className='navigation-link' href="#scrollspyHeading3">Customer Responses</a>
                         </div>
                     </div>
-                    <div lassName='book-full-detail-info'>
-                        <div data-bs-spy="scroll" data-bs-offset="0" class="scrollspy-example" tabindex="0">
-                            <h4 id="scrollspyHeading1">First heading</h4>
-                            <p>
-                                This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.
-                                This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.
-                                This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.
-                                This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.
-                                This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.
-                                This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.
-                                This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.
-                                This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.
-                                This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.
-                                This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.
-                                This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.
-                                This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.
-                            </p>
-                            <h4 id="scrollspyHeading2">Second heading</h4>
-                            <p>
-                                This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.
-                                This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.
-                                This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.
-                                This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.
-                                This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.
-                                This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.
-                                This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.
-                                This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.
-                                This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.
-                                This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.
-                                This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.
-                                This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.
-                                This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.
-                            </p>
-                            <h4 id="scrollspyHeading3">Third heading</h4>
-                            <p>
-                                This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.
-                                This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.
-                                This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.
-                                This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.
-                                This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.
-                                This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.
-                                This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.
-                                This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.
-                                This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.
-                                This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.
-                                This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.
-                                This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.
-                                This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.
-                                This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.
-                            </p>
-
+                    <div className='book-full-detail-info'>
+                        <div data-bs-spy="scroll" data-bs-offset="0" class="scrollspy-example" tabIndex="0">
+                            <div id="scrollspyHeading1" className='detailed-information col-12 col-lg-8 sroll-top-distance'>
+                                <h5>Detailed Information</h5>
+                                <table class="table table-borderless mt-3">
+                                    <tbody>
+                                        <tr>
+                                            <td class="table-active">Author</td>
+                                            <td>Nguyễn Nhật Ánh</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="table-active">Publisher</td>
+                                            <td>NXB Tre</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="table-active">Publishing Company</td>
+                                            <td>NXB Tre</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="table-active">Pulishing Day</td>
+                                            <td>12/2017</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="table-active">Volumn</td>
+                                            <td>374.00 gram</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="table-active">Format</td>
+                                            <td>Paperback</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="table-active">Page</td>
+                                            <td>392</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="table-active">Size</td>
+                                            <td>13 x 20 cm</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="table-active">Product Code</td>
+                                            <td>8934974151630</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="table-active">Language</td>
+                                            <td>English</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div id="scrollspyHeading2" className='sroll-top-distance'>
+                                <h5>Book Description</h5>
+                                <div className='book-description'>
+                                    Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                                    Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                                    when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+                                    It has survived not only five centuries, but also the leap into electronic typesetting,
+                                    remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset
+                                    sheets containing Lorem Ipsum passages, and more recently with desktop publishing software
+                                    like Aldus PageMaker including versions of Lorem Ipsum. It is a long established fact that a reader
+                                    will be distracted by the readable content of a page when looking at its layout. The point of using
+                                    Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using
+                                    'Content here, content here', making it look like readable English.
+                                </div>
+                            </div>
+                            <div id="scrollspyHeading3" className='customer-responses sroll-top-distance'>
+                                <h5 className='title'>Customer Responses</h5>
+                                <div className='comments mt-2'>
+                                    <BookReview
+                                        image={userImage}
+                                        title={'Good Book'}
+                                        rate={4}
+                                        commentor_name={'Yamato'}
+                                        content={'Always support author and look forward to new book support author and look forward to new book'}
+                                    />
+                                    <BookReview
+                                        image={userImage}
+                                        title={'Very Good'}
+                                        rate={5}
+                                        commentor_name={'Jane'}
+                                        content={''}
+                                    />
+                                    <BookReview
+                                        image={userImage}
+                                        title={'Normal'}
+                                        rate={3}
+                                        commentor_name={'Kevin'}
+                                        content={'Always support author and look forward to new book'}
+                                    />
+                                </div>
+                                <div className='total-comments col-12 col-md-6 mt-3 blue'>
+                                    <div className='d-flex'>
+                                        <div className='average-point p-3'>
+                                            <span>4.8</span>
+                                        </div>
+                                        <div className='total'>
+                                            <div className='star-icon'>
+                                                <StarRating rate={5} />
+                                            </div>
+                                            <span className='value'>1340 comments</span>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        {
+                                            [...Array(5)].map((item, index) => {
+                                                return (
+                                                    <div className='rating-item d-flex gap-2 align-items-center'>
+                                                        <div className='star-rating'>
+                                                            <StarRating rate={5 - index} />
+                                                        </div>
+                                                        <div class="progress rating-progress-bar">
+                                                            <div class="progress-bar bg-success" role="progressbar" style={{ 'width': `${75}%` }} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                                        </div>
+                                                        <div className='value'>
+                                                            <span>1135</span>
+                                                        </div>
+                                                    </div>
+                                                )
+                                            })
+                                        }
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
