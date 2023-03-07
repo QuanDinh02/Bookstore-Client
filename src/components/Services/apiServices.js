@@ -27,7 +27,12 @@ const getBooksByCategoryGroup = async (group_id) => {
     return await axios.get(`/api/book/book-category-group/${group_id}`);
 }
 
+const getBookDetail = async (book_id) => {
+    return await axios.get(`/api/book/book-detail/${book_id}`);
+}
+
 export { 
     postCreateABook, getAllBookCategoryGroup, getHighlightBook,
-    getBooksByBookCategory, getABookCategoryGroup, getBooksByCategoryGroup
+    getBooksByBookCategory, getABookCategoryGroup, getBooksByCategoryGroup,
+    getBookDetail
 }

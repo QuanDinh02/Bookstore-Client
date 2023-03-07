@@ -44,7 +44,7 @@ const HomepageContent = () => {
                         <HighlightBook
                             book_title='Best New Book'
                             backgroud_color='dark-green'
-                            book_id={4}
+                            book_id={1}
                         />
                         <BookGroup 
                             group_title='Best Sale Book'

@@ -1,7 +1,5 @@
 import './BookDetail.scss';
-import { Link } from 'react-router-dom';
-import Onepiece from '../../../assets/image/Onepiece.png';
-import userImage from '../../../assets/image/user.png';
+import { Link, useParams } from 'react-router-dom';
 
 import { AiFillCheckCircle } from "react-icons/ai";
 import { BsCart3 } from "react-icons/bs";
@@ -9,9 +7,25 @@ import { BsCart3 } from "react-icons/bs";
 import BookReview from './BookReview';
 import StarRating from '../StarRatings/StarRating';
 
+import { getBookDetail } from '../../Services/apiServices';
+import { useEffect, useState } from 'react';
+
 const BookDetail = (props) => {
 
     let isAuthenticated = true;
+    const { id } = useParams();
+    const [data, setBookData] = useState({});
+
+    const fetchBookDetail = async (book_id) => {
+        let data = await getBookDetail(book_id);
+        if (data && data.EC === 0) {
+            setBookData(data.DT);
+        }
+    }
+
+    useEffect(() => {
+        fetchBookDetail(id);
+    }, []);
 
     return (
         <div className='book-detail-container'>
@@ -23,53 +37,64 @@ const BookDetail = (props) => {
                                 <Link to='/'>Homepage</Link>
                             </li>
                             <li className="breadcrumb-item">
-                                <Link to='/'>Homepage</Link>
-                                {/* <Link to={{
-                                    pathname: `/book-category/${id}`,
+                                <Link to={{
+                                    pathname: `/book-category/${data?.BookCategoryGroup?.id}`,
                                     state: { book_category_id: -1 }
                                 }}
                                 >
-                                    {bookCategoryGroup?.group_name}
-                                </Link> */}
+                                    {data?.BookCategoryGroup?.name}
+                                </Link>
                             </li>
                             <li className="breadcrumb-item">
-                                <Link to='/'>Homepage</Link>
+                                <Link to={{
+                                    pathname: `/book-category/${data?.BookCategoryGroup?.id}`,
+                                    state: {  
+                                        book_category_id: data?.BookCategory?.id, 
+                                        book_category_name: data?.BookCategory?.name
+                                    }
+                                }}
+                                >
+                                    {data?.BookCategory?.name}
+                                </Link>
                             </li>
                             <li className="breadcrumb-item">
-                                <Link to='/'>Homepage</Link>
+                                <Link to='#'>{data?.name}</Link>
                             </li>
                         </ol>
                     </nav>
                 </div>
                 <div className='content position-relative mt-4 d-flex flex-column'>
                     <div className='book-main-info row g-3 g-xl-1 justify-content-center justify-content-lg-between'>
-                        <div className='book-image d-flex justify-content-center col'>
-                            <img src={Onepiece} />
+                        <div className='book-image d-flex justify-content-center'>
+                            <img src={`data:image/jpeg;base64,${data?.image}`} alt='' />
                         </div>
-                        <div className='book-info col-12 col-lg-8 col-xl-6'>
+                        <div className='book-info col-12 col-lg-8 col-xl-6 col-xxl-5 mx-xxl-5'>
                             <div className='book-title'>
-                                <span>Cây Chuối Non Đi Giày Xanh (Bìa Mềm)</span>
+                                <span>
+                                    {data?.name}
+                                </span>
                             </div>
                             <div className='book-author mt-1'>
-                                Author:<span className='author' title='Author: Nguyễn Nhật Ánh'> Nguyễn Nhật Ánh</span>
+                                Author:<span className='author' title={`Author ${data?.Author && data?.Author?.name && data.Author.name}`}>
+                                    {data?.Author && data?.Author?.name ? data.Author.name : ''}
+                                </span>
 
                             </div>
                             <div className='book-publishing-company mt-1'>
-                                <span>Nhà xuất bản: Nxb Trẻ</span>
+                                <span>Publishing Company: {data?.publishingCompany}</span>
                             </div>
                             <div className='book-publisher mt-1'>
-                                Publisher: <span className='publisher' title='Publisher: NXB Trẻ'> NXB Trẻ</span>
+                                Publisher: <span className='publisher' title='Publisher: NXB Trẻ'>
+                                    {data?.Publisher && data?.Publisher?.name ? data.Publisher.name : ''}
+                                </span>
                             </div>
                             <div className='rate my-2'>
-                                <StarRating rate={5} />
+                                <StarRating rate={data?.rate ? data.rate : 0} />
                                 <span className='note'>(4 rate 4 comments)</span>
 
                             </div>
                             <div className='brief-description-content'>
-                                Kỷ niệm bao giờ cũng đẹp và đặc biệt là không biết phản bội.
-                                "Câu chuyện này về kỷ niệm. Có nỗi sợ trẻ con ai cũng từng qua,
-                                có rung động mơ hồ đủ khiến hồi hộp đỏ mặt. Mối ghen tuông len lỏi,
-                                nỗi buồn thắt tim, và những giấc mơ trong
+                                {data?.description}
                             </div>
                             <div className='service-info mt-3 pt-3'>
                                 <div className='service-title mb-2'>
@@ -90,23 +115,25 @@ const BookDetail = (props) => {
                             <div className='main my-3 py-3'>
                                 <div className='price mb-3 d-flex justify-content-between'>
                                     <span>Cover price</span>
-                                    <span className='price-value'>110.000 <span className='unit'>đ</span></span>
+                                    <span className='price-value'>{data?.price} <span className='unit'>đ</span></span>
                                 </div>
                                 <div className='current_price mb-3 d-flex justify-content-between align-items-center'>
                                     <span>Price</span>
-                                    <span className='current-price-value'>77.000 <span className='unit'>đ</span></span>
+                                    <span className='current-price-value'>{data?.current_price} <span className='unit'>đ</span></span>
                                 </div>
                                 <div className='sale-off mb-3 d-flex justify-content-between'>
                                     <span>Sale-off</span>
-                                    <span className='sale-off-value'>(33.000 <span className='unit'>đ</span>) 30%</span>
+                                    <span className='sale-off-value'>
+                                        ({data?.current_price && data?.price ? (data.price - data.current_price) : 0} <span className='unit'>đ</span>) {((data.price - data.current_price) * 100) / data.price}%
+                                    </span>
                                 </div>
                                 <div className='quality d-flex justify-content-between'>
                                     <span>Quality</span>
-                                    <span className='value'>A</span>
+                                    <span className='value'>{data?.quality}</span>
                                 </div>
                             </div>
                             <div className='book-status d-flex justify-content-end align-items-center gap-2 mb-2'>
-                                <AiFillCheckCircle className='check-icon' /><span> GOODS AVAILABLE</span>
+                                <AiFillCheckCircle className='check-icon' /><span> {data?.status ? data.status.toUpperCase() : ''}</span>
                             </div>
                             <div className='add-to-cart-btn px-3'>
                                 <button className='btn btn-warning d-flex align-items-center justify-content-center gap-2'>
@@ -134,43 +161,47 @@ const BookDetail = (props) => {
                                     <tbody>
                                         <tr>
                                             <td class="table-active">Author</td>
-                                            <td>Nguyễn Nhật Ánh</td>
+                                            <td>{data?.Author && data?.Author?.name ? data.Author.name : ''}</td>
                                         </tr>
                                         <tr>
                                             <td class="table-active">Publisher</td>
-                                            <td>NXB Tre</td>
+                                            <td>{data?.Publisher && data?.Publisher?.name ? data.Publisher.name : ''}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="table-active">Translator</td>
+                                            <td>{data?.translator}</td>
                                         </tr>
                                         <tr>
                                             <td class="table-active">Publishing Company</td>
-                                            <td>NXB Tre</td>
+                                            <td>{data?.publishingCompany}</td>
                                         </tr>
                                         <tr>
                                             <td class="table-active">Pulishing Day</td>
-                                            <td>12/2017</td>
+                                            <td>{data?.publishingDay}</td>
                                         </tr>
                                         <tr>
                                             <td class="table-active">Volumn</td>
-                                            <td>374.00 gram</td>
+                                            <td>{data?.volume}</td>
                                         </tr>
                                         <tr>
                                             <td class="table-active">Format</td>
-                                            <td>Paperback</td>
+                                            <td>{data?.format}</td>
                                         </tr>
                                         <tr>
                                             <td class="table-active">Page</td>
-                                            <td>392</td>
+                                            <td>{data?.pages}</td>
                                         </tr>
                                         <tr>
                                             <td class="table-active">Size</td>
-                                            <td>13 x 20 cm</td>
+                                            <td>{data?.size}</td>
                                         </tr>
                                         <tr>
                                             <td class="table-active">Product Code</td>
-                                            <td>8934974151630</td>
+                                            <td>{data?.productCode}</td>
                                         </tr>
                                         <tr>
                                             <td class="table-active">Language</td>
-                                            <td>English</td>
+                                            <td>{data?.language}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -178,45 +209,27 @@ const BookDetail = (props) => {
                             <div id="scrollspyHeading2" className='sroll-top-distance'>
                                 <h5>Book Description</h5>
                                 <div className='book-description'>
-                                    Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                                    Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                                    when an unknown printer took a galley of type and scrambled it to make a type specimen book.
-                                    It has survived not only five centuries, but also the leap into electronic typesetting,
-                                    remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset
-                                    sheets containing Lorem Ipsum passages, and more recently with desktop publishing software
-                                    like Aldus PageMaker including versions of Lorem Ipsum. It is a long established fact that a reader
-                                    will be distracted by the readable content of a page when looking at its layout. The point of using
-                                    Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using
-                                    'Content here, content here', making it look like readable English.
+                                    {data?.description}
                                 </div>
                             </div>
                             <div id="scrollspyHeading3" className='customer-responses sroll-top-distance'>
                                 <h5 className='title'>Customer Responses</h5>
                                 <div className='comments mt-2'>
-                                    <BookReview
-                                        key={`book-review-${0}`}
-                                        image={userImage}
-                                        title={'Good Book'}
-                                        rate={4}
-                                        commentor_name={'Yamato'}
-                                        content={'Always support author and look forward to new book support author and look forward to new book'}
-                                    />
-                                    <BookReview
-                                        key={`book-review-${1}`}
-                                        image={userImage}
-                                        title={'Very Good'}
-                                        rate={5}
-                                        commentor_name={'Jane'}
-                                        content={''}
-                                    />
-                                    <BookReview
-                                        key={`book-review-${2}`}
-                                        image={userImage}
-                                        title={'Normal'}
-                                        rate={3}
-                                        commentor_name={'Kevin'}
-                                        content={'Always support author and look forward to new book'}
-                                    />
+                                    {data?.Comments && data.Comments.length > 0 &&
+                                        data.Comments.map((item) => {
+                                            return (
+                                                <BookReview
+                                                    key={`book-review-${item.id}`}
+                                                    image={item?.User.image}
+                                                    title={item.title}
+                                                    time={item.time}
+                                                    rate={4}
+                                                    commentor_name={item?.User.username}
+                                                    content={item.content}
+                                                />
+                                            )
+                                        })
+                                    }
                                 </div>
                                 <div className='d-flex flex-column flex-md-row mt-4'>
                                     <div className='total-comments col-12 col-md-6'>
@@ -292,7 +305,7 @@ const BookDetail = (props) => {
                                                     <button className='btn btn-success'>Log in</button>
                                                     <div className='text'>
                                                         You don't have an account?
-                                                        Please <span className='sign-up'>Sign up</span> 
+                                                        Please <span className='sign-up'>Sign up</span>
                                                     </div>
                                                 </div>
                                             </div>

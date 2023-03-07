@@ -3,11 +3,13 @@
 
     .header-container-section {
         width  : 100%;
+        z-index: 3;
     }
 
     .content-container-section {
         width  : 100%;
         top    : 10.2rem;
+        z-index: 2;
     }
 }
 
