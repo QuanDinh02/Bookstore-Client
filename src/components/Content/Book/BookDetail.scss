@@ -252,6 +252,9 @@ $more-light-gray-color : #F9F9F9;
                     font-size  : 1.05rem;
                     line-height: 1.75rem;
                     color      : rgb(103, 103, 103);
+
+                    text-align  : justify;
+                    text-justify: inter-word;
                 }
 
                 .customer-responses {
@@ -302,10 +305,6 @@ $more-light-gray-color : #F9F9F9;
                         }
 
                         .total {
-                            .star-icon {
-                                font-size: 1.65rem;
-                            }
-
                             .value {
                                 font-size: 0.9rem;
                             }
@@ -326,14 +325,45 @@ $more-light-gray-color : #F9F9F9;
                             }
                         }
                     }
+
+                    .rating-box {
+                        table {
+                            tr {
+                                td {
+                                    &:nth-child(1) {
+                                        font-weight: 600;
+                                    }
+
+                                    &:nth-child(2) {
+                                        width: 70%;
+                                    }
+                                }
+                            }
+                        }
+
+                        .denied-access {
+                            height: 100%;
+                            button {
+                                width: 120px;
+                            }
+
+                            .text {
+                                font-size: 0.9rem;
+                            }
+
+                            .sign-up {
+                                color: blue;
+                                &:hover {
+                                    text-decoration: underline;
+                                    cursor: pointer;
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
     }
-}
-
-.star {
-    color: rgb(255, 196, 0);
 }
 
 .breadcrumb-item {

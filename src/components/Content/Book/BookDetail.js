@@ -3,13 +3,15 @@ import { Link } from 'react-router-dom';
 import Onepiece from '../../../assets/image/Onepiece.png';
 import userImage from '../../../assets/image/user.png';
 
-import { IoIosStar } from "react-icons/io";
 import { AiFillCheckCircle } from "react-icons/ai";
 import { BsCart3 } from "react-icons/bs";
+
 import BookReview from './BookReview';
-import StarRating from './StarRating';
+import StarRating from '../StarRatings/StarRating';
 
 const BookDetail = (props) => {
+
+    let isAuthenticated = true;
 
     return (
         <div className='book-detail-container'>
@@ -39,7 +41,7 @@ const BookDetail = (props) => {
                         </ol>
                     </nav>
                 </div>
-                <div className='content position-relative mt-4 red d-flex flex-column'>
+                <div className='content position-relative mt-4 d-flex flex-column'>
                     <div className='book-main-info row g-3 g-xl-1 justify-content-center justify-content-lg-between'>
                         <div className='book-image d-flex justify-content-center col'>
                             <img src={Onepiece} />
@@ -59,13 +61,7 @@ const BookDetail = (props) => {
                                 Publisher: <span className='publisher' title='Publisher: NXB Trẻ'> NXB Trẻ</span>
                             </div>
                             <div className='rate my-2'>
-                                {
-                                    [...Array(5)].map(item => {
-                                        return (
-                                            <IoIosStar className='star' />
-                                        )
-                                    })
-                                }
+                                <StarRating rate={5} />
                                 <span className='note'>(4 rate 4 comments)</span>
 
                             </div>
@@ -77,7 +73,7 @@ const BookDetail = (props) => {
                             </div>
                             <div className='service-info mt-3 pt-3'>
                                 <div className='service-title mb-2'>
-                                    Thông tin kèm theo
+                                    Attached information
                                 </div>
                                 <div className='service-item'>
                                     <AiFillCheckCircle className='check-icon' /> Có dịch vụ bọc sách plastic cao cấp cho sách này
@@ -198,6 +194,7 @@ const BookDetail = (props) => {
                                 <h5 className='title'>Customer Responses</h5>
                                 <div className='comments mt-2'>
                                     <BookReview
+                                        key={`book-review-${0}`}
                                         image={userImage}
                                         title={'Good Book'}
                                         rate={4}
@@ -205,6 +202,7 @@ const BookDetail = (props) => {
                                         content={'Always support author and look forward to new book support author and look forward to new book'}
                                     />
                                     <BookReview
+                                        key={`book-review-${1}`}
                                         image={userImage}
                                         title={'Very Good'}
                                         rate={5}
@@ -212,6 +210,7 @@ const BookDetail = (props) => {
                                         content={''}
                                     />
                                     <BookReview
+                                        key={`book-review-${2}`}
                                         image={userImage}
                                         title={'Normal'}
                                         rate={3}
@@ -219,35 +218,84 @@ const BookDetail = (props) => {
                                         content={'Always support author and look forward to new book'}
                                     />
                                 </div>
-                                <div className='total-comments col-12 col-md-6 mt-3 blue'>
-                                    <div className='d-flex'>
-                                        <div className='average-point p-3'>
-                                            <span>4.8</span>
-                                        </div>
-                                        <div className='total'>
-                                            <div className='star-icon'>
-                                                <StarRating rate={5} />
+                                <div className='d-flex flex-column flex-md-row mt-4'>
+                                    <div className='total-comments col-12 col-md-6'>
+                                        <div className='d-flex'>
+                                            <div className='average-point p-3'>
+                                                <span>4.8</span>
                                             </div>
-                                            <span className='value'>1340 comments</span>
+                                            <div className='total'>
+                                                <div className='star-icon'>
+                                                    <StarRating rate={5} size='big' />
+                                                </div>
+                                                <span className='value'>1340 comments</span>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            {
+                                                [...Array(5)].map((item, index) => {
+                                                    return (
+                                                        <div className='rating-item d-flex flex-column flex-sm-row gap-sm-2 align-items-sm-center'>
+                                                            <div className='star-rating'>
+                                                                <StarRating rate={5 - index} />
+                                                            </div>
+                                                            <div class="progress rating-progress-bar">
+                                                                <div class="progress-bar bg-success" role="progressbar" style={{ 'width': `${75}%` }} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                                            </div>
+                                                            <div className='value'>
+                                                                <span>1135</span>
+                                                            </div>
+                                                        </div>
+                                                    )
+                                                })
+                                            }
                                         </div>
                                     </div>
-                                    <div>
-                                        {
-                                            [...Array(5)].map((item, index) => {
-                                                return (
-                                                    <div className='rating-item d-flex gap-2 align-items-center'>
-                                                        <div className='star-rating'>
-                                                            <StarRating rate={5 - index} />
-                                                        </div>
-                                                        <div class="progress rating-progress-bar">
-                                                            <div class="progress-bar bg-success" role="progressbar" style={{ 'width': `${75}%` }} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                                        </div>
-                                                        <div className='value'>
-                                                            <span>1135</span>
-                                                        </div>
+                                    <div className='rating-box col-12 col-md-6 col-xl-5 mt-3 mt-md-0'>
+                                        {isAuthenticated === true ?
+                                            <table class="table table-borderless">
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Rate</td>
+                                                        <td className='starRatings'>
+                                                            <StarRating rate={0} size='medium' onClickStar={true} />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Title</td>
+                                                        <td>
+                                                            <input className='form-control' type='text' />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Content</td>
+                                                        <td>
+                                                            <textarea style={{ 'minHeight': '6.25rem' }} class="form-control" placeholder="Leave a comment here" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td>
+                                                            <div className='send-comment-btn'>
+                                                                <button className='btn btn-success d-flex align-items-center justify-content-center col-8 col-md-10 col-lg-7 col-xxl-6'>
+                                                                    SEND RATINGS
+                                                                </button>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            :
+                                            <div className='denied-access ps-3 d-flex flex-column justify-content-center gap-2'>
+                                                <div className='text'>Login to send your comment</div>
+                                                <div className='d-flex gap-2 align-items-center'>
+                                                    <button className='btn btn-success'>Log in</button>
+                                                    <div className='text'>
+                                                        You don't have an account?
+                                                        Please <span className='sign-up'>Sign up</span> 
                                                     </div>
-                                                )
-                                            })
+                                                </div>
+                                            </div>
                                         }
                                     </div>
                                 </div>

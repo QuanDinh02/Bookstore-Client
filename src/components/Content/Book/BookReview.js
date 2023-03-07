@@ -1,12 +1,11 @@
-import { IoIosStar } from "react-icons/io";
-import StarRating from "./StarRating";
+import StarRating from "../StarRatings/StarRating";
 
 const BookReview = (props) => {
 
     const { image, title, rate, commentor_name, content } = props;
 
     return (
-        <div className='comment-container d-flex mt-3 gap-3 pb-3'>
+        <div key={`commentor-${commentor_name}`}className='comment-container d-flex mt-3 gap-3 pb-3'>
             <div className='commentor-image'>
                 <img src={image} alt='' />
             </div>
