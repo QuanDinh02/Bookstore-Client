@@ -84,13 +84,13 @@ const BookDetail = (props) => {
                                 <span>Publishing Company: {data?.publishingCompany}</span>
                             </div>
                             <div className='book-publisher mt-1'>
-                                Publisher: <span className='publisher' title='Publisher: NXB Trẻ'>
+                                Publisher: <span className='publisher' title={`Publisher: ${data?.Publisher?.name}`}>
                                     {data?.Publisher && data?.Publisher?.name ? data.Publisher.name : ''}
                                 </span>
                             </div>
                             <div className='rate my-2'>
                                 <StarRating rate={data?.rate ? data.rate : 0} />
-                                <span className='note'>(4 rate 4 comments)</span>
+                                <span className='note'>({data?.TotalComments} rates)</span>
 
                             </div>
                             <div className='brief-description-content'>
@@ -124,7 +124,7 @@ const BookDetail = (props) => {
                                 <div className='sale-off mb-3 d-flex justify-content-between'>
                                     <span>Sale-off</span>
                                     <span className='sale-off-value'>
-                                        ({data?.current_price && data?.price ? (data.price - data.current_price) : 0} <span className='unit'>đ</span>) {((data.price - data.current_price) * 100) / data.price}%
+                                        ({data?.current_price && data?.price ? (data.price - data.current_price) : 0} <span className='unit'>đ</span>) {Math.round(((data.price - data.current_price) * 100) / data.price)}%
                                     </span>
                                 </div>
                                 <div className='quality d-flex justify-content-between'>
@@ -223,7 +223,7 @@ const BookDetail = (props) => {
                                                     image={item?.User.image}
                                                     title={item.title}
                                                     time={item.time}
-                                                    rate={4}
+                                                    rate={item.rate}
                                                     commentor_name={item?.User.username}
                                                     content={item.content}
                                                 />
@@ -235,13 +235,13 @@ const BookDetail = (props) => {
                                     <div className='total-comments col-12 col-md-6'>
                                         <div className='d-flex'>
                                             <div className='average-point p-3'>
-                                                <span>4.8</span>
+                                                <span>{data?.rate ? data.rate : 0}</span>
                                             </div>
                                             <div className='total'>
                                                 <div className='star-icon'>
                                                     <StarRating rate={5} size='big' />
                                                 </div>
-                                                <span className='value'>1340 comments</span>
+                                                <span className='value'>{data?.TotalComments} comments</span>
                                             </div>
                                         </div>
                                         <div>
@@ -253,10 +253,13 @@ const BookDetail = (props) => {
                                                                 <StarRating rate={5 - index} />
                                                             </div>
                                                             <div class="progress rating-progress-bar">
-                                                                <div class="progress-bar bg-success" role="progressbar" style={{ 'width': `${75}%` }} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                                                <div 
+                                                                class="progress-bar bg-success" role="progressbar" 
+                                                                style={{ 'width': `${data?.StarRatings ? data.StarRatings[`star_${5-index}`]['percent'] : 0}%` }} 
+                                                                aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                                                             </div>
                                                             <div className='value'>
-                                                                <span>1135</span>
+                                                                <span>{data?.StarRatings ? data.StarRatings[`star_${5-index}`]['rate'] : 0}</span>
                                                             </div>
                                                         </div>
                                                     )
