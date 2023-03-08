@@ -20,7 +20,8 @@ const BookCategoryDetail = () => {
     const [bookCategoryGroup, setBookCategoryGroup] = useState({});
     const [booksData, setBooksData] = useState([]);
     const location = useLocation();
-    
+    const history = useHistory();
+
     const isExtraExtraLarge = useMediaQuery({
         query: '(min-width: 1400px)'
     })
@@ -70,6 +71,11 @@ const BookCategoryDetail = () => {
         }
     }
 
+    const handleSeeBookDetail = (book_id) => {
+        history.push(`/book/${book_id}`);
+        window.scrollTo(0, 0);
+    }
+
     useEffect(() => {
         fetchABookGroup(id);
         if (location.state.book_category_id === -1) {
@@ -99,8 +105,8 @@ const BookCategoryDetail = () => {
                                 </Link>
                             </li>
                             {location.state.book_category_id !== -1 &&
-                                <li className="breadcrumb-item">
-                                    <Link to='/'>{location.state.book_category_name}</Link>
+                                <li className="breadcrumb-item sub-book-category">
+                                    {location.state.book_category_name}
                                 </li>
                             }
                         </ol>
@@ -113,7 +119,7 @@ const BookCategoryDetail = () => {
                         />
                     </div>
                     <div className='main col-12 col-md-9 '>
-                        <div className='book-category-title' > 
+                        <div className='book-category-title' >
                             {location.state.book_category_id !== -1 ?
                                 location.state.book_category_name
                                 :
@@ -154,15 +160,15 @@ const BookCategoryDetail = () => {
                                             return (
                                                 <div key={`multicolum-book-item-${item.id}`} className='book col'>
                                                     <div className='book-image d-flex flex-column align-items-center position-relative'>
-                                                        <img src={`data:image/jpeg;base64,${item.image}`} alt='' title={item.name} />
+                                                        <img src={`data:image/jpeg;base64,${item.image}`} alt='' title={item.name} onClick={() => handleSeeBookDetail(item.id)}/>
                                                         <span
                                                             className={isSmallerThanLarge === true ? "sale-off position-absolute bottom-0 end-1 badge bg-danger py-2" : "sale-off position-absolute bottom-0 end-0 badge bg-danger py-2"}
                                                         >
-                                                            -15%
+                                                            -{Math.round(((item.price - item.current_price) * 100) / item.price)}%
                                                         </span>
                                                     </div>
                                                     <div className='book-content mt-4 px-4 px-lg-3'>
-                                                        <div className='book-title' title={item.name}>
+                                                        <div className='book-title' title={item.name} onClick={() => handleSeeBookDetail(item.id)}>
                                                             <span>{item.name}</span>
                                                         </div>
                                                         <div className='book-author my-2'>
@@ -191,15 +197,15 @@ const BookCategoryDetail = () => {
                                                 return (
                                                     <div key={`row-book-item-${item.id}`} className='book-row row mb-3 pb-4'>
                                                         <div className='book-row-image col-3 d-flex flex-column align-items-center position-relative'>
-                                                            <img src={`data:image/jpeg;base64,${item.image}`} alt='' title={item.name} />
+                                                            <img src={`data:image/jpeg;base64,${item.image}`} alt='' title={item.name} onClick={() => handleSeeBookDetail(item.id)}/>
                                                             <span
                                                                 className={isExtraExtraLarge === true ? "sale-off position-absolute bottom-0 end-1 badge bg-danger py-2" : "sale-off position-absolute bottom-0 end-0 badge bg-danger py-2"}
                                                             >
-                                                                -15%
+                                                                -{Math.round(((item.price - item.current_price) * 100) / item.price)}%
                                                             </span>
                                                         </div>
                                                         <div className='book-row-content px-3 pt-1 col-9'>
-                                                            <div className='book-title' title={item.name}>
+                                                            <div className='book-title' title={item.name} onClick={() => handleSeeBookDetail(item.id)}>
                                                                 <span>{item.name}</span>
                                                             </div>
                                                             <div className='d-flex justify-content-between align-items-center'>

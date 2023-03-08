@@ -21,6 +21,14 @@ $more-light-gray-color : #F9F9F9;
                     text-decoration: underline;
                 }
             }
+
+            .sub-book-category {
+                &:hover {
+                    color          : $main-green-color;
+                    text-decoration: underline;
+                    cursor: pointer;
+                }
+            }
         }
 
         .content {
