@@ -28,6 +28,7 @@ $main-green-color: #087B44;
     }
 
     .book-group-main {
+        margin: auto !important;
         .book {
             cursor    : pointer;
             width     : 16.25rem;
@@ -83,6 +84,12 @@ $main-green-color: #087B44;
                     }
 
                     .description {
+                        display           : -webkit-box;
+                        -webkit-line-clamp: 5;
+                        -webkit-box-orient: vertical;
+                        overflow          : hidden;
+                        text-overflow     : ellipsis;
+
                         padding-top: 0.5rem;
                         font-size  : 0.85rem;
                     }

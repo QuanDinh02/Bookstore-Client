@@ -27,11 +27,11 @@ const BookGroup = (props) => {
                     <span className='redirect'>See more</span> <IoIosArrowForward />
                 </div>
             </div>
-            <div className='book-group-main d-flex flex-wrap justify-content-around'>
+            <div className='book-group-main row row-cols-2 row-cols-lg-3 justify-content-center justify-content-md-between justify-content-xl-start justify-content-xxl-between'>
                 {bookList && bookList.length > 0 &&
                     bookList.map((item) => {
                         return (
-                            <div className='book' key={`book-item-${item.id}`}>
+                            <div className='book col mx-xl-5 mx-xxl-1' key={`book-item-${item.id}`}>
                                 <div className='content '>
                                     <div className='book-image'>
                                         <img src={`data:image/jpeg;base64,${item.image}`} alt='' title={item.name} />
