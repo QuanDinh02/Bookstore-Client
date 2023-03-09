@@ -1,18 +1,25 @@
 import './ColumnBookGroup.scss';
-import { IoMdStarHalf,IoIosStar } from "react-icons/io";
+import { IoIosStar } from "react-icons/io";
 import { useEffect, useState } from 'react';
 import { getBooksByBookCategory } from '../../../Services/apiServices';
+import { useHistory } from 'react-router-dom';
 
 const ColumnBookGroup = (props) => {
 
     const { group_title, book_group_id } = props;
     const [bookList, setBookList] = useState([]);
+    const history = useHistory();
 
     const fetchBookList = async (id) => {
         let result = await getBooksByBookCategory(id);
         if (result && result.EC === 0) {
             setBookList(result.DT);
         }
+    }
+
+    const handleSeeBookDetail = (bookId) => {
+        history.push(`/book/${bookId}`);
+        window.scrollTo(0, 0);
     }
 
     useEffect(() => {
@@ -30,10 +37,10 @@ const ColumnBookGroup = (props) => {
                         return (
                             <div className='book' key={`book-column-item-${item.id}`}>
                                 <div className='book-image'>
-                                    <img src={`data:image/jpeg;base64,${item.image}`} alt='' title={item.name} />
+                                    <img src={`data:image/jpeg;base64,${item.image}`} alt='' title={item.name} onClick={() => handleSeeBookDetail(item.id)}/>
                                 </div>
                                 <div className='book-content'>
-                                    <div className='title' title={item.name}>{item.name}</div>
+                                    <div className='title' title={item.name} onClick={() => handleSeeBookDetail(item.id)}>{item.name}</div>
                                     <div className='author'>{item.author}</div>
                                     <div className='rate'>
                                         {item.rate && item.rate > 0 &&
