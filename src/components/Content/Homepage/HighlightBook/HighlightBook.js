@@ -44,7 +44,7 @@ const HighlightBook = (props) => {
 
     return (
         <div className='highlight-book-container'>
-            <div className='book-category-title'>
+            <div className='book-category-title '>
                 {book_title}
             </div>
             <div className={`book-content d-flex flex-column flex-lg-row align-items-center align-items-lg-start justify-content-between ${backgroud_color}`}>
@@ -52,7 +52,7 @@ const HighlightBook = (props) => {
                     <img src={bookData.image} alt='' title={`${bookData.name}`} onClick={() => handleSeeBookDetail(book_id)} />
                 </div>
                 <div className='content col-12 col-lg-8'>
-                    <div className='title'>
+                    <div className={`title ${backgroud_color}`}>
                         <strong title={`${bookData.name}`} onClick={() => handleSeeBookDetail(book_id)}>{bookData.name}</strong>
                     </div>
                     <div className='author'>

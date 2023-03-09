@@ -1,13 +1,13 @@
-$light-gray-color: #66645C;
+$light-gray-color : #66645C;
 $light-gray-border: #cbcac8;
-$red-color       : #F03737;
-$main-red-color  : #CA2027;
-$main-green-color: #087B44;
+$red-color        : #F03737;
+$main-red-color   : #CA2027;
+$main-green-color : #087B44;
 
 .book-group-container {
 
     .book-group-title {
-        display: flex;
+        display        : flex;
         justify-content: space-between;
 
         .title {
@@ -17,11 +17,15 @@ $main-green-color: #087B44;
             margin-bottom : 2.5rem;
         }
 
-        .redirect {
-            color: $main-green-color;
-            &:hover {
-                cursor: pointer;
-                text-decoration: underline;
+        .see-more {
+            min-width: 5.625rem;
+            .redirect {
+                color: $main-green-color;
+
+                &:hover {
+                    cursor         : pointer;
+                    text-decoration: underline;
+                }
             }
         }
 
@@ -29,6 +33,7 @@ $main-green-color: #087B44;
 
     .book-group-main {
         margin: auto !important;
+
         .book {
             cursor    : pointer;
             width     : 16.25rem;
@@ -40,14 +45,14 @@ $main-green-color: #087B44;
             background-color: white;
             display         : flex;
             flex-direction  : column;
-            justify-content: space-between;
+            justify-content : space-between;
 
             border: 1px solid $light-gray-border;
 
             .content {
                 padding-bottom: 1.2rem;
                 display       : flex;
-                flex-grow: 1;
+                flex-grow     : 1;
 
                 .book-image {
                     flex-basis: 38%;
@@ -65,10 +70,11 @@ $main-green-color: #087B44;
                     padding-left : 0.5rem;
 
                     .title {
-                        overflow   : hidden;
-                        white-space: nowrap;
-                        font-weight: bold;
-                        font-size  : 0.9rem;
+                        overflow        : hidden;
+                        white-space     : nowrap;
+                        font-weight     : bold;
+                        font-size       : 0.9rem;
+                        background-color: white;
 
                         &:hover {
                             color          : $main-green-color;
@@ -104,7 +110,7 @@ $main-green-color: #087B44;
                 justify-content: space-between;
                 padding-right  : 1rem;
                 padding-top    : 0.5rem;
-                
+
 
                 .unit {
                     text-decoration: underline;
@@ -130,9 +136,9 @@ $main-green-color: #087B44;
                     }
 
                     .price {
-                        font-size     : 0.875rem;
-                        font-weight   : 600;
-                        color         : $main-red-color;
+                        font-size  : 0.875rem;
+                        font-weight: 600;
+                        color      : $main-red-color;
                     }
                 }
 

@@ -1,22 +1,23 @@
 .app-container {
-    background-color: #F2F5F7;
+    font-family: 'Montserrat', sans-serif;
 
-    .header-container-section {
-        width  : 100%;
-        z-index: 3;
-    }
+    // .header-container-section {
+    //     font-family: 'Montserrat', sans-serif;
+    //     width  : 100%;
+    //     z-index: 3;
+    // }
 
-    .content-container-section {
-        width  : 100%;
-        top    : 10.2rem;
-        z-index: 2;
-    }
+    // .content-container-section {
+    //     width  : 100%;
+    //     top    : 10.2rem;
+    //     z-index: 2;
+    // }
 }
 
-@media only screen and (max-width: 767px) {
-    .app-container {
-        .content-container-section {
-            top: 7rem;
-        }
-    }
-}
+// @media only screen and (max-width: 767px) {
+//     .app-container {
+//         .content-container-section {
+//             top: 7rem;
+//         }
+//     }
+// }

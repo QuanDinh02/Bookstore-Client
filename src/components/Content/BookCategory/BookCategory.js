@@ -28,14 +28,14 @@ const BookCategory = (props) => {
         setListOfPublishers(item.Publishers);
     }
 
-    const handleSelectItem = (type, id, name='None') => {
+    const handleSelectItem = (type, id, name = 'None') => {
         setShowBookCategory(false);
         switch (type) {
             case 'BOOK_CATEROGY_GROUP':
                 history.push(`/book-category/${id}`, { book_category_id: -1 })
                 break;
             case 'BOOK_CATEROGY':
-                history.push(`/book-category/${bookGroupID}`, { book_category_id: id, book_category_name: name})
+                history.push(`/book-category/${bookGroupID}`, { book_category_id: id, book_category_name: name })
                 break;
             default:
                 break;
@@ -57,16 +57,14 @@ const BookCategory = (props) => {
         <>
             {show === true &&
                 <>
-                    <div
-                        className="book-category col-3"
-                    >
+                    <div className="book-category col-3">
                         {listOfBookCategoryGroup && listOfBookCategoryGroup.length > 0 &&
                             listOfBookCategoryGroup.map((item, index) => {
                                 return (
                                     <div
                                         key={`book-category-group-${item.group_id}`}
                                         className="category-item d-flex align-items-center justify-content-between"
-                                        onClick={() => handleSelectItem('BOOK_CATEROGY_GROUP',item.group_id)}
+                                        onClick={() => handleSelectItem('BOOK_CATEROGY_GROUP', item.group_id)}
                                         onMouseEnter={() => handleShowDetailBookCategory(item)}
                                     >
                                         <span className="category-title">{item.group_name}</span>
@@ -90,7 +88,7 @@ const BookCategory = (props) => {
                                                 <div
                                                     key={`book-category-${item.id}`}
                                                     className='title-box'
-                                                    onClick={() => handleSelectItem('BOOK_CATEROGY',item.id,item.name)}
+                                                    onClick={() => handleSelectItem('BOOK_CATEROGY', item.id, item.name)}
                                                 >
                                                     <span
                                                         className="title-name"

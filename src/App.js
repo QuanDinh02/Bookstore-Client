@@ -21,13 +21,9 @@ function App() {
   return (
     <Router>
       <div className="app-container position-relative">
-        <div className='header-container-section position-absolute'>
-          <Header />
-        </div>
-        <div className='content-container-section position-absolute'>
-          <AppRoutes />
-          <Footer />
-        </div>
+        <Header />
+        <AppRoutes />
+        <Footer />
       </div>
     </Router>
 

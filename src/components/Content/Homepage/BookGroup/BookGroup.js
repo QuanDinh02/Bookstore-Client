@@ -30,8 +30,9 @@ const BookGroup = (props) => {
         <div className="book-group-container">
             <div className='book-group-title'>
                 <div className='title'>{group_title}</div>
-                <div>
-                    <span className='redirect'>See more</span> <IoIosArrowForward />
+                <div className='see-more d-flex'>
+                    <span className='redirect'>See more</span> 
+                    <span><IoIosArrowForward /></span>
                 </div>
             </div>
             <div className='book-group-main row row-cols-2 row-cols-lg-3 justify-content-center justify-content-md-between justify-content-xl-start justify-content-xxl-between'>

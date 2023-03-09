@@ -1,203 +1,212 @@
 $main-green-color: #087B44;
 $main-red-color  : #CA2027;
 
-.header-container {
-    font-family: 'Montserrat', sans-serif;
-    width      : 100%;
+.title {
+    width           : 100%;
+    min-height      : 2.25rem;
+    background-color: #F3F3F3;
 
-    .title {
-        width           : 100%;
-        min-height      : 2.25rem;
-        background-color: #F3F3F3;
-
-        .content {
-            padding: 0 4rem;
-
-            .item {
-                color    : #66645C;
-                font-size: 0.9rem;
-
-                .icon {
-                    font-size: 1.25rem;
-                }
-
-                &:not(:last-child) {
-                    border-right: 2px solid #CCCCCC;
-                }
-
-                &:first-child {
-                    padding-right: 1.6rem;
-                }
-
-                &:not(:first-child) {
-                    padding: 0 1.6rem;
-                }
-
-            }
-        }
-
-    }
-
-    .main {
-        width           : 100%;
-        min-height      : 5rem;
-        background-color: white;
-
-        .content {
-            padding: 0 3.5rem;
-
-            .brand-box {
-                font-size  : 2.25rem;
-                font-weight: 700;
-                color      : $main-green-color;
-
-                &:hover {
-                    cursor: pointer;
-                }
-                
-                .brand {
-                    color: $main-red-color;
-                }
-            }
-
-            .searchBar {
-                display    : flex;
-                align-items: center;
-
-                .search-box {
-                    display         : flex;
-                    border-radius   : 1.875rem;
-                    border          : 1px solid rgb(204, 204, 204);
-                    background-color: #F3F3F3;
-
-                    .icon {
-                        flex-basis: 8%;
-                        font-size : 1.25rem;
-                    }
-
-                    .search {
-                        flex-basis: 75%;
-
-                        input {
-                            width           : 100%;
-                            outline         : none;
-                            border          : none;
-                            background-color: #F3F3F3;
-                        }
-                    }
-
-                    .search-btn {
-                        cursor          : pointer;
-                        flex-basis      : 17%;
-                        border-radius   : 1.8rem;
-                        font-weight     : 600;
-                        color           : white;
-                        background-color: $main-green-color;
-                        padding         : 1px 0;
-                    }
-                }
-            }
-
-            .shoppingCart {
-                .cartBorder {
-                    border-radius: 50%;
-                    border       : 2px solid $main-green-color;
-                    width        : fit-content;
-
-                    .icon {
-                        color    : $main-green-color;
-                        font-size: 2rem;
-                    }
-                }
-
-            }
-
-            .login-logout {
-                a {
-                    text-decoration: none;
-                    color          : black;
-                    font-size      : 1rem;
-
-                    &:hover {
-                        color: $main-green-color;
-                    }
-                }
-
-                .login {
-                    border-right : 1px solid black;
-                    padding-right: 0.4rem;
-                }
-
-                .register {
-                    padding-left: 0.4rem;
-                }
-            }
-        }
-
-    }
-
-    .navigation {
-        width           : 100%;
-        min-height      : 2.8rem;
-        background-color: $main-green-color;
-        color           : white;
-
-        .content {
-            padding: 0 4rem;
-
-            .menu {
-
-                &:hover {
-                    cursor: pointer;
-                }
-
-                .menu-icon {
-                    font-size: 2rem;
-                }
-
-                .menu-title {
-                    font-size: 1.2rem;
-                }
-
-                .arrow-icon {
-                    .downside-arrow-icon {
-                        font-size: 1.2rem;
-                    }
-                }
-            }
-
-            .contact {
-
-                .icon {
-                    font-size: 1.2rem;
-                }
-
-                .text {
-                    font-size: 0.85rem;
-                }
-
-                .hotline {
-                    border-right: 2px solid white;
-                }
-
-                .online-support {
-                    .text {
-                        &:hover {
-                            cursor         : pointer;
-                            text-decoration: underline;
-                        }
-                    }
-                }
-            }
-        }
-
-    }
-
-    .bookCategory {
+    .content {
         padding: 0 4rem;
+
+        .item {
+            color    : #66645C;
+            font-size: 0.9rem;
+
+            .icon {
+                font-size: 1.25rem;
+            }
+
+            &:not(:last-child) {
+                border-right: 2px solid #CCCCCC;
+            }
+
+            &:first-child {
+                padding-right: 1.6rem;
+            }
+
+            &:not(:first-child) {
+                padding: 0 1.6rem;
+            }
+
+        }
     }
 
 }
+
+.main {
+    width           : 100%;
+    min-height      : 5rem;
+    background-color: white;
+
+    .content {
+        padding: 0 3.5rem;
+
+        .brand-box {
+            font-size  : 2.25rem;
+            font-weight: 700;
+            color      : $main-green-color;
+
+            &:hover {
+                cursor: pointer;
+            }
+
+            .brand {
+                color: $main-red-color;
+            }
+        }
+
+        .searchBar {
+            display    : flex;
+            align-items: center;
+
+            .search-box {
+                display         : flex;
+                border-radius   : 1.875rem;
+                border          : 1px solid rgb(204, 204, 204);
+                background-color: #F3F3F3;
+
+                .icon {
+                    flex-basis: 8%;
+                    font-size : 1.25rem;
+                }
+
+                .search {
+                    flex-basis: 75%;
+
+                    input {
+                        width           : 100%;
+                        outline         : none;
+                        border          : none;
+                        background-color: #F3F3F3;
+                    }
+                }
+
+                .search-btn {
+                    cursor          : pointer;
+                    flex-basis      : 17%;
+                    border-radius   : 1.8rem;
+                    font-weight     : 600;
+                    color           : white;
+                    background-color: $main-green-color;
+                    padding         : 1px 0;
+                }
+            }
+        }
+
+        .shoppingCart {
+            .cartBorder {
+                border-radius: 50%;
+                border       : 2px solid $main-green-color;
+                width        : fit-content;
+
+                .cart-icon {
+                    color    : $main-green-color;
+                    font-size: 2rem;
+
+                    &:hover {
+                        cursor: pointer;
+                    }
+                }
+            }
+
+            .book-cart {
+                // width           : 400px;
+                // height          : 50px;
+                background-color: white;
+            }
+
+        }
+
+        .login-logout {
+            a {
+                text-decoration: none;
+                color          : black;
+                font-size      : 1rem;
+
+                &:hover {
+                    color: $main-green-color;
+                }
+            }
+
+            .login {
+                border-right : 1px solid black;
+                padding-right: 0.4rem;
+            }
+
+            .register {
+                padding-left: 0.4rem;
+            }
+        }
+    }
+
+}
+
+.navigation {
+    width           : 100%;
+    min-height      : 2.8rem;
+    background-color: $main-green-color;
+    color           : white;
+
+    .content {
+        padding: 0 4rem;
+
+        .menu {
+
+            &:hover {
+                cursor: pointer;
+            }
+
+            .menu-icon {
+                font-size: 2rem;
+            }
+
+            .menu-title {
+                font-size: 1.2rem;
+            }
+
+            .arrow-icon {
+                .downside-arrow-icon {
+                    font-size: 1.2rem;
+                }
+            }
+        }
+
+        .contact {
+
+            .icon {
+                font-size: 1.2rem;
+            }
+
+            .text {
+                font-size: 0.85rem;
+            }
+
+            .hotline {
+                border-right: 2px solid white;
+            }
+
+            .online-support {
+                .text {
+                    &:hover {
+                        cursor         : pointer;
+                        text-decoration: underline;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.book-category-container {
+    left : 0;
+    right: 0;
+
+    .book-category-section {
+        padding: 0 4rem;
+    }
+}
+
 
 .red {
     border: 1px solid red;
@@ -207,10 +216,12 @@ $main-red-color  : #CA2027;
     .header-container {
         .main {
             background-color: $main-green-color;
-            padding-bottom: 1rem;
+            padding-bottom  : 1rem;
+
             .content {
                 .brand-box {
                     color: white;
+
                     .brand {
                         color: white;
                     }

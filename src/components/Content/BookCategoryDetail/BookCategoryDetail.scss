@@ -5,9 +5,10 @@ $light-gray-color      : #8a8984;
 $more-light-gray-color : #F9F9F9;
 
 .book-category-detail-container {
-    font-family  : 'Montserrat', sans-serif;
+    //font-family  : 'Montserrat', sans-serif;
     margin-bottom: 2rem;
-
+    background-color: white;
+    
     .book-category-detail-content {
         padding: 0 4rem;
 

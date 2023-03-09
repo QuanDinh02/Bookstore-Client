@@ -28,16 +28,16 @@ const Header = () => {
     const history = useHistory();
     const location = useLocation();
 
-    useEffect(()=> {
-        if(location.pathname === '/') {
+    useEffect(() => {
+        if (location.pathname === '/') {
             setShowBookCategory(true);
         } else {
             setShowBookCategory(false);
         }
-    },[location.pathname]);
+    }, [location.pathname]);
 
     return (
-        <div className='header-container'>
+        <>
             <div className='title d-none d-md-block'>
                 <div className='content container d-flex pt-2'>
                     <div className='item d-flex align-items-bottom gap-2'>
@@ -54,7 +54,7 @@ const Header = () => {
                     </div>
                 </div>
             </div>
-            <div className='main d-flex align-items-center'>
+            <div className='main d-flex align-items-center sticky-top'>
                 <div className='content container d-flex flex-column flex-xl-row justify-content-between'>
                     <div className='brand-box col-12 col-xl-3 text-center' onClick={() => history.push('/')}>
                         Mega<span className='brand'>book</span>.com
@@ -72,11 +72,13 @@ const Header = () => {
                             </div>
                         </div>
                         <div className='col-3 d-none d-md-block d-md-flex justify-content-between'>
-                            <div className='shoppingCart d-flex justify-content-end align-items-center'>
-                                <div className='cartBorder red p-2'>
-                                    <BsCart3 className='icon' />
+                            <div className='shoppingCart d-flex justify-content-end align-items-center position-relative'>
+                                <div className='cartBorder p-2'>
+                                    <BsCart3 className='cart-icon' />
                                 </div>
-
+                                {/* <div className='book-cart red position-absolute mt-3 top-100 start-50 translate-middle'>
+                                    TEST
+                                </div> */}
                             </div>
                             <div className='login-logout ps-3 d-flex justify-content-center align-items-center'>
                                 <div className='login'>
@@ -116,18 +118,18 @@ const Header = () => {
                     </div>
                 </div>
             </div>
-            <div
-                className='bookCategory container d-none d-md-flex flex-md-row'
-                onMouseLeave={MouseLeave}
-            >
-                <BookCategory
-                    show={showBookCategory}
-                    setShowBookCategory={setShowBookCategory}
-                    showDetailBookCategory={showDetailBookCategory}
-                    setShowDetailBookCategory={setShowDetailBookCategory}
-                />
+            <div className='container position-absolute book-category-container'>
+                <div className='book-category-section d-none d-md-flex flex-md-row' onMouseLeave={MouseLeave}>
+                    <BookCategory
+                        show={showBookCategory}
+                        setShowBookCategory={setShowBookCategory}
+                        showDetailBookCategory={showDetailBookCategory}
+                        setShowDetailBookCategory={setShowDetailBookCategory}
+                    />
+                </div>
             </div>
-        </div>
+
+        </>
     )
 }
 
