@@ -10,16 +10,28 @@ import { IoCallSharp } from 'react-icons/io5';
 import { RiWechatFill } from 'react-icons/ri';
 import { TiDelete } from 'react-icons/ti';
 
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { DeleteShoppingCart } from '../../redux/action/actions';
+
 import BookCategory from '../Content/BookCategory/BookCategory';
 import { useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import Onepiece from '../../assets/image/Onepiece.png';
 
 const Header = () => {
+
+    const dispatch = useDispatch();
+
+    const bookList = useSelector(state => state.shoppingCart.bookList);
+    const booksCount = useSelector(state => state.shoppingCart.booksCount);
 
     const [showBookCategory, setShowBookCategory] = useState(false);
     const [showDetailBookCategory, setShowDetailBookCategory] = useState(false);
     const [showShoppingCart, setShowShoppingCart] = useState(false);
+
+    const handleDeleteBookFromShoppingCart = (book_id) => {
+        dispatch(DeleteShoppingCart(book_id));
+    }
 
     const handleShowBookCategory = () => {
         setShowBookCategory(!showBookCategory);
@@ -77,54 +89,59 @@ const Header = () => {
                         </div>
                         <div className='col-3 d-none d-md-block d-md-flex justify-content-between'>
                             <div className='shoppingCart d-flex justify-content-end align-items-center position-relative'>
+                                {booksCount !== 0 &&
+                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success mt-2">
+                                        {booksCount}
+                                    </span>
+                                }
                                 <div className='cartBorder p-2' onClick={() => setShowShoppingCart(!showShoppingCart)}>
                                     <BsCart3 className='cart-icon' />
                                 </div>
                                 {showShoppingCart === true &&
                                     <div className='book-cart position-absolute mt-1 start-50 top-100 translate-middle-x'>
-                                        <table className='table table-borderless'>
-                                            <tbody>
-                                                <tr className='book-item'>
-                                                    <td className='cart-item-image'>
-                                                        <img src={Onepiece} alt='' />
-                                                    </td>
-                                                    <td className='cart-item-content'>
-                                                        <div className='cart-item-title'>
-                                                            Cây Chuối Non Đi Giày Xanh (Bìa Mềm)
-                                                        </div>
-                                                        <div className='cart-item-price'>
-                                                            1 x <span className='current_price'>77.000 <span className='unit'>đ</span></span>
-                                                        </div>
-                                                    </td>
-                                                    <td className='cart-item-remove-icon'>
-                                                        <div className='remove-icon-box d-flex justify-content-center'>
-                                                            <span className='remove-icon' title='delete'><TiDelete /></span>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr className='book-item'>
-                                                    <td className='cart-item-image'>
-                                                        <img src={Onepiece} alt='' />
-                                                    </td>
-                                                    <td className='cart-item-content'>
-                                                        <div className='cart-item-title'>
-                                                            Cây Chuối Non Đi Giày Xanh (Bìa Mềm)
-                                                        </div>
-                                                        <div className='cart-item-price'>
-                                                            1 x <span className='current_price'>77.000 <span className='unit'>đ</span></span>
-                                                        </div>
-                                                    </td>
-                                                    <td className='cart-item-remove-icon'>
-                                                        <div className='remove-icon-box d-flex justify-content-center'>
-                                                            <span className='remove-icon' title='delete'><TiDelete /></span>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                        <div className='d-flex justify-content-end'>
-                                            <button className='btn btn-warning view-cart-btn me-4'>VIEW CART</button>
-                                        </div>
+                                        {bookList && bookList.length > 0 ?
+                                            <>
+                                                <table className='table table-borderless'>
+                                                    <tbody>
+                                                        {bookList.map(item => {
+                                                            return (
+                                                                <tr key={`book-cart-item-${item.id}`} className='book-item'>
+                                                                    <td className='cart-item-image'>
+                                                                        <img src={`data:image/jpeg;base64,${item.image}`} alt='' />
+                                                                    </td>
+                                                                    <td className='cart-item-content'>
+                                                                        <div className='cart-item-title'>
+                                                                            {item.title}
+                                                                        </div>
+                                                                        <div className='cart-item-price'>
+                                                                            {item.amount} x <span className='current_price'>{item.price} <span className='unit'>đ</span></span>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td className='cart-item-remove-icon'>
+                                                                        <div className='remove-icon-box d-flex justify-content-center'>
+                                                                            <span
+                                                                                className='remove-icon'
+                                                                                title='delete'
+                                                                                onClick={() => handleDeleteBookFromShoppingCart(item.id)}
+                                                                            >
+                                                                                <TiDelete />
+                                                                            </span>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            )
+                                                        })}
+                                                    </tbody>
+                                                </table>
+                                                <div className='d-flex justify-content-end'>
+                                                    <button className='btn btn-warning view-cart-btn me-4'>VIEW CART</button>
+                                                </div>
+                                            </>
+                                            :
+                                            <div className='d-flex justify-content-center'>
+                                                <span>Empty cart</span>
+                                            </div>
+                                        }
                                     </div>
                                 }
                             </div>

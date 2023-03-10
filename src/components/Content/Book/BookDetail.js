@@ -13,11 +13,20 @@ import { useEffect, useState } from 'react';
 import { TailSpin } from 'react-loader-spinner';
 import _ from 'lodash';
 
+import { useDispatch } from "react-redux";
+import { AddShoppingCart } from '../../../redux/action/actions';
+
 const BookDetail = (props) => {
+
+    const dispatch = useDispatch();
 
     let isAuthenticated = true;
     const { id } = useParams();
     const [data, setBookData] = useState({});
+
+    const handleAddBookToShoppingCart = (data) => {
+        dispatch(AddShoppingCart(data));
+    }
 
     const fetchBookDetail = async (book_id) => {
         let data = await getBookDetail(book_id);
@@ -154,7 +163,16 @@ const BookDetail = (props) => {
                                         <AiFillCheckCircle className='check-icon' /><span> {data?.status ? data.status.toUpperCase() : ''}</span>
                                     </div>
                                     <div className='add-to-cart-btn px-3'>
-                                        <button className='btn btn-warning d-flex align-items-center justify-content-center gap-2'>
+                                        <button
+                                            className='btn btn-warning d-flex align-items-center justify-content-center gap-2'
+                                            onClick={() => handleAddBookToShoppingCart({
+                                                id: data?.id,
+                                                title: data?.name,
+                                                price: data?.current_price,
+                                                image: data?.image,
+                                                amount: 1
+                                            })}
+                                        >
                                             <BsCart3 />BUY NOW
                                         </button>
                                     </div>
