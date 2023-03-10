@@ -8,14 +8,18 @@ import { HiOutlineMenuAlt2 } from 'react-icons/hi';
 import { SlArrowDown, SlArrowUp } from 'react-icons/sl';
 import { IoCallSharp } from 'react-icons/io5';
 import { RiWechatFill } from 'react-icons/ri';
+import { TiDelete } from 'react-icons/ti';
+
 import BookCategory from '../Content/BookCategory/BookCategory';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
+import Onepiece from '../../assets/image/Onepiece.png';
 
 const Header = () => {
 
     const [showBookCategory, setShowBookCategory] = useState(false);
     const [showDetailBookCategory, setShowDetailBookCategory] = useState(false);
+    const [showShoppingCart, setShowShoppingCart] = useState(false);
 
     const handleShowBookCategory = () => {
         setShowBookCategory(!showBookCategory);
@@ -73,12 +77,56 @@ const Header = () => {
                         </div>
                         <div className='col-3 d-none d-md-block d-md-flex justify-content-between'>
                             <div className='shoppingCart d-flex justify-content-end align-items-center position-relative'>
-                                <div className='cartBorder p-2'>
+                                <div className='cartBorder p-2' onClick={() => setShowShoppingCart(!showShoppingCart)}>
                                     <BsCart3 className='cart-icon' />
                                 </div>
-                                {/* <div className='book-cart red position-absolute mt-3 top-100 start-50 translate-middle'>
-                                    TEST
-                                </div> */}
+                                {showShoppingCart === true &&
+                                    <div className='book-cart position-absolute mt-1 start-50 top-100 translate-middle-x'>
+                                        <table className='table table-borderless'>
+                                            <tbody>
+                                                <tr className='book-item'>
+                                                    <td className='cart-item-image'>
+                                                        <img src={Onepiece} alt='' />
+                                                    </td>
+                                                    <td className='cart-item-content'>
+                                                        <div className='cart-item-title'>
+                                                            Cây Chuối Non Đi Giày Xanh (Bìa Mềm)
+                                                        </div>
+                                                        <div className='cart-item-price'>
+                                                            1 x <span className='current_price'>77.000 <span className='unit'>đ</span></span>
+                                                        </div>
+                                                    </td>
+                                                    <td className='cart-item-remove-icon'>
+                                                        <div className='remove-icon-box d-flex justify-content-center'>
+                                                            <span className='remove-icon' title='delete'><TiDelete /></span>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr className='book-item'>
+                                                    <td className='cart-item-image'>
+                                                        <img src={Onepiece} alt='' />
+                                                    </td>
+                                                    <td className='cart-item-content'>
+                                                        <div className='cart-item-title'>
+                                                            Cây Chuối Non Đi Giày Xanh (Bìa Mềm)
+                                                        </div>
+                                                        <div className='cart-item-price'>
+                                                            1 x <span className='current_price'>77.000 <span className='unit'>đ</span></span>
+                                                        </div>
+                                                    </td>
+                                                    <td className='cart-item-remove-icon'>
+                                                        <div className='remove-icon-box d-flex justify-content-center'>
+                                                            <span className='remove-icon' title='delete'><TiDelete /></span>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <div className='d-flex justify-content-end'>
+                                            <button className='btn btn-warning view-cart-btn me-4'>VIEW CART</button>
+                                        </div>
+                                    </div>
+                                }
                             </div>
                             <div className='login-logout ps-3 d-flex justify-content-center align-items-center'>
                                 <div className='login'>
