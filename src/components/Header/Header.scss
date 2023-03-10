@@ -104,14 +104,13 @@ $main-red-color  : #CA2027;
                     color    : $main-green-color;
                     font-size: 2rem;
                 }
-                
+
                 &:hover {
                     cursor: pointer;
                 }
             }
 
             .book-cart {
-                z-index       : 5;
                 padding-top   : 1.4rem;
                 padding-bottom: 0.8rem;
 
@@ -285,8 +284,9 @@ $main-red-color  : #CA2027;
 }
 
 .book-category-container {
-    left : 0;
-    right: 0;
+    left   : 0;
+    right  : 0;
+    z-index: 10;
 
     .book-category-section {
         padding: 0 4rem;

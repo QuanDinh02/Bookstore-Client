@@ -11,7 +11,7 @@ import { RiWechatFill } from 'react-icons/ri';
 import { TiDelete } from 'react-icons/ti';
 
 import BookCategory from '../Content/BookCategory/BookCategory';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import Onepiece from '../../assets/image/Onepiece.png';
 
