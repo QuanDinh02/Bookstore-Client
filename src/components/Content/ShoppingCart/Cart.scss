@@ -1,0 +1,94 @@
+$red-color        : #F03737;
+$main-red-color   : #CA2027;
+$main-green-color : #087B44;
+$cart-bg-color    : #F5F5F5;
+
+.shopping-cart-container {
+
+    .cart-title {
+        font-size  : 1.25rem;
+        font-weight: 600;
+        color      : $main-green-color;
+    }
+
+    .cart-detail-container {
+        min-height: calc(100vh - 17rem);
+
+        background-color: $cart-bg-color;
+        padding-bottom  : 5rem;
+
+        .cart-detail {
+            padding: 0 4rem;
+
+            .cart-main {
+                font-size: 0.875rem;
+
+                table {
+                    background-color: white;
+                    border-radius   : 0.25rem;
+
+                    .table-header,
+                    .product-info {
+                        width: 15%;
+                    }
+                }
+
+                .checkbox-all,
+                .checkbox-product {
+                    width: 40%;
+                }
+
+                .product-table {
+                    tr {
+                        height: 7.1875rem;
+
+                        .total-price {
+                            color: $main-red-color;
+                        }
+
+                        .remove-icon {
+                            font-size: 1.375rem;
+
+                            .icon {
+                                &:hover {
+                                    cursor: pointer;
+                                    color : $red-color;
+                                }
+                            }
+                        }
+                    }
+
+                    .quantity {
+                        input {
+                            font-size : 1.2rem;
+                            width     : 3.125rem;
+                            text-align: center;
+                            border    : 1px solid rgb(226, 226, 226);
+                        }
+
+                        button {
+                            font-size       : 1.2rem;
+                            background-color: white;
+                            padding         : 0.08rem 0.5rem;
+                            border          : 1px solid rgb(226, 226, 226);
+                        }
+                    }
+
+                    .product-info {
+                        .product-image {
+
+                            img {
+                                width : 100%;
+                                height: 100%;
+                            }
+                        }
+                    }
+                }
+
+                .checkbox-form {
+                    font-size: 1.125rem;
+                }
+            }
+        }
+    }
+}

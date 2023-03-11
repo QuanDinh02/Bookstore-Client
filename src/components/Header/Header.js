@@ -44,6 +44,16 @@ const Header = () => {
     const history = useHistory();
     const location = useLocation();
 
+    const handleViewBookDetail = (book_id) => {
+        history.push(`/book/${book_id}`);
+        window.scrollTo(0, 0);
+    }
+
+    const handleViewShoppingCart = () => {
+        history.push('/cart');
+        window.scrollTo(0, 0);
+    }
+
     useEffect(() => {
         if (location.pathname === '/') {
             setShowBookCategory(true);
@@ -110,7 +120,7 @@ const Header = () => {
                                                                         <img src={`data:image/jpeg;base64,${item.image}`} alt='' />
                                                                     </td>
                                                                     <td className='cart-item-content'>
-                                                                        <div className='cart-item-title'>
+                                                                        <div className='cart-item-title' onClick={() => handleViewBookDetail(item.id)}>
                                                                             {item.title}
                                                                         </div>
                                                                         <div className='cart-item-price'>
@@ -134,7 +144,7 @@ const Header = () => {
                                                     </tbody>
                                                 </table>
                                                 <div className='d-flex justify-content-end'>
-                                                    <button className='btn btn-warning view-cart-btn me-4'>VIEW CART</button>
+                                                    <button className='btn btn-warning view-cart-btn me-4' onClick={handleViewShoppingCart}>VIEW CART</button>
                                                 </div>
                                             </>
                                             :

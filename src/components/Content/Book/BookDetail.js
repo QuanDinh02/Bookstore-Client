@@ -23,6 +23,7 @@ const BookDetail = (props) => {
     let isAuthenticated = true;
     const { id } = useParams();
     const [data, setBookData] = useState({});
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleAddBookToShoppingCart = (data) => {
         dispatch(AddShoppingCart(data));
@@ -33,17 +34,19 @@ const BookDetail = (props) => {
         if (data && data.EC === 0) {
             setTimeout(() => {
                 setBookData(data.DT);
+                setIsLoading(false);
             }, 1000);
         }
     }
 
     useEffect(() => {
+        setIsLoading(true);
         fetchBookDetail(id);
-    }, []);
+    }, [id]);
 
     return (
         <>
-            {_.isEmpty(data) ?
+            {(_.isEmpty(data) || isLoading === true) ?
                 <TailSpin
                     height="80"
                     width="80"
