@@ -55,11 +55,14 @@ const Header = () => {
     }
 
     useEffect(() => {
+        setShowShoppingCart(false);
+        
         if (location.pathname === '/') {
             setShowBookCategory(true);
         } else {
             setShowBookCategory(false);
         }
+
     }, [location.pathname]);
 
     return (
@@ -124,7 +127,7 @@ const Header = () => {
                                                                             {item.title}
                                                                         </div>
                                                                         <div className='cart-item-price'>
-                                                                            {item.amount} x <span className='current_price'>{item.price} <span className='unit'>đ</span></span>
+                                                                            {item.amount} x <span className='current_price'>{item.current_price} <span className='unit'>đ</span></span>
                                                                         </div>
                                                                     </td>
                                                                     <td className='cart-item-remove-icon'>

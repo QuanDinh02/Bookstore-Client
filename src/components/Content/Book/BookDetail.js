@@ -171,7 +171,8 @@ const BookDetail = (props) => {
                                             onClick={() => handleAddBookToShoppingCart({
                                                 id: data?.id,
                                                 title: data?.name,
-                                                price: data?.current_price,
+                                                current_price: data?.current_price,
+                                                price: data?.price,
                                                 image: data?.image,
                                                 amount: 1
                                             })}

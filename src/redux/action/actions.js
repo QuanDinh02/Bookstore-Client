@@ -1,4 +1,8 @@
-import { INCREMENT, DECREMENT, ADD_BOOK_TO_SHOPPING_CART, DELETE_BOOK_FROM_SHOPPING_CART } from './type';
+import 
+{   INCREMENT, DECREMENT, 
+    ADD_BOOK_TO_SHOPPING_CART, DELETE_BOOK_FROM_SHOPPING_CART,
+    CHANGE_CART_ITEM_AMOUNT 
+} from './type';
 
 export const increaseCounter = () => {
     return {
@@ -24,6 +28,16 @@ export const DeleteShoppingCart = (book_id) => {
         type: DELETE_BOOK_FROM_SHOPPING_CART,
         payload: {
             bookId: book_id
+        }
+    };
+};
+
+export const ChangeCartItemAmount = (book_id, item_amount) => {
+    return {
+        type: CHANGE_CART_ITEM_AMOUNT,
+        payload: {
+            bookId: book_id,
+            itemAmount: item_amount
         }
     };
 };

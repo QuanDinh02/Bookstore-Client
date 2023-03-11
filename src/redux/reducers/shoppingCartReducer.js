@@ -1,4 +1,7 @@
-import { ADD_BOOK_TO_SHOPPING_CART, DELETE_BOOK_FROM_SHOPPING_CART } from '../action/type';
+import {
+    ADD_BOOK_TO_SHOPPING_CART, DELETE_BOOK_FROM_SHOPPING_CART,
+    CHANGE_CART_ITEM_AMOUNT
+} from '../action/type';
 
 
 const INITIAL_STATE = {
@@ -12,8 +15,6 @@ const shoppingCartReducer = (state = INITIAL_STATE, action) => {
 
         case ADD_BOOK_TO_SHOPPING_CART:
 
-            state.booksCount += 1;
-
             if (state.bookList.length > 0) {
                 let idx = state.bookList.findIndex(item => item.id === action?.payload?.id);
                 if (idx !== -1) {
@@ -23,32 +24,52 @@ const shoppingCartReducer = (state = INITIAL_STATE, action) => {
                     };
                 } else {
                     return {
-                        ...state, bookList: [...state.bookList, action?.payload]
+                        ...state, bookList: [...state.bookList, action?.payload], booksCount: state.booksCount + 1
                     };
                 }
             } else {
                 return {
-                    ...state, bookList: [...state.bookList, action?.payload]
+                    ...state, bookList: [...state.bookList, action?.payload], booksCount: state.booksCount + 1
                 };
             }
 
         case DELETE_BOOK_FROM_SHOPPING_CART:
 
             if (state.bookList.length > 0) {
-                
-                let deleteBook = state.bookList.find(item => item.id === action?.payload?.bookId);
-                state.booksCount -= deleteBook.amount;
 
                 let _bookList = state.bookList.filter(item => item.id !== action?.payload?.bookId);
 
                 return {
-                    ...state, bookList: [..._bookList]
+                    ...state, bookList: [..._bookList], booksCount: state.booksCount - 1
                 };
 
             } else {
                 return {
                     ...state
                 };
+            }
+
+        case CHANGE_CART_ITEM_AMOUNT:
+
+            if (action?.payload?.itemAmount === 0) {
+                let _bookList = state.bookList.filter(item => item.id !== action?.payload?.bookId);
+
+                return {
+                    ...state, bookList: [..._bookList], booksCount: state.booksCount - 1
+                };
+
+            } else {
+                let _bookList = state.bookList.map((item) => {
+                    if (item.id === action?.payload?.bookId) {
+                        item.amount = action?.payload?.itemAmount;
+                    }
+                    return item;
+                })
+
+                return {
+                    ...state, bookList: [..._bookList]
+                };
+
             }
 
         default: return state;
