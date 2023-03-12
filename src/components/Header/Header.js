@@ -120,7 +120,7 @@ const Header = () => {
                                                             return (
                                                                 <tr key={`book-cart-item-${item.id}`} className='book-item'>
                                                                     <td className='cart-item-image'>
-                                                                        <img src={`data:image/jpeg;base64,${item.image}`} alt='' />
+                                                                        <img src={`data:image/jpeg;base64,${item.image}`} alt='' onClick={() => handleViewBookDetail(item.id)}/>
                                                                     </td>
                                                                     <td className='cart-item-content'>
                                                                         <div className='cart-item-title' onClick={() => handleViewBookDetail(item.id)}>

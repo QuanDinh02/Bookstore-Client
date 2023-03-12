@@ -1,5 +1,5 @@
 import './Cart.scss';
-import { IoTrash } from 'react-icons/io5';
+import { IoTrashOutline } from 'react-icons/io5';
 
 import { useDispatch, useSelector } from "react-redux";
 import { ChangeCartItemAmount, DeleteShoppingCart } from '../../../redux/action/actions';
@@ -8,6 +8,7 @@ const Cart = () => {
 
     const dispatch = useDispatch();
     const bookList = useSelector(state => state.shoppingCart.bookList);
+    const booksCount = useSelector(state => state.shoppingCart.booksCount);
 
     const handleChangeItemAmount = (book_id, amount) => {
         if (isNaN(amount) || +amount <= 0) {
@@ -22,8 +23,8 @@ const Cart = () => {
                 Shopping Cart
             </div>
             <div className='cart-detail-container pt-4'>
-                <div className='cart-detail container'>
-                    <div className='cart-main'>
+                <div className='cart-detail container d-flex flex-column flex-lg-row gap-3 justify-content-lg-between'>
+                    <div className='cart-main col-12 col-lg-9 col-xl-8'>
                         <table class="table table-borderless">
                             <tbody className=''>
                                 <tr className='d-flex'>
@@ -89,7 +90,7 @@ const Cart = () => {
                                                 </td>
                                                 <td className='product-info d-flex align-items-center justify-content-center remove-icon'>
                                                     <span title='delete'>
-                                                        <IoTrash className='icon' onClick={()=>dispatch(DeleteShoppingCart(item.id))}/>
+                                                        <IoTrashOutline className='icon' onClick={() => dispatch(DeleteShoppingCart(item.id))} />
                                                     </span>
                                                 </td>
                                             </tr>
@@ -98,6 +99,63 @@ const Cart = () => {
                                 }
                             </tbody>
                         </table>
+                        <table class="table table-borderless">
+                            <tbody className=''>
+                                <tr className='d-flex'>
+                                    <td className='checkbox-all d-flex'>
+                                        <div class="form-check d-flex h-100 align-items-center">
+                                            <input class="form-check-input ms-lg-3 me-lg-4 checkbox-form" type="checkbox" value="" />
+                                        </div>
+                                        <div className='d-flex align-items-center'>
+                                            <span>SELECT ALL ({booksCount})</span>
+                                        </div>
+                                    </td>
+                                    <td className='table-header-x4 d-flex align-items-center justify-content-end'>
+                                        <span className='remove-all-icon'><IoTrashOutline className='icon' />&nbsp;DELETE</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div className='cart-payment col-12 col-lg-3 col-xl-4'>
+                        <div className='summary'>
+                            <span>Order Summary</span>
+                        </div>
+                        <div className='subtotal d-flex justify-content-between mt-3 title-color'>
+                            <div className='subtotal-title'>
+                                Subtotal (1 items)
+                            </div>
+                            <div className='value'>
+                                <span>17,000</span>&nbsp;<span className='unit'>đ</span>
+                            </div>
+                        </div>
+                        <div className='product-discount d-flex justify-content-between mt-3 title-color'>
+                            <div className='product-title'>
+                                Product Discount
+                            </div>
+                            <div className='value'>
+                                -<span>2,000</span>&nbsp;<span className='unit'>đ</span>
+                            </div>
+                        </div>
+                        <div className='saved d-flex justify-content-between mt-3 title-color'>
+                            <div className='saved-title'>
+                                Saved
+                            </div>
+                            <div className='value'>
+                                -<span>2,000</span>&nbsp;<span className='unit'>đ</span>
+                            </div>
+                        </div>
+                        <div className='total-amount d-flex justify-content-between mt-3'>
+                            <div className='total-amount-title'>
+                                Total Amount
+                            </div>
+                            <div className='value'>
+                                <span>15,000</span>&nbsp;<span className='unit'>đ</span>
+                            </div>
+                        </div>
+                        <div className='confirm-cart mt-3'>
+                            <button className='btn btn-success'>CONFIRM CART(1)</button>
+                        </div>
                     </div>
                 </div>
             </div>

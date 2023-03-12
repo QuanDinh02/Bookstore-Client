@@ -3,7 +3,12 @@ import { getHighlightBook } from '../../../Services/apiServices';
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
+import { useDispatch } from "react-redux";
+import { AddShoppingCart } from '../../../../redux/action/actions';
+
 const HighlightBook = (props) => {
+
+    const dispatch = useDispatch();
 
     const { book_title, backgroud_color, book_id } = props;
     const history = useHistory();
@@ -18,6 +23,10 @@ const HighlightBook = (props) => {
         image: ''
     });
 
+    const handleAddBookToShoppingCart = (data) => {
+        dispatch(AddShoppingCart(data));
+    }
+
     const fetchHighlightBook = async (id) => {
         let result = await getHighlightBook(+id);
         if (result && result.EC === 0) {
@@ -28,7 +37,7 @@ const HighlightBook = (props) => {
                 description: result.DT.description,
                 price: result.DT.price,
                 current_price: result.DT.current_price,
-                image: `data:image/jpeg;base64,${result.DT.image}`
+                image: result.DT.image
             });
         }
     }
@@ -49,7 +58,7 @@ const HighlightBook = (props) => {
             </div>
             <div className={`book-content d-flex flex-column flex-lg-row align-items-center align-items-lg-start justify-content-between ${backgroud_color}`}>
                 <div className='book-image col-9 col-md-6 col-lg-3 mb-4'>
-                    <img src={bookData.image} alt='' title={`${bookData.name}`} onClick={() => handleSeeBookDetail(book_id)} />
+                    <img src={`data:image/jpeg;base64,${bookData.image}`} alt='' title={`${bookData.name}`} onClick={() => handleSeeBookDetail(book_id)} />
                 </div>
                 <div className='content col-12 col-lg-8'>
                     <div className={`title ${backgroud_color}`}>
@@ -77,7 +86,17 @@ const HighlightBook = (props) => {
                             <div className='price'>{bookData.current_price} <span className='unit'>đ</span></div>
                         </div>
 
-                        <div className='right mt-2 col-12 col-md-3 d-md-flex justify-content-md-center'>
+                        <div
+                            className='right mt-2 col-12 col-md-3 d-md-flex justify-content-md-center'
+                            onClick={() => handleAddBookToShoppingCart({
+                                id: bookData.id,
+                                title: bookData.name,
+                                current_price: bookData.current_price,
+                                price: bookData.price,
+                                image: bookData.image,
+                                amount: 1
+                            })}
+                        >
                             <span>Buy Now</span>
                         </div>
                     </div>

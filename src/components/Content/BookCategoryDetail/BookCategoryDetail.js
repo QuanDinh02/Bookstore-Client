@@ -13,10 +13,15 @@ import {
     getABookCategoryGroup, getBooksByCategoryGroup, getBooksByBookCategory
 } from '../../Services/apiServices';
 
+import { useDispatch } from "react-redux";
+import { AddShoppingCart } from '../../../redux/action/actions';
+
 import { TailSpin } from 'react-loader-spinner';
 import _ from 'lodash';
 
 const BookCategoryDetail = () => {
+
+    const dispatch = useDispatch();
 
     const { id } = useParams();
     const [multiColumn, setMultiColumn] = useState(true);
@@ -58,10 +63,10 @@ const BookCategoryDetail = () => {
     const fetchABookGroup = async (group_id) => {
         let result = await getABookCategoryGroup(group_id);
         if (result && result.EC === 0) {
-            if(result.DT) {
-                setTimeout(()=>{ 
+            if (result.DT) {
+                setTimeout(() => {
                     setBookCategoryGroup(result.DT);
-                },1000);
+                }, 1000);
             }
         }
     }
@@ -69,15 +74,15 @@ const BookCategoryDetail = () => {
     const fetchBooksByGroup = async (group_id) => {
         let result = await getBooksByCategoryGroup(group_id);
         if (result && result.EC === 0) {
-            if(result.DT) {
-                setTimeout(()=>{ 
+            if (result.DT) {
+                setTimeout(() => {
                     setCheckEmptyData(false);
                     setBooksData(result.DT);
-                },1000);
+                }, 1000);
             } else {
-                setTimeout(()=>{ 
+                setTimeout(() => {
                     setCheckEmptyData(false);
-                },1000);
+                }, 1000);
             }
         }
     }
@@ -85,15 +90,15 @@ const BookCategoryDetail = () => {
     const handleSelectSubBookCategory = async (book_category_id) => {
         let result = await getBooksByBookCategory(book_category_id)
         if (result && result.EC === 0) {
-            if(result.DT) {
-                setTimeout(()=>{ 
+            if (result.DT) {
+                setTimeout(() => {
                     setCheckEmptyData(false);
                     setBooksData(result.DT);
-                },1000);
+                }, 1000);
             } else {
-                setTimeout(()=>{ 
+                setTimeout(() => {
                     setCheckEmptyData(false);
-                },1000);
+                }, 1000);
             }
         }
     }
@@ -101,6 +106,10 @@ const BookCategoryDetail = () => {
     const handleSeeBookDetail = (book_id) => {
         history.push(`/book/${book_id}`);
         window.scrollTo(0, 0);
+    }
+
+    const handleAddBookToShoppingCart = (data) => {
+        dispatch(AddShoppingCart(data));
     }
 
     useEffect(() => {
@@ -271,7 +280,17 @@ const BookCategoryDetail = () => {
                                                                         </div>
 
                                                                         <div className='add-to-cart-btn'>
-                                                                            <button className='btn btn-warning d-flex align-items-center gap-2'>
+                                                                            <button
+                                                                                className='btn btn-warning d-flex align-items-center gap-2'
+                                                                                onClick={() => handleAddBookToShoppingCart({
+                                                                                    id: item.id,
+                                                                                    title: item.name,
+                                                                                    current_price: item.current_price,
+                                                                                    price: item.price,
+                                                                                    image: item.image,
+                                                                                    amount: 1
+                                                                                })}
+                                                                            >
                                                                                 <BsCart3 />BUY NOW
                                                                             </button>
                                                                         </div>

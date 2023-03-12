@@ -31,6 +31,23 @@ $cart-bg-color    : #F5F5F5;
                     .product-info {
                         width: 15%;
                     }
+
+                    .table-header-x4 {
+                        width: 60%;
+
+                        .remove-all-icon {
+                            .icon {
+                                font-size: 1.2rem;
+
+                            }
+
+                            &:hover {
+                                cursor: pointer;
+                                color : $red-color;
+                            }
+                        }
+
+                    }
                 }
 
                 .checkbox-all,
@@ -87,6 +104,49 @@ $cart-bg-color    : #F5F5F5;
 
                 .checkbox-form {
                     font-size: 1.125rem;
+                }
+            }
+
+            .cart-payment {
+                height          : fit-content;
+                background-color: white;
+
+                padding  : 1rem 0.8rem;
+                font-size: 0.875rem;
+
+                .summary {
+                    font-size: 1.2rem;
+                }
+
+                .title-color {
+                    color: rgb(96, 96, 96);
+                }
+
+                .value {
+                    font-size: 1rem;
+
+                    .unit {
+                        text-decoration: underline;
+                    }
+                }
+
+                .saved {
+                    .value {
+                        color: $red-color;
+                    }
+                }
+
+                .total-amount {
+                    .value {
+                        font-size: 1.125rem;
+                        color    : $main-green-color;
+                    }
+                }
+
+                .confirm-cart {
+                    button {
+                        width: 100%;
+                    }
                 }
             }
         }

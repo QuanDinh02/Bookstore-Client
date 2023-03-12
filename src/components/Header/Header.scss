@@ -38,6 +38,7 @@ $main-red-color  : #CA2027;
     width           : 100%;
     min-height      : 5rem;
     background-color: white;
+    z-index         : 1022 !important;
 
     .content {
         padding: 0 3.5rem;
@@ -114,7 +115,7 @@ $main-red-color  : #CA2027;
                 padding-top   : 1.4rem;
                 padding-bottom: 0.8rem;
 
-                width     : 25rem;
+                width: 25rem;
 
                 background-color          : white;
                 border-bottom-left-radius : 0.32rem;
@@ -177,7 +178,7 @@ $main-red-color  : #CA2027;
                         width    : 20%;
                         font-size: 32px;
 
-                        color: $main-green-color;
+                        color: white;
 
                         .remove-icon-box {
                             margin-top   : 1rem;
@@ -189,6 +190,12 @@ $main-red-color  : #CA2027;
                                 }
                             }
 
+                        } 
+                    }
+
+                    &:hover {
+                        .cart-item-remove-icon {
+                            color: $main-green-color;
                         }
                     }
 
@@ -285,7 +292,7 @@ $main-red-color  : #CA2027;
 .book-category-container {
     left   : 0;
     right  : 0;
-    z-index: 10;
+    z-index: 1021 !important;
 
     .book-category-section {
         padding: 0 4rem;
