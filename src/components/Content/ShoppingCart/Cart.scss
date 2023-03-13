@@ -105,6 +105,11 @@ $cart-bg-color    : #F5F5F5;
                 .checkbox-form {
                     font-size: 1.125rem;
                 }
+
+                .select-all-section {
+                    position: sticky;
+                    bottom  : 0;
+                }
             }
 
             .cart-payment {

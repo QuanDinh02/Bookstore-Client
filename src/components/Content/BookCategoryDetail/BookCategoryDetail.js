@@ -172,7 +172,7 @@ const BookCategoryDetail = () => {
                                     data={bookCategoryGroup}
                                 />
                             </div>
-                            <div className='main col-12 col-md-9 '>
+                            <div className='book-category-detail-main col-12 col-md-9 '>
                                 <div className='book-category-title' >
                                     {location.state.book_category_id !== -1 ?
                                         location.state.book_category_name

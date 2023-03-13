@@ -2,7 +2,14 @@ import './Cart.scss';
 import { IoTrashOutline } from 'react-icons/io5';
 
 import { useDispatch, useSelector } from "react-redux";
-import { ChangeCartItemAmount, DeleteShoppingCart } from '../../../redux/action/actions';
+
+import {
+    ChangeCartItemAmount, DeleteShoppingCart,
+    DeleteAllInShoppingCart, DeleteManyCartItems
+} from '../../../redux/action/actions';
+
+import { useImmer } from 'use-immer';
+import { useEffect, useState } from 'react';
 
 const Cart = () => {
 
@@ -10,12 +17,141 @@ const Cart = () => {
     const bookList = useSelector(state => state.shoppingCart.bookList);
     const booksCount = useSelector(state => state.shoppingCart.booksCount);
 
+    const [cartItems, setCartItems] = useImmer([]);
+    const [checkAllCartItems, setCheckAllCartItems] = useState(false);
+    const [cartItemsAmount, setCartItemsAmount] = useState(0);
+    const [subTotal, setSubTotal] = useState(0);
+    const [discountTotal, setDiscountTotal] = useState(0);
+    const [total, setTotal] = useState(0);
+
     const handleChangeItemAmount = (book_id, amount) => {
         if (isNaN(amount) || +amount <= 0) {
             return;
         }
         dispatch(ChangeCartItemAmount(book_id, +amount));
+        setCartItems(draft => {
+            draft = draft.map(item => {
+                if(item.id === book_id) {
+                    item.amount = +amount;
+                }
+                return item;
+            })
+        })
     }
+
+    const handleCheckCartItem = (book_id, checked) => {
+        setCartItems(draft => {
+            draft = draft.map(item => {
+                if (item.id === book_id) {
+                    item.isChecked = checked;
+                }
+                return item;
+            })
+        })
+    }
+
+    const handleCheckAllCartItem = (event) => {
+        setCheckAllCartItems(event.target.checked);
+        setCartItems(draft => {
+            draft = draft.map(item => {
+                item.isChecked = event.target.checked;
+                return item;
+            })
+        })
+        if (event.target.checked) {
+            setCartItemsAmount(cartItems.length);
+        } else {
+            setCartItemsAmount(0);
+        }
+    }
+
+    const handleDeleteCartItem = (book_id) => {
+        dispatch(DeleteShoppingCart(book_id));
+    }
+
+    const handleDeleteManyCartItems = () => {
+        if (checkAllCartItems && cartItems && cartItems.length > 0) {
+            dispatch(DeleteAllInShoppingCart());
+        }
+        else {
+            if (cartItems && cartItems.length > 0) {
+                let rmCartItems = [];
+                cartItems.forEach(item => {
+                    if (item.isChecked === true) {
+                        rmCartItems.push(item.id);
+                    }
+                })
+                dispatch(DeleteManyCartItems(rmCartItems));
+            }
+        }
+
+    }
+
+    useEffect(() => {
+        if (cartItems && cartItems.length > 0) {
+
+            let check = cartItems.every(item => item.isChecked === true);
+
+            let _subTotal = 0;
+            let countsCheckItems = 0;
+            let _discountTotal = 0;
+            let _total = 0;
+
+            cartItems.forEach(item => {
+                if (item.isChecked === true) {
+                    _subTotal += item.price * item.amount;
+                    countsCheckItems += 1;
+                    _discountTotal += (item.price - item.current_price) * item.amount;
+                    _total += item.current_price * item.amount;
+                }
+            });
+
+            setSubTotal(_subTotal);
+            setCartItemsAmount(countsCheckItems);
+            setDiscountTotal(_discountTotal);
+            setTotal(_total);
+
+            if (check) {
+                if (!checkAllCartItems) {
+                    setCheckAllCartItems(true);
+                }
+            } else {
+                if (checkAllCartItems) {
+                    setCheckAllCartItems(false);
+                }
+            }
+        }
+    }, [cartItems]);
+
+    useEffect(() => {
+        if (bookList && bookList.length > 0 && cartItems.length === 0) {
+            let _bookList = bookList.map(item => {
+                let _item = { ...item, isChecked: false }
+                return _item;
+            })
+            setCartItems(_bookList);
+        }
+
+    }, []);
+
+    useEffect(() => {
+
+        if (booksCount === 0) {
+            setCartItems([]);
+            setCheckAllCartItems(false);
+            setCartItemsAmount(0);
+            setSubTotal(0);
+            setDiscountTotal(0);
+            setTotal(0);
+        }
+
+        if (cartItems && cartItems.length > 0 && bookList.length > 0 && bookList.length !== cartItems.length) {
+            let CartItems = bookList.map(item => item.id);
+            let _draft = cartItems.filter(item => CartItems.includes(item.id));
+            setCartItems(_draft);
+        }
+
+    }, [bookList]);
 
     return (
         <div className='shopping-cart-container'>
@@ -24,13 +160,18 @@ const Cart = () => {
             </div>
             <div className='cart-detail-container pt-4'>
                 <div className='cart-detail container d-flex flex-column flex-lg-row gap-3 justify-content-lg-between'>
-                    <div className='cart-main col-12 col-lg-9 col-xl-8'>
-                        <table class="table table-borderless">
+                    <div className='cart-main col-12 col-lg-9 col-xl-8 position-relative'>
+                        <table class="table table-borderless" key={'checkbox-all-1'}>
                             <tbody className=''>
                                 <tr className='d-flex'>
                                     <td className='checkbox-all d-flex'>
                                         <div class="form-check d-flex h-100 align-items-center">
-                                            <input class="form-check-input ms-lg-3 me-lg-4 checkbox-form" type="checkbox" value="" />
+                                            <input
+                                                class="form-check-input ms-lg-3 me-lg-4 checkbox-form"
+                                                type="checkbox"
+                                                checked={checkAllCartItems}
+                                                onChange={(event) => handleCheckAllCartItem(event)}
+                                            />
                                         </div>
                                         <div className='d-flex align-items-center'>
                                             <span>Product</span>
@@ -46,13 +187,18 @@ const Cart = () => {
                         <table class="table product-table">
                             <tbody className=''>
                                 {
-                                    bookList && bookList.length > 0 &&
-                                    bookList.map((item, index) => {
+                                    cartItems && cartItems.length > 0 &&
+                                    cartItems.map((item, index) => {
                                         return (
                                             <tr key={`book-cart-${item.id}`} className='d-flex'>
                                                 <td className='checkbox-product d-flex'>
                                                     <div class="form-check d-flex h-100 align-items-center">
-                                                        <input class="form-check-input ms-lg-3 me-lg-4 checkbox-form" type="checkbox" value="" />
+                                                        <input
+                                                            class="form-check-input ms-lg-3 me-lg-4 checkbox-form"
+                                                            type="checkbox"
+                                                            checked={item.isChecked}
+                                                            onChange={(event) => handleCheckCartItem(item.id, event.target.checked)}
+                                                        />
                                                     </div>
                                                     <div className='product-info d-flex h-100 w-100'>
                                                         <div className='product-image'>
@@ -90,7 +236,7 @@ const Cart = () => {
                                                 </td>
                                                 <td className='product-info d-flex align-items-center justify-content-center remove-icon'>
                                                     <span title='delete'>
-                                                        <IoTrashOutline className='icon' onClick={() => dispatch(DeleteShoppingCart(item.id))} />
+                                                        <IoTrashOutline className='icon' onClick={() => handleDeleteCartItem(item.id)} />
                                                     </span>
                                                 </td>
                                             </tr>
@@ -99,19 +245,24 @@ const Cart = () => {
                                 }
                             </tbody>
                         </table>
-                        <table class="table table-borderless">
+                        <table class="table table-borderless select-all-section" key={'checkbox-all-2'}>
                             <tbody className=''>
                                 <tr className='d-flex'>
                                     <td className='checkbox-all d-flex'>
                                         <div class="form-check d-flex h-100 align-items-center">
-                                            <input class="form-check-input ms-lg-3 me-lg-4 checkbox-form" type="checkbox" value="" />
+                                            <input
+                                                class="form-check-input ms-lg-3 me-lg-4 checkbox-form"
+                                                type="checkbox"
+                                                checked={checkAllCartItems}
+                                                onChange={(event) => handleCheckAllCartItem(event)}
+                                            />
                                         </div>
                                         <div className='d-flex align-items-center'>
                                             <span>SELECT ALL ({booksCount})</span>
                                         </div>
                                     </td>
                                     <td className='table-header-x4 d-flex align-items-center justify-content-end'>
-                                        <span className='remove-all-icon'><IoTrashOutline className='icon' />&nbsp;DELETE</span>
+                                        <span className='remove-all-icon' onClick={handleDeleteManyCartItems}><IoTrashOutline className='icon' />&nbsp;DELETE</span>
                                     </td>
                                 </tr>
                             </tbody>
@@ -123,10 +274,10 @@ const Cart = () => {
                         </div>
                         <div className='subtotal d-flex justify-content-between mt-3 title-color'>
                             <div className='subtotal-title'>
-                                Subtotal (1 items)
+                                Subtotal ({cartItemsAmount} items)
                             </div>
                             <div className='value'>
-                                <span>17,000</span>&nbsp;<span className='unit'>đ</span>
+                                <span>{subTotal}</span>&nbsp;<span className='unit'>đ</span>
                             </div>
                         </div>
                         <div className='product-discount d-flex justify-content-between mt-3 title-color'>
@@ -134,7 +285,7 @@ const Cart = () => {
                                 Product Discount
                             </div>
                             <div className='value'>
-                                -<span>2,000</span>&nbsp;<span className='unit'>đ</span>
+                                -<span>{discountTotal}</span>&nbsp;<span className='unit'>đ</span>
                             </div>
                         </div>
                         <div className='saved d-flex justify-content-between mt-3 title-color'>
@@ -142,7 +293,7 @@ const Cart = () => {
                                 Saved
                             </div>
                             <div className='value'>
-                                -<span>2,000</span>&nbsp;<span className='unit'>đ</span>
+                                -<span>{discountTotal}</span>&nbsp;<span className='unit'>đ</span>
                             </div>
                         </div>
                         <div className='total-amount d-flex justify-content-between mt-3'>
@@ -150,11 +301,11 @@ const Cart = () => {
                                 Total Amount
                             </div>
                             <div className='value'>
-                                <span>15,000</span>&nbsp;<span className='unit'>đ</span>
+                                <span>{total}</span>&nbsp;<span className='unit'>đ</span>
                             </div>
                         </div>
                         <div className='confirm-cart mt-3'>
-                            <button className='btn btn-success'>CONFIRM CART(1)</button>
+                            <button className='btn btn-success'>CONFIRM CART({cartItemsAmount})</button>
                         </div>
                     </div>
                 </div>
