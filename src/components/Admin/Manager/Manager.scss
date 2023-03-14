@@ -1,0 +1,29 @@
+.manager-container {
+    height: 100vh;
+
+    .manager-sidebar {
+        overflow: auto;
+    }
+
+    .manager-content {
+        flex-grow: 1;
+        .sidebar-icon {
+            font-size: 25px;
+            &:hover {
+                cursor: pointer;
+            }
+        }
+    }
+}
+
+.red {
+    border: 1px solid red;
+}
+
+.blue {
+    border: 1px solid blue;
+}
+
+.green {
+    border: 1px solid green;
+}

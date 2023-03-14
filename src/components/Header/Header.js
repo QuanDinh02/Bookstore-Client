@@ -18,8 +18,9 @@ import BookCategory from '../Content/BookCategory/BookCategory';
 import { useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 
-const Header = () => {
+const Header = (props) => {
 
+    const {setShow} = props;
     const dispatch = useDispatch();
 
     const bookList = useSelector(state => state.shoppingCart.bookList);
@@ -62,7 +63,14 @@ const Header = () => {
         } else {
             setShowBookCategory(false);
         }
+    }, [location.pathname]);
 
+    useEffect(() => {
+        if (location.pathname.includes('/admin')) {
+            setShow(false);
+        } else {
+            setShow(true);
+        }
     }, [location.pathname]);
 
     return (
