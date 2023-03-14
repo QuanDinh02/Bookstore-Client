@@ -15,7 +15,7 @@ const AdminRoutes = () => {
             <Route path={path} exact>
                 <AdminHomepage />
             </Route>
-            <Route path={`${path}/manager`} exact>
+            <Route path={`${path}/manager`}>
                 <Manager/>
             </Route>
         </Switch>

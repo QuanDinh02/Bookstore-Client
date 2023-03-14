@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { RiHome4Line, RiBook2Line } from "react-icons/ri";
 import { IoStorefrontOutline } from "react-icons/io5";
@@ -19,6 +19,7 @@ import {
 } from "react-pro-sidebar";
 
 import './SideBars.scss';
+import { useHistory, useRouteMatch } from "react-router-dom";
 
 const themes = {
     light: {
@@ -68,6 +69,12 @@ const hexToRgba = (hex, alpha) => {
 const Sidebars = (props) => {
 
     const [theme, setTheme] = useState('light');
+    const history = useHistory();
+    const { url } = useRouteMatch();
+
+    const handleAccesRoute = (route) => {
+        history.push(`${url}${route}`);
+    }
 
     const menuItemStyles = {
         root: {
@@ -118,23 +125,23 @@ const Sidebars = (props) => {
                 </div>
                 <hr />
                 <Menu menuItemStyles={menuItemStyles}>
-                    <MenuItem icon={<RiHome4Line />}>Dashboard</MenuItem>
+                    <MenuItem icon={<RiHome4Line />} onClick={()=> handleAccesRoute('')}>Dashboard</MenuItem>
                     <SubMenu defaultOpen label={"Store"} icon={<IoStorefrontOutline />}>
-                        <MenuItem icon={<BiCategoryAlt />}>Books Category</MenuItem>
-                        <MenuItem icon={<BsFileEarmarkPerson />}>Authors</MenuItem>
-                        <MenuItem icon={<RiBook2Line />}>Books</MenuItem>
-                        <MenuItem icon={<MdOutlineHomeWork />}>Publishers</MenuItem>
+                        <MenuItem icon={<BiCategoryAlt />} onClick={()=> handleAccesRoute('/book-category')}>Books Category</MenuItem>
+                        <MenuItem icon={<BsFileEarmarkPerson />} onClick={()=> handleAccesRoute('/book-author')}>Authors</MenuItem>
+                        <MenuItem icon={<RiBook2Line />} onClick={()=> handleAccesRoute('/books')}>Books</MenuItem>
+                        <MenuItem icon={<MdOutlineHomeWork />} onClick={()=> handleAccesRoute('/book-publisher')}>Publishers</MenuItem>
                     </SubMenu>
                     <SubMenu defaultOpen label={"User"} icon={<RxPerson />}>
-                        <MenuItem icon={<CgUserList />}>User List</MenuItem>
-                        <MenuItem icon={<CgUserAdd />}>User Add</MenuItem>
+                        <MenuItem icon={<CgUserList />} onClick={()=> handleAccesRoute('/user-list')}>User List</MenuItem>
+                        <MenuItem icon={<CgUserAdd />} onClick={()=> handleAccesRoute('/user-add-new')}>User Add</MenuItem>
                     </SubMenu>
                     <SubMenu defaultOpen label={"Order"} icon={<GoPackage />}>
-                        <MenuItem icon={<RiListCheck2 />}>Order List</MenuItem>
+                        <MenuItem icon={<RiListCheck2 />} onClick={()=> handleAccesRoute('/order')}>Order List</MenuItem>
                     </SubMenu>
                     <SubMenu defaultOpen label={"Access"} icon={<MdSecurity />}>
-                        <MenuItem icon={<MdChecklistRtl />}>Access Links</MenuItem>
-                        <MenuItem icon={<RxPerson />}>User Group</MenuItem>
+                        <MenuItem icon={<MdChecklistRtl />} onClick={()=> handleAccesRoute('/access')}>Access Links</MenuItem>
+                        <MenuItem icon={<RxPerson />} onClick={()=> handleAccesRoute('/user-group')}>User Group</MenuItem>
                     </SubMenu>
                 </Menu>
             </Sidebar>
