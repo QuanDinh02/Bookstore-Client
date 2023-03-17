@@ -1,10 +1,207 @@
+$main-green-color: #06603A;
+$green-color-1   : #19ae70;
+$green-color-2   : rgb(214, 247, 211);
+$white-color     : white;
+$gray-color-1    : #555953;
+
 .admin-header-container {
     .sidebar-collapsed-icon {
         .sidebar-icon {
-            font-size: 25px;
+            font-size: 1.5625rem;
 
             &:hover {
                 cursor: pointer;
+            }
+        }
+    }
+
+    .admin-main {
+        .admin-left-content {
+            .section {
+                font-weight: 600;
+                font-size  : 1.25rem;
+            }
+
+            .breadcrumb-section {
+                .breadcrumb-item {
+                    a {
+                        text-decoration: none;
+                        font-size      : 0.9rem;
+                        color          : $gray-color-1;
+                    }
+                }
+            }
+        }
+
+        .admin-right-content {
+            .mail {
+                &:hover {
+                    .mail-box {
+                        visibility: visible;
+                        opacity   : 1;
+                    }
+                }
+
+                .mail-icon {
+                    font-size: 1.35rem;
+
+                    &:hover {
+                        cursor: pointer;
+                    }
+
+                    &:active {
+                        .mail-box {
+                            visibility: visible;
+                            opacity   : 1;
+                        }
+                    }
+                }
+
+                .mail-box {
+                    background-color       : $white-color;
+                    width                  : 18.75rem;
+                    border-top-right-radius: 0.3125rem;
+                    border-top-left-radius : 0.3125rem;
+                    box-shadow             : 0px 0px 20px 0px rgba(44, 101, 144, 0.1);
+                    visibility             : hidden;
+                    transition             : opacity 200ms, visibility 200ms;
+                    opacity                : 0;
+
+                    .mail-header {
+                        border-top-right-radius: 0.3125rem;
+                        border-top-left-radius : 0.3125rem;
+                        background-color       : $green-color-1;
+                        color                  : $white-color;
+                        font-size              : 1.25rem;
+
+
+                        .message-amount {
+                            font-size       : 1rem;
+                            font-weight     : 600;
+                            padding         : 0.125rem 0.5rem;
+                            background-color: $white-color;
+                            color           : $main-green-color;
+                            border-radius   : 0.3125rem;
+                        }
+                    }
+
+                    .mail-main {
+                        max-height: 300px;
+                        overflow-y: auto;
+
+                        .mail-message {
+                            .user-mail-image {
+                                width : 2.5rem;
+                                height: 2.5rem;
+
+                                img {
+                                    width : 100%;
+                                    height: 100%;
+
+                                    border-radius: 0.35rem;
+                                }
+                            }
+
+                            .mail-content {
+                                .mail-username {
+                                    font-weight: 600;
+                                }
+
+                                .mail-time {
+                                    font-size: 0.9rem;
+                                }
+                            }
+
+                            &:hover {
+                                cursor          : pointer;
+                                background-color: $green-color-2;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .profile {
+                .image {
+                    width : 3.125rem;
+                    height: 3.125rem;
+
+                    img {
+                        width : 100%;
+                        height: 100%;
+
+                        border-radius: 50%;
+                    }
+                }
+
+                .account-info {
+                    .account-name {
+                        font-size  : 1.125rem;
+                        font-weight: 600;
+                    }
+
+                    .account-role {
+                        font-size: 0.9rem;
+                    }
+                }
+
+                .settings-box {
+                    background-color       : $white-color;
+                    width                  : 18.75rem;
+                    border-top-right-radius: 0.3125rem;
+                    border-top-left-radius : 0.3125rem;
+                    box-shadow             : 0px 0px 20px 0px rgba(44, 101, 144, 0.1);
+                    visibility             : hidden;
+                    transition             : opacity 200ms, visibility 200ms;
+                    opacity                : 0;
+
+                    .account-name {
+                        border-top-right-radius: 0.3125rem;
+                        border-top-left-radius : 0.3125rem;
+                        background-color       : $green-color-1;
+                        color                  : $white-color;
+                        font-size              : 1.25rem;
+                    }
+
+                    .settings {
+
+                        .setting-item {
+                            .setting-icon {
+                                width: 12%;
+                                color: $green-color-1;
+
+                                .icon {
+                                    width : 100%;
+                                    height: 100%;
+                                }
+                            }
+
+                            .item-content {
+                                .item-title {
+                                    font-weight: 600;
+                                }
+
+                                .item-description {
+                                    font-size: 0.8rem;
+                                }
+                            }
+
+                            &:hover {
+                                cursor          : pointer;
+                                background-color: $green-color-2;
+                            }
+                        }
+                    }
+                }
+
+                &:hover {
+                    cursor: pointer;
+
+                    .settings-box {
+                        visibility: visible;
+                        opacity   : 1;
+                    }
+                }
             }
         }
     }
