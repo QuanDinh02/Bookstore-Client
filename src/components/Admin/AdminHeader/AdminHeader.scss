@@ -1,10 +1,15 @@
 $main-green-color: #06603A;
 $green-color-1   : #19ae70;
 $green-color-2   : rgb(214, 247, 211);
+$green-color-3   : #159862;
 $white-color     : white;
 $gray-color-1    : #555953;
+$gray-color-2    : #cfcfcf;
 
 .admin-header-container {
+
+    border-bottom: 1px solid $gray-color-2;
+
     .sidebar-collapsed-icon {
         .sidebar-icon {
             font-size: 1.5625rem;
@@ -198,8 +203,9 @@ $gray-color-1    : #555953;
                             button {
                                 background-color: $green-color-1;
                                 color           : $white-color;
+
                                 &:hover {
-                                    background-color: $main-green-color;
+                                    background-color: $green-color-3;
                                 }
                             }
                         }
@@ -207,6 +213,10 @@ $gray-color-1    : #555953;
                 }
 
                 &:hover {
+                    .account-info, .image {
+                        cursor: pointer;
+                    }
+
                     .settings-box {
                         visibility: visible;
                         opacity   : 1;

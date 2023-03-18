@@ -18,7 +18,7 @@ const AdminHeader = () => {
     const { collapseSidebar, collapsed } = useProSidebar();
 
     return (
-        <div className="admin-header-container d-flex gap-2 red">
+        <div className="admin-header-container d-flex gap-2">
             <div className="sidebar-collapsed-icon pt-2 px-2">
                 {collapsed ?
                     <FiChevronsRight className="sidebar-icon" onClick={() => collapseSidebar()} />

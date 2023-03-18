@@ -1,3 +1,15 @@
+$main-green-color: #06603A;
+$green-color-1   : #19ae70;
+$green-color-2   : rgb(214, 247, 211);
+$green-color-3   : #159862;
+$white-color     : white;
+$gray-color-1    : #555953;
+$gray-color-2    : #d4d4d4;
+$gray-color-3    : #F9F9F9;
+$light-blue-color: #F8F9FD;
+$main-red-color  : #CA2027;
+$yellow-color-1  : rgb(206, 206, 3);
+
 .manager-container {
     height: 100vh;
 
@@ -6,7 +18,116 @@
     }
 
     .manager-content {
-        flex-grow: 1;
+        flex-grow       : 1;
+        background-color: $light-blue-color;
+
+        .book-category-management-container {
+            margin          : 1.875rem;
+            background-color: white;
+            box-shadow      : 0px 0px 20px 0px rgba(44, 101, 144, 0.1);
+
+            .book-category-list-top {
+                border-bottom: 1px solid $gray-color-2;
+
+                .table-title {
+                    font-size  : 1.45rem;
+                    font-weight: 600;
+                    color      : $green-color-1;
+                }
+
+                button {
+                    background-color: $green-color-1;
+                    color           : $white-color;
+
+                    &:hover {
+                        background-color: $green-color-3;
+                    }
+                }
+            }
+
+            .book-category-list-bottom {
+                .select-search-box {
+                    .item-amount-select {
+                        width: 15%;
+                    }
+
+                    .select-box {
+                        width: 25%;
+                    }
+                }
+
+                .book-category-list {
+                    tr {
+                        td {
+                            &:first-child {
+                                width: 15%;
+                            }
+                        }
+
+                        &:nth-child(even) {
+                            background-color: $light-blue-color;
+                        }
+                    }
+
+                    .table-head {
+                        font-weight: 600;
+                    }
+
+                    .edit-btn {
+                        border-radius   : 3px;
+                        background-color: orange;
+                        color           : $white-color;
+
+                        .icon {
+                            font-size: 1.125rem;
+                        }
+
+                        &:hover {
+                            cursor          : pointer;
+                            background-color: $yellow-color-1;
+                        }
+                    }
+
+                    .delete-btn {
+                        border-radius   : 3px;
+                        background-color: red;
+                        color           : $white-color;
+                        padding-bottom  : 2px;
+
+                        .icon {
+                            font-size: 1.125rem;
+                        }
+
+                        &:hover {
+                            cursor          : pointer;
+                            background-color: $main-red-color;
+                        }
+                    }
+
+                    .filter-icon {
+                        &:hover {
+                            cursor: pointer;
+                        }
+                    }
+
+                    .pagination-container {
+                        .page-active-background {
+                            background-color: $green-color-1 !important;
+                            color           : $white-color !important;
+                        }
+
+                        .pre-next {
+                            color: $main-green-color;
+                        }
+
+                        .page-background {
+                            color           : black;
+                            background-color: $gray-color-3;
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 
