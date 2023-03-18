@@ -191,15 +191,33 @@ $gray-color-1    : #555953;
                                 background-color: $green-color-2;
                             }
                         }
+
+                        .logout-btn {
+                            width: fit-content;
+
+                            button {
+                                background-color: $green-color-1;
+                                color           : $white-color;
+                                &:hover {
+                                    background-color: $main-green-color;
+                                }
+                            }
+                        }
                     }
                 }
 
                 &:hover {
-                    cursor: pointer;
-
                     .settings-box {
                         visibility: visible;
                         opacity   : 1;
+
+                        .settings {
+
+                            .setting-item,
+                            .logout-btn {
+                                cursor: pointer;
+                            }
+                        }
                     }
                 }
             }

@@ -4,6 +4,7 @@ import {
 import { RiFileUserLine, RiAccountBoxLine } from "react-icons/ri";
 import { BiNews } from "react-icons/bi";
 import { HiOutlineLockClosed } from "react-icons/hi";
+import { RxExit } from "react-icons/rx";
 
 import {
     useProSidebar
@@ -116,6 +117,9 @@ const AdminHeader = () => {
                                         <span className="item-title">Privacy Settings</span>
                                         <span className="item-description">Control your privacy parameters</span>
                                     </div>
+                                </div>
+                                <div className="logout-btn my-2 mx-auto">
+                                    <button className="btn">Sign out <RxExit/></button>
                                 </div>
                             </div>
                         </div>
