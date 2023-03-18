@@ -15,10 +15,10 @@ const BookCategories = () => {
     }
 
     useEffect(() => {
-        setTimeout(()=> {
+        setTimeout(() => {
             setIsLoading(false);
-        },1000);
-    },[]);
+        }, 1000);
+    }, []);
 
     return (
         <>
@@ -81,12 +81,14 @@ const BookCategories = () => {
                                                     <td>1</td>
                                                     <td>Math Books</td>
                                                     <td>Science Books</td>
-                                                    <td className='d-flex justify-content-center gap-3'>
-                                                        <div className='edit-btn px-1' title='Edit'>
-                                                            <MdModeEditOutline className='icon' />
-                                                        </div>
-                                                        <div className='delete-btn px-1' title='Delete'>
-                                                            <FaRegTrashAlt className='icon' />
+                                                    <td className='actions text-center'>
+                                                        <div className='d-flex justify-content-center gap-3'>
+                                                            <div className='edit-btn px-1' title='Edit'>
+                                                                <MdModeEditOutline className='icon' />
+                                                            </div>
+                                                            <div className='delete-btn px-1' title='Delete'>
+                                                                <FaRegTrashAlt className='icon' />
+                                                            </div>
                                                         </div>
                                                     </td>
                                                 </tr>
