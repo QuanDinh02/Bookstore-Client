@@ -2,6 +2,7 @@ $main-green-color: #06603A;
 $green-color-1   : #19ae70;
 $green-color-2   : rgb(214, 247, 211);
 $green-color-3   : #159862;
+$green-color-4   : rgb(240, 252, 239);
 $white-color     : white;
 $gray-color-1    : #555953;
 $gray-color-2    : #d4d4d4;
@@ -24,7 +25,23 @@ $yellow-color-1  : rgb(206, 206, 3);
         flex-shrink     : 1;
         width           : 100%;
         height          : 100vh;
-        overflow-y      : scroll;
+        overflow-y      : auto;
+
+        .pagination-container {
+            .page-active-background {
+                background-color: $green-color-1 !important;
+                color           : $white-color !important;
+            }
+
+            .pre-next {
+                color: $main-green-color;
+            }
+
+            .page-background {
+                color           : black;
+                background-color: $gray-color-3;
+            }
+        }
 
         .book-category-management-container {
             margin          : 1.875rem;
@@ -118,22 +135,6 @@ $yellow-color-1  : rgb(206, 206, 3);
                     .filter-icon {
                         &:hover {
                             cursor: pointer;
-                        }
-                    }
-
-                    .pagination-container {
-                        .page-active-background {
-                            background-color: $green-color-1 !important;
-                            color           : $white-color !important;
-                        }
-
-                        .pre-next {
-                            color: $main-green-color;
-                        }
-
-                        .page-background {
-                            color           : black;
-                            background-color: $gray-color-3;
                         }
                     }
                 }
@@ -246,22 +247,6 @@ $yellow-color-1  : rgb(206, 206, 3);
                     .filter-icon {
                         &:hover {
                             cursor: pointer;
-                        }
-                    }
-
-                    .pagination-container {
-                        .page-active-background {
-                            background-color: $green-color-1 !important;
-                            color           : $white-color !important;
-                        }
-
-                        .pre-next {
-                            color: $main-green-color;
-                        }
-
-                        .page-background {
-                            color           : black;
-                            background-color: $gray-color-3;
                         }
                     }
                 }
@@ -386,24 +371,318 @@ $yellow-color-1  : rgb(206, 206, 3);
                             cursor: pointer;
                         }
                     }
+                }
+            }
+        }
 
-                    .pagination-container {
-                        .page-active-background {
-                            background-color: $green-color-1 !important;
-                            color           : $white-color !important;
+        .publishers-management-container {
+            margin          : 1.875rem;
+            background-color: white;
+            box-shadow      : 0px 0px 20px 0px rgba(44, 101, 144, 0.1);
+
+            .publishers-list-top {
+                border-bottom: 1px solid $gray-color-2;
+
+                .table-title {
+                    font-size  : 1.45rem;
+                    font-weight: 600;
+                    color      : $green-color-1;
+                }
+
+                button {
+                    background-color: $green-color-1;
+                    color           : $white-color;
+
+                    &:hover {
+                        background-color: $green-color-3;
+                    }
+                }
+            }
+
+            .publishers-list-bottom {
+                .select-search-box {
+                    .item-amount-select {
+                        width: 15%;
+                    }
+
+                    .select-box {
+                        width: 25%;
+                    }
+                }
+
+                .publishers-list {
+                    tr {
+                        td {
+                            vertical-align: middle;
+
+                            &:first-child {
+                                width: 10%;
+                            }
                         }
 
-                        .pre-next {
-                            color: $main-green-color;
+                        &:nth-child(even) {
+                            background-color: $light-blue-color;
+                        }
+                    }
+
+                    .phone {
+                        width: 10%;
+                    }
+
+                    .description {
+                        width: 45%;
+                    }
+
+                    .table-head {
+                        font-weight: 600;
+                    }
+
+                    .publisher-name {
+                        width: 25%;
+                    }
+
+                    .actions {
+                        width: 10%;
+                    }
+
+                    .edit-btn {
+                        border-radius   : 3px;
+                        background-color: orange;
+                        color           : $white-color;
+
+                        .icon {
+                            font-size: 1.125rem;
                         }
 
-                        .page-background {
-                            color           : black;
-                            background-color: $gray-color-3;
+                        &:hover {
+                            cursor          : pointer;
+                            background-color: $yellow-color-1;
+                        }
+                    }
+
+                    .delete-btn {
+                        border-radius   : 3px;
+                        background-color: red;
+                        color           : $white-color;
+                        padding-bottom  : 2px;
+
+                        .icon {
+                            font-size: 1.125rem;
+                        }
+
+                        &:hover {
+                            cursor          : pointer;
+                            background-color: $main-red-color;
+                        }
+                    }
+
+                    .filter-icon {
+                        &:hover {
+                            cursor: pointer;
                         }
                     }
                 }
             }
+        }
+
+        .users-management-container {
+            margin          : 1.875rem;
+            background-color: white;
+            box-shadow      : 0px 0px 20px 0px rgba(44, 101, 144, 0.1);
+
+            .users-list-top {
+                border-bottom: 1px solid $gray-color-2;
+
+                .table-title {
+                    font-size  : 1.45rem;
+                    font-weight: 600;
+                    color      : $green-color-1;
+                }
+
+                button {
+                    background-color: $green-color-1;
+                    color           : $white-color;
+
+                    &:hover {
+                        background-color: $green-color-3;
+                    }
+                }
+            }
+
+            .users-list-bottom {
+                .select-search-box {
+                    .item-amount-select {
+                        width: 15%;
+                    }
+
+                    .select-box {
+                        width: 25%;
+                    }
+                }
+
+                .users-list {
+                    tr {
+                        td {
+                            vertical-align: middle;
+
+                            &:first-child {
+                                width: 10%;
+                            }
+                        }
+
+                        &:nth-child(even) {
+                            background-color: $light-blue-color;
+                        }
+                    }
+
+                    .user-img {
+                        width: 5%;
+
+                        img {
+                            width         : 3.125rem;
+                            height        : 3.125rem;
+                            border-radius : 0.3125rem;
+                            vertical-align: middle;
+                            display       : inline-block;
+                        }
+                    }
+
+                    .table-head {
+                        font-weight: 600;
+                    }
+
+                    .phone,
+                    .join-date,
+                    .gender,
+                    .user-group {
+                        width: 10%;
+                    }
+
+                    .username {
+                        width: 15%;
+                    }
+
+                    .email {
+                        width: 15%;
+                    }
+
+                    .actions {
+                        width: 15%;
+                    }
+
+                    .edit-btn {
+                        border-radius   : 3px;
+                        background-color: orange;
+                        color           : $white-color;
+
+                        .icon {
+                            font-size: 1.125rem;
+                        }
+
+                        &:hover {
+                            cursor          : pointer;
+                            background-color: $yellow-color-1;
+                        }
+                    }
+
+                    .delete-btn {
+                        border-radius   : 3px;
+                        background-color: red;
+                        color           : $white-color;
+                        padding-bottom  : 2px;
+
+                        .icon {
+                            font-size: 1.125rem;
+                        }
+
+                        &:hover {
+                            cursor          : pointer;
+                            background-color: $main-red-color;
+                        }
+                    }
+
+                    .filter-icon {
+                        &:hover {
+                            cursor: pointer;
+                        }
+                    }
+                }
+            }
+        }
+
+        .user-add-new-container {
+            margin          : 1.875rem;
+            background-color: $light-blue-color;
+
+            .content-title {
+                .table-title {
+                    font-size  : 1.3rem;
+                    font-weight: 600;
+                }
+
+                border-bottom: 1px solid $gray-color-2;
+            }
+
+            .left-content {
+                background-color: white;
+                box-shadow      : 0px 0px 20px 0px rgba(44, 101, 144, 0.1);
+                flex-basis      : 25%;
+                height          : fit-content;
+
+                .main-content {
+                    .image {
+                        width : 150px;
+                        height: 150px;
+
+                        img {
+                            width        : 100%;
+                            height       : 100%;
+                            border-radius: 50%;
+                        }
+                    }
+
+                    .image-upload {
+                        width    : fit-content;
+                        color    : $green-color-1;
+                        font-size: 1.125rem;
+
+                        &:hover {
+                            cursor: pointer;
+
+                            .fileUpload {
+                                cursor: pointer;
+                            }
+
+                            background-color: $green-color-4;
+                        }
+                    }
+
+                    .file-upload-allow {
+                        font-size: 0.95rem;
+                        color    : $gray-color-1;
+                    }
+                }
+            }
+
+            .right-content {
+                background-color: white;
+                box-shadow      : 0px 0px 20px 0px rgba(44, 101, 144, 0.1);
+                flex-basis      : 70%;
+
+                .main-content {
+                    .user-info {
+                        border-bottom: 1px solid $gray-color-2;
+                    }
+
+                    .user-account-info {
+                        .section-title {
+                            font-size  : 1.2rem;
+                            font-weight: 600;
+                        }
+                    }
+                }
+            }
+
         }
     }
 }

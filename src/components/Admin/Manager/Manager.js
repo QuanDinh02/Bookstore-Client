@@ -28,7 +28,7 @@ const Manager = () => {
             <div className="manager-sidebar">
                 <Sidebars />
             </div>
-            <div className="manager-content">
+            <div className="manager-content position-relative">
                 <AdminHeader />
                 <Switch>
                     <Route path={path} exact>

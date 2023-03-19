@@ -1,6 +1,7 @@
 import { FaRegTrashAlt } from 'react-icons/fa';
 import { MdModeEditOutline } from 'react-icons/md';
 import { BsArrowDownUp } from 'react-icons/bs';
+import { AiOutlinePlus } from 'react-icons/ai';
 import ReactPaginate from 'react-paginate';
 import { useEffect, useState } from 'react';
 import { TailSpin } from 'react-loader-spinner';
@@ -37,8 +38,8 @@ const Authors = () => {
                 :
                 <div className="authors-management-container">
                     <div className="authors-list-top d-flex justify-content-between align-items-center px-4 py-3">
-                        <span className="table-title">Authors Lists</span>
-                        <button className="btn">Add New Author</button>
+                        <span className="table-title">Authors List</span>
+                        <button className="btn"><AiOutlinePlus /> Add New Author</button>
                     </div>
                     <div className="authors-list-bottom px-4 py-3">
                         <div className="select-search-box d-flex justify-content-between">
