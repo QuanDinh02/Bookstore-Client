@@ -1,0 +1,53 @@
+$main-green-color: #06603A;
+$green-color-1   : #19ae70;
+$green-color-2   : #159862;
+$gray-color-1    : #d4d4d4;
+
+.ImageUpload {
+    width           : fit-content;
+    padding         : 0.3125rem 0.625rem 0.0625rem 0.625rem;
+    background-color: $green-color-1;
+    color           : white;
+    font-size       : 1.125rem;
+    border-radius   : 0.3125rem;
+
+    &:hover {
+        cursor          : pointer;
+        background-color: $green-color-2;
+
+        .file_upload {
+            cursor: pointer;
+        }
+    }
+}
+
+.image-preview {
+    border         : 0.125rem dashed $gray-color-1;
+    height         : 12.5rem;
+    display        : flex;
+    justify-content: center;
+    align-items    : center;
+
+    img {
+        height: 100%;
+    }
+}
+
+.description {
+    height: 6.25rem;
+}
+
+.create-btn {
+    background-color: $green-color-1 !important;
+    border-color: $green-color-1 !important;
+
+    &:hover {
+        background-color: $green-color-2 !important;
+        border-color: $green-color-2 !important;
+    }
+}
+
+.modal-body {
+    max-height: calc(100vh - 12.5rem);
+    overflow-y: auto;
+}

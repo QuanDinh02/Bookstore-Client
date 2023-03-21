@@ -1,19 +1,28 @@
 import { FaRegTrashAlt } from 'react-icons/fa';
 import { MdModeEditOutline } from 'react-icons/md';
-import { BsArrowDownUp } from 'react-icons/bs';
+import { HiChevronUpDown } from 'react-icons/hi2';
 import { AiOutlinePlus } from 'react-icons/ai';
 import ReactPaginate from 'react-paginate';
 import { useEffect, useState } from 'react';
 import { TailSpin } from 'react-loader-spinner';
 import Onepiece from '../../../assets/image/Onepiece.png';
+import ModalBook from '../Modal/ModalBook';
 
 const BookList = () => {
 
     const [isLoading, setIsLoading] = useState(true);
+    const [modalType, setModalType] = useState('');
+
+    const [showModalBook, setShowModalBook] = useState(false);
 
     // handle pagination
     const handlePageClick = () => {
 
+    }
+
+    const handleShowModal = (action) => {
+        setModalType(action);
+        setShowModalBook(true);
     }
 
     useEffect(() => {
@@ -39,7 +48,7 @@ const BookList = () => {
                 <div className="books-management-container">
                     <div className="authors-list-top d-flex justify-content-between align-items-center px-4 py-3">
                         <span className="table-title">Books List</span>
-                        <button className="btn"><AiOutlinePlus /> Add New Book</button>
+                        <button className="btn" onClick={() => handleShowModal('CREATE')}><AiOutlinePlus /> Add New Book</button>
                     </div>
                     <div className="authors-list-bottom px-4 py-3">
                         <div className="select-search-box d-flex justify-content-between">
@@ -58,45 +67,45 @@ const BookList = () => {
                             </div>
                         </div>
                         <div className="authors-list mt-4">
-                            <table className="table table-bordered">
+                            <table className="table table-hover">
                                 <thead>
                                     <tr>
                                         <td className='table-head'>
-                                            <span className='d-flex justify-content-between'>No<BsArrowDownUp className='filter-icon' /></span>
+                                            <span className='d-flex align-items-center gap-2'>No<HiChevronUpDown className='filter-icon' /></span>
                                         </td>
                                         <td className='table-head'>
                                             <span>Book image</span>
                                         </td>
                                         <td className='table-head'>
-                                            <span className='d-flex justify-content-between'>Book Name<BsArrowDownUp className='filter-icon' /></span>
+                                            <span className='d-flex align-items-center gap-2'>Book Name<HiChevronUpDown className='filter-icon' /></span>
                                         </td>
                                         <td className='table-head'>
-                                            <span className='d-flex justify-content-between'>Book Category<BsArrowDownUp className='filter-icon' /></span>
+                                            <span className='d-flex align-items-center gap-2'>Book Category<HiChevronUpDown className='filter-icon' /></span>
                                         </td>
                                         <td className='table-head'>
-                                            <span className='d-flex justify-content-between'>Book Author<BsArrowDownUp className='filter-icon' /></span>
+                                            <span className='d-flex align-items-center gap-2'>Book Author<HiChevronUpDown className='filter-icon' /></span>
                                         </td>
                                         <td className='table-head'>
-                                            <span className='d-flex justify-content-between'>Book Description<BsArrowDownUp className='filter-icon' /></span>
+                                            <span className='d-flex align-items-center gap-2'>Book Description<HiChevronUpDown className='filter-icon' /></span>
                                         </td>
                                         <td className='table-head'>
-                                            <span className='d-flex justify-content-between'>Price<BsArrowDownUp className='filter-icon' /></span>
+                                            <span className='d-flex align-items-center gap-2'>Price<HiChevronUpDown className='filter-icon' /></span>
                                         </td>
                                         <td className='table-head'>
-                                            <span className='d-flex justify-content-between'>Current Price<BsArrowDownUp className='filter-icon' /></span>
+                                            <span className='d-flex align-items-center gap-2'>Current Price<HiChevronUpDown className='filter-icon' /></span>
                                         </td>
                                         <td className='table-head'>
-                                            <span className='d-flex justify-content-between'>Actions<BsArrowDownUp className='filter-icon' /></span>
+                                            <span className='d-flex align-items-center gap-2'>Actions<HiChevronUpDown className='filter-icon' /></span>
                                         </td>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {
-                                        [...Array(5)].map(item => {
+                                        [...Array(5)].map((item, index) => {
                                             return (
-                                                <tr>
+                                                <tr key={`book-item-${index}`}>
                                                     <td>1</td>
-                                                    <td className='text-center book-img'><img src={Onepiece}></img></td>
+                                                    <td className='book-img'><img src={Onepiece}></img></td>
                                                     <td className='book-name'>Onepiece</td>
                                                     <td className='category'>Manga</td>
                                                     <td className='author'>Oda</td>
@@ -106,14 +115,14 @@ const BookList = () => {
                                                         when an unknown printer took a galley of type and scrambled it to make a
                                                         type specimen book.
                                                     </td>
-                                                    <td className='price text-center'>20,000 đ</td>
-                                                    <td className='current_price text-center'>18,000 đ</td>
+                                                    <td className='price'>20,000 đ</td>
+                                                    <td className='current_price'>18,000 đ</td>
                                                     <td className='actions text-center'>
-                                                        <div className='d-flex justify-content-center gap-3'>
-                                                            <div className='edit-btn px-1' title='Edit'>
+                                                        <div className='d-flex gap-3'>
+                                                            <div className='edit-btn px-1' title='Edit' onClick={() => handleShowModal('UPDATE')}>
                                                                 <MdModeEditOutline className='icon' />
                                                             </div>
-                                                            <div className='delete-btn px-1' title='Delete'>
+                                                            <div className='delete-btn px-1' title='Delete' onClick={() => handleShowModal('DELETE')}>
                                                                 <FaRegTrashAlt className='icon' />
                                                             </div>
                                                         </div>
@@ -148,6 +157,11 @@ const BookList = () => {
                             </div>
                         </div>
                     </div>
+                    <ModalBook
+                        type={modalType}
+                        show={showModalBook}
+                        setShow={setShowModalBook}
+                    />
                 </div>
             }
         </>

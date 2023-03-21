@@ -1,21 +1,31 @@
 import { FaRegTrashAlt } from 'react-icons/fa';
 import { MdModeEditOutline } from 'react-icons/md';
-import { BsArrowDownUp } from 'react-icons/bs';
+import { HiChevronUpDown } from 'react-icons/hi2';
 import { AiOutlinePlus } from 'react-icons/ai';
 import ReactPaginate from 'react-paginate';
 import { useEffect, useState } from 'react';
 import { TailSpin } from 'react-loader-spinner';
 import User from '../../../assets/image/user.png';
 import { useHistory } from 'react-router-dom';
+import ModalUser from '../Modal/ModalUser';
 
 const UserTable = () => {
 
     const [isLoading, setIsLoading] = useState(true);
     const history = useHistory();
 
+    const [modalType, setModalType] = useState('');
+
+    const [showModalUser, setShowModalUser] = useState(false);
+
     // handle pagination
     const handlePageClick = () => {
 
+    }
+
+    const handleShowModal = (action) => {
+        setModalType(action);
+        setShowModalUser(true);
     }
 
     const handleAddNewUser = () => {
@@ -64,35 +74,35 @@ const UserTable = () => {
                             </div>
                         </div>
                         <div className="users-list mt-4">
-                            <table className="table table-bordered">
+                            <table className="table table-hover">
                                 <thead>
                                     <tr>
                                         <td className='table-head'>
-                                            <span className='d-flex justify-content-between'>No <BsArrowDownUp className='filter-icon' /></span>
+                                            <span className='d-flex align-items-center gap-2'>No <HiChevronUpDown className='filter-icon' /></span>
                                         </td>
                                         <td className='table-head'>
                                             <span>Profile</span>
                                         </td>
                                         <td className='table-head'>
-                                            <span className='d-flex justify-content-between'>Username <BsArrowDownUp className='filter-icon' /></span>
+                                            <span className='d-flex align-items-center gap-2'>Username <HiChevronUpDown className='filter-icon' /></span>
                                         </td>
                                         <td className='table-head'>
-                                            <span className='d-flex justify-content-between'>Email <BsArrowDownUp className='filter-icon' /></span>
+                                            <span className='d-flex align-items-center gap-2'>Email <HiChevronUpDown className='filter-icon' /></span>
                                         </td>
                                         <td className='table-head'>
                                             <span>Contact</span>
                                         </td>
                                         <td className='table-head'>
-                                            <span className='d-flex justify-content-between'>Join Date <BsArrowDownUp className='filter-icon' /></span>
+                                            <span className='d-flex align-items-center gap-2'>Join Date <HiChevronUpDown className='filter-icon' /></span>
                                         </td>
                                         <td className='table-head'>
-                                            <span className='d-flex justify-content-between'>Gender <BsArrowDownUp className='filter-icon' /></span>
+                                            <span className='d-flex align-items-center gap-2'>Gender <HiChevronUpDown className='filter-icon' /></span>
                                         </td>
                                         <td className='table-head'>
-                                            <span className='d-flex justify-content-between'>Role <BsArrowDownUp className='filter-icon' /></span>
+                                            <span className='d-flex align-items-center gap-2'>Role <HiChevronUpDown className='filter-icon' /></span>
                                         </td>
                                         <td className='table-head'>
-                                            <span className='d-flex justify-content-between'>Actions <BsArrowDownUp className='filter-icon' /></span>
+                                            <span className='d-flex align-items-center gap-2'>Actions <HiChevronUpDown className='filter-icon' /></span>
                                         </td>
                                     </tr>
                                 </thead>
@@ -100,9 +110,9 @@ const UserTable = () => {
                                     {
                                         [...Array(5)].map((item, index) => {
                                             return (
-                                                <tr>
+                                                <tr key={`user-info-${index}`}>
                                                     <td>{index + 1}</td>
-                                                    <td className='text-center user-img'><img src={User}></img></td>
+                                                    <td className='user-img'><img src={User}></img></td>
                                                     <td className='username'>Steve Hopp</td>
                                                     <td className='email'>steve@gmail.com</td>
                                                     <td className='phone'>0123456789</td>
@@ -110,11 +120,11 @@ const UserTable = () => {
                                                     <td className='gender'>Man</td>
                                                     <td className='user-group'>Customer</td>
                                                     <td className='actions text-center'>
-                                                        <div className='d-flex justify-content-center gap-3'>
-                                                            <div className='edit-btn px-1' title='Edit'>
+                                                        <div className='d-flex gap-3'>
+                                                            <div className='edit-btn px-1' title='Edit' onClick={() => handleShowModal('UPDATE')}>
                                                                 <MdModeEditOutline className='icon' />
                                                             </div>
-                                                            <div className='delete-btn px-1' title='Delete'>
+                                                            <div className='delete-btn px-1' title='Delete' onClick={() => handleShowModal('DELETE')}>
                                                                 <FaRegTrashAlt className='icon' />
                                                             </div>
                                                         </div>
@@ -149,6 +159,11 @@ const UserTable = () => {
                             </div>
                         </div>
                     </div>
+                    <ModalUser
+                        type={modalType}
+                        show={showModalUser}
+                        setShow={setShowModalUser}
+                    />
                 </div>
             }
         </>

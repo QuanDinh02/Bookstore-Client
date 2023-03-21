@@ -87,10 +87,6 @@ $yellow-color-1  : rgb(206, 206, 3);
                                 width: 15%;
                             }
                         }
-
-                        &:nth-child(even) {
-                            background-color: $light-blue-color;
-                        }
                     }
 
                     .table-head {
@@ -184,10 +180,6 @@ $yellow-color-1  : rgb(206, 206, 3);
                             &:first-child {
                                 width: 15%;
                             }
-                        }
-
-                        &:nth-child(even) {
-                            background-color: $light-blue-color;
                         }
                     }
 
@@ -296,10 +288,6 @@ $yellow-color-1  : rgb(206, 206, 3);
                             &:first-child {
                                 width: 5%;
                             }
-                        }
-
-                        &:nth-child(even) {
-                            background-color: $light-blue-color;
                         }
                     }
 
@@ -419,10 +407,6 @@ $yellow-color-1  : rgb(206, 206, 3);
                                 width: 10%;
                             }
                         }
-
-                        &:nth-child(even) {
-                            background-color: $light-blue-color;
-                        }
                     }
 
                     .phone {
@@ -526,17 +510,13 @@ $yellow-color-1  : rgb(206, 206, 3);
                             vertical-align: middle;
 
                             &:first-child {
-                                width: 10%;
+                                width: 8%;
                             }
-                        }
-
-                        &:nth-child(even) {
-                            background-color: $light-blue-color;
                         }
                     }
 
                     .user-img {
-                        width: 5%;
+                        width: 7%;
 
                         img {
                             width         : 3.125rem;
@@ -683,6 +663,150 @@ $yellow-color-1  : rgb(206, 206, 3);
                 }
             }
 
+        }
+
+        .orders-management-container {
+            margin          : 1.875rem;
+            background-color: white;
+            box-shadow      : 0px 0px 20px 0px rgba(44, 101, 144, 0.1);
+
+            .orders-list-top {
+                border-bottom: 1px solid $gray-color-2;
+
+                .table-title {
+                    font-size  : 1.45rem;
+                    font-weight: 600;
+                    color      : $green-color-1;
+                }
+
+                button {
+                    background-color: $green-color-1;
+                    color           : $white-color;
+
+                    &:hover {
+                        background-color: $green-color-3;
+                    }
+                }
+            }
+
+            .orders-list-bottom {
+                .select-search-box {
+                    .item-amount-select {
+                        width: 15%;
+                    }
+
+                    .select-box {
+                        width: 25%;
+                    }
+                }
+
+                .orders-list {
+                    table {
+                        table-layout: fixed;
+                    }
+
+                    tbody {
+                        tr {
+                            td {
+                                &:first-child {
+                                    width: 5%;
+                                }
+
+                                &:nth-child(3) {
+                                    //max-width: 50px;
+                                }
+
+                            }
+
+                            &:active {
+                                td {
+                                    color: $main-red-color;
+                                }
+                            }
+
+                            &:hover {
+                                cursor: pointer;
+                            }
+
+                            .price {
+                                width: 5%;
+                            }
+
+                            .customer{
+                                width: 15%;
+                            }
+
+                            .order_id {
+                                width: 15%;
+                            }
+
+                            .date {
+                                width: 10%;
+                            }
+
+                            .payment,
+                            .total-books,
+                            .status {
+                                width: 5%;
+                            }
+
+                            .actions {
+                                width: 5%;
+                            }
+
+                            .edit-btn {
+                                border-radius   : 3px;
+                                background-color: orange;
+                                color           : $white-color;
+
+                                .icon {
+                                    font-size: 1.125rem;
+                                }
+
+                                &:hover {
+                                    cursor          : pointer;
+                                    background-color: $yellow-color-1;
+                                }
+                            }
+
+                            .delete-btn {
+                                border-radius   : 3px;
+                                background-color: red;
+                                color           : $white-color;
+                                padding-bottom  : 2px;
+
+                                .icon {
+                                    font-size: 1.125rem;
+                                }
+
+                                &:hover {
+                                    cursor          : pointer;
+                                    background-color: $main-red-color;
+                                }
+                            }
+
+                            .filter-icon {
+                                &:hover {
+                                    cursor: pointer;
+                                }
+                            }
+                        }
+                    }
+
+                    tr {
+                        td {
+                            word-wrap: break-word;
+                            vertical-align: middle;
+                        }
+                    }
+
+                    .table-head {
+                        font-weight: 600;
+                    }
+
+
+                }
+            }
         }
     }
 }
