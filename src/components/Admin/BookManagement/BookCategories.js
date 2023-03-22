@@ -7,6 +7,8 @@ import { useEffect, useState } from 'react';
 import { TailSpin } from 'react-loader-spinner';
 import ModalBookCategory from '../Modal/ModalBookCategory';
 import ModalCategoryGroup from '../Modal/ModalCategoryGroup';
+import { getAllBookCategory } from '../../Services/adminServices';
+import { useImmer } from 'use-immer';
 
 const BookCategories = () => {
 
@@ -14,16 +16,44 @@ const BookCategories = () => {
     const [modalType, setModalType] = useState('');
 
     const [showModalCategory, setShowModalCategory] = useState(false);
-
     const [showModalGroup, setShowModalGroup] = useState(false);
+    const [bookCatgoryList, setBookCategoryList] = useImmer([]);
+
+    const [categoryCurrentPage, setCategoryCurrentPage] = useState(1);
+    const [categoryLimit, setCategoryLimit] = useState(3);
+
+    const [moddifiedData, setModifiedData] = useState({
+        category_name: '',
+        category_group: '0'
+    });
 
     // handle pagination
-    const handlePageClick = () => {
-
+    const handlePageClick = (event) => {
+        setCategoryCurrentPage(+event.selected + 1);
     }
 
-    const handleShowModal = (action, type) => {
+    const handleShowModal = (action, type, data = '') => {
+        if (action === 'CREATE') {
+            setModifiedData({
+                category_name: '',
+                category_group: '0'
+            })
+        }
+        else if (action === 'UPDATE') {
+            setModifiedData({
+                category_id: data?.id,
+                category_name: data?.name,
+                category_group: `${data?.BookCategoryGroup.id}`
+            })
+        } else {
+            setModifiedData({
+                category_id: data?.id,
+                category_name: data?.name
+            })
+        }
+
         setModalType(action);
+
         if (type === 'CATEGORY') {
             setShowModalCategory(true);
         } else {
@@ -31,6 +61,17 @@ const BookCategories = () => {
         }
 
     }
+
+    const fetchBookCategoryWithPagination = async () => {
+        let result = await getAllBookCategory(categoryLimit, categoryCurrentPage);
+        if (result && result.EC === 0) {
+            setBookCategoryList(result.DT);
+        }
+    }
+
+    useEffect(() => {
+        fetchBookCategoryWithPagination();
+    }, [categoryCurrentPage]);
 
     useEffect(() => {
         setTimeout(() => {
@@ -93,23 +134,36 @@ const BookCategories = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {
-                                            [...Array(5)].map((item, index) => {
+                                        {bookCatgoryList?.book_categories && bookCatgoryList?.book_categories.length > 0 &&
+                                            bookCatgoryList?.book_categories.map((item, index) => {
                                                 return (
-                                                    <tr key={`book-category-item-${index}`}>
-                                                        <td>1</td>
-                                                        <td>Math Books</td>
-                                                        <td>Science Books</td>
+                                                    <tr key={`book-category-item-${item.id}`}>
+                                                        <td>{(categoryCurrentPage - 1) * categoryLimit + index + 1}</td>
+                                                        <td>{item.name}</td>
+                                                        <td>{item.BookCategoryGroup.name}</td>
                                                         <td className='actions text-center'>
                                                             <div className='d-flex  gap-3'>
-                                                                <div className='edit-btn px-1' title='Edit' onClick={() => handleShowModal('UPDATE', 'CATEGORY')}>
+                                                                <div className='edit-btn px-1' title='Edit' onClick={() => handleShowModal('UPDATE', 'CATEGORY', item)}>
                                                                     <MdModeEditOutline className='icon' />
                                                                 </div>
-                                                                <div className='delete-btn px-1' title='Delete' onClick={() => handleShowModal('DELETE', 'CATEGORY')}>
+                                                                <div className='delete-btn px-1' title='Delete' onClick={() => handleShowModal('DELETE', 'CATEGORY', { id: item.id, name: item.name })}>
                                                                     <FaRegTrashAlt className='icon' />
                                                                 </div>
                                                             </div>
                                                         </td>
+                                                    </tr>
+                                                )
+                                            })
+                                        }
+                                        {
+                                            bookCatgoryList?.book_categories.length < categoryLimit && 
+                                            [...Array(categoryLimit - bookCatgoryList?.book_categories.length)].map(item => {
+                                                return (
+                                                    <tr key={`empty-item-${item}`}>
+                                                        <td>...</td>
+                                                        <td>...</td>
+                                                        <td>...</td>
+                                                        <td>...</td>
                                                     </tr>
                                                 )
                                             })
@@ -122,7 +176,7 @@ const BookCategories = () => {
                                         onPageChange={handlePageClick}
                                         pageRangeDisplayed={3}
                                         marginPagesDisplayed={3}
-                                        pageCount={5}
+                                        pageCount={bookCatgoryList?.total_pages}
                                         previousLabel="< previous"
                                         pageClassName="page-item"
                                         pageLinkClassName="page-link page-background"
@@ -141,9 +195,11 @@ const BookCategories = () => {
                             </div>
                         </div>
                         <ModalBookCategory
+                            data={moddifiedData}
                             type={modalType}
                             show={showModalCategory}
                             setShow={setShowModalCategory}
+                            fetchBookCategory = {fetchBookCategoryWithPagination}
                         />
                     </div>
                     <div className="book-category-management-container">
