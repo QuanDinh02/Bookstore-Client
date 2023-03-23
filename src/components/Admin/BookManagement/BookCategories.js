@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 import { TailSpin } from 'react-loader-spinner';
 import ModalBookCategory from '../Modal/ModalBookCategory';
 import ModalCategoryGroup from '../Modal/ModalCategoryGroup';
-import { getAllBookCategory } from '../../Services/adminServices';
+import { getAllBookCategory, getAllBookCategoryGroup } from '../../Services/adminServices';
 import { useImmer } from 'use-immer';
 
 const BookCategories = () => {
@@ -16,11 +16,14 @@ const BookCategories = () => {
     const [modalType, setModalType] = useState('');
 
     const [showModalCategory, setShowModalCategory] = useState(false);
-    const [showModalGroup, setShowModalGroup] = useState(false);
     const [bookCatgoryList, setBookCategoryList] = useImmer([]);
-
     const [categoryCurrentPage, setCategoryCurrentPage] = useState(1);
     const [categoryLimit, setCategoryLimit] = useState(3);
+
+    const [showModalGroup, setShowModalGroup] = useState(false);
+    const [catgoryGroupList, setCategoryGroupList] = useImmer([]);
+    const [groupCurrentPage, setGroupCurrentPage] = useState(1);
+    const [groupLimit, setGroupLimit] = useState(3);
 
     const [moddifiedData, setModifiedData] = useState({
         category_name: '',
@@ -32,34 +35,52 @@ const BookCategories = () => {
         setCategoryCurrentPage(+event.selected + 1);
     }
 
+    const handleGroupPageClick = (event) => {
+        setGroupCurrentPage(+event.selected + 1);
+    }
+
     const handleShowModal = (action, type, data = '') => {
-        if (action === 'CREATE') {
-            setModifiedData({
-                category_name: '',
-                category_group: '0'
-            })
-        }
-        else if (action === 'UPDATE') {
-            setModifiedData({
-                category_id: data?.id,
-                category_name: data?.name,
-                category_group: `${data?.BookCategoryGroup.id}`
-            })
-        } else {
-            setModifiedData({
-                category_id: data?.id,
-                category_name: data?.name
-            })
-        }
 
         setModalType(action);
 
         if (type === 'CATEGORY') {
+            if (action === 'CREATE') {
+                setModifiedData({
+                    category_name: '',
+                    category_group: '0'
+                })
+            }
+            else if (action === 'UPDATE') {
+                setModifiedData({
+                    category_id: data?.id,
+                    category_name: data?.name,
+                    category_group: `${data?.BookCategoryGroup.id}`
+                })
+            } else {
+                setModifiedData({
+                    category_id: data?.id,
+                    category_name: data?.name
+                })
+            }
+
             setShowModalCategory(true);
         } else {
+
+            if (action === 'CREATE') {
+                setModifiedData({
+                    category_group_name: ''
+                })
+            }
+
+            if (action === 'UPDATE' || action === 'DELETE') {
+                setModifiedData({
+                    category_group_id: data?.id,
+                    category_group_name: data?.name
+                })
+            }
+
             setShowModalGroup(true);
         }
-
     }
 
     const fetchBookCategoryWithPagination = async () => {
@@ -69,9 +90,20 @@ const BookCategories = () => {
         }
     }
 
+    const fetchBookCategoryGroupWithPagination = async () => {
+        let result = await getAllBookCategoryGroup(groupLimit, groupCurrentPage);
+        if (result && result.EC === 0) {
+            setCategoryGroupList(result.DT);
+        }
+    }
+
     useEffect(() => {
         fetchBookCategoryWithPagination();
     }, [categoryCurrentPage]);
+
+    useEffect(() => {
+        fetchBookCategoryGroupWithPagination();
+    }, [groupCurrentPage]);
 
     useEffect(() => {
         setTimeout(() => {
@@ -156,7 +188,7 @@ const BookCategories = () => {
                                             })
                                         }
                                         {
-                                            bookCatgoryList?.book_categories.length < categoryLimit && 
+                                            bookCatgoryList?.book_categories.length < categoryLimit &&
                                             [...Array(categoryLimit - bookCatgoryList?.book_categories.length)].map(item => {
                                                 return (
                                                     <tr key={`empty-item-${item}`}>
@@ -199,7 +231,7 @@ const BookCategories = () => {
                             type={modalType}
                             show={showModalCategory}
                             setShow={setShowModalCategory}
-                            fetchBookCategory = {fetchBookCategoryWithPagination}
+                            fetchBookCategory={fetchBookCategoryWithPagination}
                         />
                     </div>
                     <div className="book-category-management-container">
@@ -236,24 +268,38 @@ const BookCategories = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {
-                                            [...Array(5)].map((item, index) => {
+                                        {catgoryGroupList?.category_groups && catgoryGroupList?.category_groups.length > 0 &&
+                                            catgoryGroupList?.category_groups.map((item, index) => {
                                                 return (
-                                                    <tr key={`book-category-group-item-${index}`}>
-                                                        <td>1</td>
-                                                        <td>Science Books</td>
-                                                        <td>2023-03-08 06:59:12</td>
-                                                        <td>2023-03-08 06:59:12</td>
+                                                    <tr key={`book-category-group-item-${item.id}`}>
+                                                        <td>{(groupCurrentPage - 1) * groupLimit + index + 1}</td>
+                                                        <td>{item.name}</td>
+                                                        <td>{item.createdAt}</td>
+                                                        <td>{item.updatedAt}</td>
                                                         <td className='actions text-center'>
                                                             <div className='d-flex  gap-3'>
-                                                                <div className='edit-btn px-1' title='Edit' onClick={() => handleShowModal('UPDATE', 'CATEGORY_GROUP')}>
+                                                                <div className='edit-btn px-1' title='Edit' onClick={() => handleShowModal('UPDATE', 'CATEGORY_GROUP', item)}>
                                                                     <MdModeEditOutline className='icon' />
                                                                 </div>
-                                                                <div className='delete-btn px-1' title='Delete' onClick={() => handleShowModal('DELETE', 'CATEGORY_GROUP')}>
+                                                                <div className='delete-btn px-1' title='Delete' onClick={() => handleShowModal('DELETE', 'CATEGORY_GROUP', { id: item.id, name: item.name })}>
                                                                     <FaRegTrashAlt className='icon' />
                                                                 </div>
                                                             </div>
                                                         </td>
+                                                    </tr>
+                                                )
+                                            })
+                                        }
+                                        {
+                                            catgoryGroupList?.category_groups.length < groupLimit &&
+                                            [...Array(groupLimit - catgoryGroupList?.category_groups.length)].map(item => {
+                                                return (
+                                                    <tr key={`empty-item-${item}`}>
+                                                        <td>...</td>
+                                                        <td>...</td>
+                                                        <td>...</td>
+                                                        <td>...</td>
+                                                        <td>...</td>
                                                     </tr>
                                                 )
                                             })
@@ -263,10 +309,10 @@ const BookCategories = () => {
                                 <div className='pagination-container pt-3'>
                                     <ReactPaginate
                                         nextLabel="next >"
-                                        onPageChange={handlePageClick}
+                                        onPageChange={handleGroupPageClick}
                                         pageRangeDisplayed={3}
                                         marginPagesDisplayed={3}
-                                        pageCount={5}
+                                        pageCount={catgoryGroupList?.total_pages}
                                         previousLabel="< previous"
                                         pageClassName="page-item"
                                         pageLinkClassName="page-link page-background"
@@ -285,9 +331,11 @@ const BookCategories = () => {
                             </div>
                         </div>
                         <ModalCategoryGroup
+                            data={moddifiedData}
                             type={modalType}
                             show={showModalGroup}
                             setShow={setShowModalGroup}
+                            fetchBookCategoryGroup={fetchBookCategoryGroupWithPagination}
                         />
                     </div>
                 </>
