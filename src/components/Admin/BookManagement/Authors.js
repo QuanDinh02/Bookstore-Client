@@ -7,6 +7,8 @@ import { useEffect, useState } from 'react';
 import { TailSpin } from 'react-loader-spinner';
 import User from '../../../assets/image/user.png';
 import ModalAuthor from '../Modal/ModalAuthor';
+import { useImmer } from 'use-immer';
+import { getAuthorWithPagination } from '../../Services/adminServices';
 
 const Authors = () => {
 
@@ -14,16 +16,58 @@ const Authors = () => {
     const [modalType, setModalType] = useState('');
 
     const [showModalAuthor, setShowModalAuthor] = useState(false);
+    const [authorsList, setAuthorsList] = useImmer([]);
+    const [authorCurrentPage, setAuthorCurrentPage] = useState(1);
+    const [authorLimit, setAuthorLimit] = useState(2);
+
+    const [moddifiedData, setModifiedData] = useState({
+        author_name: '',
+        author_description: '',
+        image: ''
+    });
 
     // handle pagination
-    const handlePageClick = () => {
-
+    const handlePageClick = (event) => {
+        setAuthorCurrentPage(+event.selected + 1);
     }
 
-    const handleShowModal = (action) => {
+    const handleShowModal = (action, data = {}) => {
         setModalType(action);
+
+        if (action === 'CREATE') {
+            setModifiedData({
+                author_name: '',
+                author_description: '',
+                image: ''
+            })
+        }
+        else if (action === 'UPDATE') {
+            setModifiedData({
+                author_id: data?.id,
+                author_name: data?.name,
+                author_description: data?.description ? data.description : '',
+                author_image: data?.image
+            })
+        } else {
+            setModifiedData({
+                author_id: data?.id,
+                author_name: data?.name
+            })
+        }
+
         setShowModalAuthor(true);
     }
+
+    const fetchAuthorWithPagination = async () => {
+        let result = await getAuthorWithPagination(authorLimit, authorCurrentPage);
+        if (result && result.EC === 0) {
+            setAuthorsList(result.DT);
+        }
+    }
+
+    useEffect(() => {
+        fetchAuthorWithPagination();
+    }, [authorCurrentPage]);
 
     useEffect(() => {
         setTimeout(() => {
@@ -93,24 +137,43 @@ const Authors = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {
-                                        [...Array(5)].map((item, index) => {
+                                    {authorsList?.authors && authorsList?.authors.length > 0 &&
+                                        authorsList?.authors.map((item, index) => {
                                             return (
-                                                <tr key={`author-info-item-${index}`}>
-                                                    <td>1</td>
-                                                    <td className='author-img'><img src={User}></img></td>
-                                                    <td className='author-name'>Victor Hugo</td>
-                                                    <td className='description'>The authors of many famous book</td>
+                                                <tr key={`author-info-item-${item.id}`}>
+                                                    <td>{(authorCurrentPage - 1) * authorLimit + index + 1}</td>
+                                                    <td className='author-img'>
+                                                        {item.image ?
+                                                            <img src={`data:image/jpeg;base64,${item.image}`} alt='' />
+                                                            :
+                                                            <img src={User}></img>
+                                                        }
+                                                    </td>
+                                                    <td className='author-name'>{item.name}</td>
+                                                    <td className='description'>{item.description}</td>
                                                     <td className='actions text-center'>
-                                                        <div className='d-flex gap-3'>
-                                                            <div className='edit-btn px-1' title='Edit' onClick={() => handleShowModal('UPDATE')}>
+                                                        <div className='d-flex  gap-3'>
+                                                            <div className='edit-btn px-1' title='Edit' onClick={() => handleShowModal('UPDATE', item)}>
                                                                 <MdModeEditOutline className='icon' />
                                                             </div>
-                                                            <div className='delete-btn px-1' title='Delete' onClick={() => handleShowModal('DELETE')}>
+                                                            <div className='delete-btn px-1' title='Delete' onClick={() => handleShowModal('DELETE', item)}>
                                                                 <FaRegTrashAlt className='icon' />
                                                             </div>
                                                         </div>
                                                     </td>
+                                                </tr>
+                                            )
+                                        })
+                                    }
+                                    {
+                                        authorsList?.authors.length < authorLimit &&
+                                        [...Array(authorLimit - authorsList?.authors.length)].map(item => {
+                                            return (
+                                                <tr key={`empty-item-${item}`}>
+                                                    <td>...</td>
+                                                    <td>...</td>
+                                                    <td>...</td>
+                                                    <td>...</td>
                                                 </tr>
                                             )
                                         })
@@ -123,7 +186,7 @@ const Authors = () => {
                                     onPageChange={handlePageClick}
                                     pageRangeDisplayed={3}
                                     marginPagesDisplayed={3}
-                                    pageCount={5}
+                                    pageCount={authorsList?.total_pages}
                                     previousLabel="< previous"
                                     pageClassName="page-item"
                                     pageLinkClassName="page-link page-background"
@@ -142,9 +205,11 @@ const Authors = () => {
                         </div>
                     </div>
                     <ModalAuthor
+                        data={moddifiedData}
                         type={modalType}
                         show={showModalAuthor}
                         setShow={setShowModalAuthor}
+                        fetchAuthors={fetchAuthorWithPagination}
                     />
                 </div>
             }
