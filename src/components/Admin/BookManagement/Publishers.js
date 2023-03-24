@@ -6,6 +6,8 @@ import ReactPaginate from 'react-paginate';
 import { useEffect, useState } from 'react';
 import { TailSpin } from 'react-loader-spinner';
 import ModalPublisher from '../Modal/ModalPublisher';
+import { useImmer } from 'use-immer';
+import { getPublisherWithPagination } from '../../Services/adminServices';
 
 const Publishers = () => {
 
@@ -13,16 +15,59 @@ const Publishers = () => {
     const [modalType, setModalType] = useState('');
 
     const [showModalPublisher, setShowModalPublisher] = useState(false);
+    const [publisherList, setPublisherList] = useImmer([]);
+    const [publisherCurrentPage, setPublisherCurrentPage] = useState(1);
+    const [publisherLimit, setPublisherLimit] = useState(3);
+
+    const [moddifiedData, setModifiedData] = useState({
+        publisher_name: '',
+        publisher_description: '',
+        publisher_phone: ''
+    });
 
     // handle pagination
-    const handlePageClick = () => {
-
+    const handlePageClick = (event) => {
+        setPublisherCurrentPage(+event.selected + 1);
     }
 
-    const handleShowModal = (action) => {
+    const handleShowModal = (action, data = {}) => {
+
         setModalType(action);
+
+        if (action === 'CREATE') {
+            setModifiedData({
+                publisher_name: '',
+                publisher_description: '',
+                publisher_phone: ''
+            })
+        }
+        else if (action === 'UPDATE') {
+            setModifiedData({
+                publisher_id: data?.id,
+                publisher_name: data?.name,
+                publisher_description: data?.description,
+                publisher_phone: data?.phone
+            })
+        } else {
+            setModifiedData({
+                publisher_id: data?.id,
+                publisher_name: data?.name
+            })
+        }
+
         setShowModalPublisher(true);
     }
+
+    const fetchPublisherWithPagination = async () => {
+        let result = await getPublisherWithPagination(publisherLimit, publisherCurrentPage);
+        if (result && result.EC === 0) {
+            setPublisherList(result.DT);
+        }
+    }
+
+    useEffect(() => {
+        fetchPublisherWithPagination();
+    }, [publisherCurrentPage]);
 
     useEffect(() => {
         setTimeout(() => {
@@ -87,29 +132,37 @@ const Publishers = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {
-                                        [...Array(5)].map((item, index) => {
+                                    {publisherList?.publishers && publisherList?.publishers.length > 0 &&
+                                        publisherList?.publishers.map((item, index) => {
                                             return (
-                                                <tr>
-                                                    <td key={`publisher-item-${index}`}>{index + 1}</td>
-                                                    <td className='publisher-name'>The New York Times</td>
-                                                    <td className='description'>
-                                                        Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                                                        Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                                                        when an unknown printer took a galley of type and scrambled it to make a
-                                                        type specimen book.
-                                                    </td>
-                                                    <td className='phone'>0123234567</td>
+                                                <tr key={`publisher-item-${item.id}`}>
+                                                    <td>{(publisherCurrentPage - 1) * publisherLimit + index + 1}</td>
+                                                    <td className='publisher-name'>{item.name}</td>
+                                                    <td className='publisher-description'>{item.description}</td>
+                                                    <td className='phone'>{item.phone}</td>
                                                     <td className='actions text-center'>
-                                                        <div className='d-flex gap-3'>
-                                                            <div className='edit-btn px-1' title='Edit' onClick={() => handleShowModal('UPDATE')}>
+                                                        <div className='d-flex  gap-3'>
+                                                            <div className='edit-btn px-1' title='Edit' onClick={() => handleShowModal('UPDATE', item)}>
                                                                 <MdModeEditOutline className='icon' />
                                                             </div>
-                                                            <div className='delete-btn px-1' title='Delete' onClick={() => handleShowModal('DELETE')}>
+                                                            <div className='delete-btn px-1' title='Delete' onClick={() => handleShowModal('DELETE', item)}>
                                                                 <FaRegTrashAlt className='icon' />
                                                             </div>
                                                         </div>
                                                     </td>
+                                                </tr>
+                                            )
+                                        })
+                                    }
+                                    {
+                                        publisherList?.publishers.length < publisherLimit &&
+                                        [...Array(publisherLimit - publisherList?.publishers.length)].map(item => {
+                                            return (
+                                                <tr key={`empty-item-${item}`}>
+                                                    <td>...</td>
+                                                    <td>...</td>
+                                                    <td>...</td>
+                                                    <td>...</td>
                                                 </tr>
                                             )
                                         })
@@ -122,7 +175,7 @@ const Publishers = () => {
                                     onPageChange={handlePageClick}
                                     pageRangeDisplayed={3}
                                     marginPagesDisplayed={3}
-                                    pageCount={5}
+                                    pageCount={publisherList?.total_pages}
                                     previousLabel="< previous"
                                     pageClassName="page-item"
                                     pageLinkClassName="page-link page-background"
@@ -141,9 +194,11 @@ const Publishers = () => {
                         </div>
                     </div>
                     <ModalPublisher
+                        data={moddifiedData}
                         type={modalType}
                         show={showModalPublisher}
                         setShow={setShowModalPublisher}
+                        fetchPublisher={fetchPublisherWithPagination}
                     />
                 </div>
             }

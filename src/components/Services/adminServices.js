@@ -30,7 +30,6 @@ const deleteBookCategory = async (category_id) => {
 const getAuthorWithPagination = async (limit, page) => {
     return await axios.get(`/api/author?limit=${limit}&page=${page}`);
 }
-
 const postCreateNewAuthor = async (data) => {
 
     const build_data = new FormData();
@@ -44,7 +43,6 @@ const postCreateNewAuthor = async (data) => {
         }
     });
 }
-
 const putUpdateAuthor = async (data) => {
     const build_data = new FormData();
     build_data.append('id', data.author_id);
@@ -58,11 +56,31 @@ const putUpdateAuthor = async (data) => {
         }
     });
 }
-
 const deleteAuthor = async (author_id) => {
     return await axios.delete(`/api/author/${author_id}`);
 }
 
+const getPublisherWithPagination = async (limit, page) => {
+    return await axios.get(`/api/publisher?limit=${limit}&page=${page}`);
+}
+const postCreateNewPublisher = async (data) => {
+    return await axios.post('/api/publisher', { 
+        name: data.publisher_name, 
+        description: data.publisher_description,
+        phone: data.publisher_phone 
+    });
+}
+const putUpdatePublisher = async (data) => {
+    return await axios.put('/api/publisher', {
+        id: data.publisher_id,
+        name: data.publisher_name,
+        description: data.publisher_description,
+        phone: data.publisher_phone
+    });
+}
+const deletePublisher = async (publisher_id) => {
+    return await axios.delete(`/api/publisher/${publisher_id}`);
+}
 export {
     getAllBookCategoryGroup, postCreateNewBookCategoryGroup,
     putUpdateBookCategoryGroup, deleteBookCategoryGroup,
@@ -71,5 +89,8 @@ export {
     putUpdateBookCategory, deleteBookCategory,
 
     getAuthorWithPagination, postCreateNewAuthor,
-    putUpdateAuthor, deleteAuthor
+    putUpdateAuthor, deleteAuthor,
+
+    getPublisherWithPagination,postCreateNewPublisher,
+    putUpdatePublisher, deletePublisher
 }

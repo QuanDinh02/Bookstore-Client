@@ -401,20 +401,21 @@ $yellow-color-1  : rgb(206, 206, 3);
                 .publishers-list {
                     tr {
                         td {
+                            word-wrap: break-word;
                             vertical-align: middle;
 
                             &:first-child {
-                                width: 10%;
+                                width: 15%;
                             }
                         }
                     }
 
                     .phone {
-                        width: 10%;
+                        width: 15%;
                     }
 
-                    .description {
-                        width: 45%;
+                    .publisher-description {
+                        width: 30%;
                     }
 
                     .table-head {
@@ -426,7 +427,7 @@ $yellow-color-1  : rgb(206, 206, 3);
                     }
 
                     .actions {
-                        width: 10%;
+                        width: 15%;
                     }
 
                     .edit-btn {
