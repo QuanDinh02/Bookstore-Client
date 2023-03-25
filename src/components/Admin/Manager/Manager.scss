@@ -250,7 +250,7 @@ $yellow-color-1  : rgb(206, 206, 3);
             background-color: white;
             box-shadow      : 0px 0px 20px 0px rgba(44, 101, 144, 0.1);
 
-            .authors-list-top {
+            .books-list-top {
                 border-bottom: 1px solid $gray-color-2;
 
                 .table-title {
@@ -269,7 +269,7 @@ $yellow-color-1  : rgb(206, 206, 3);
                 }
             }
 
-            .authors-list-bottom {
+            .books-list-bottom {
                 .select-search-box {
                     .item-amount-select {
                         width: 15%;
@@ -280,7 +280,7 @@ $yellow-color-1  : rgb(206, 206, 3);
                     }
                 }
 
-                .authors-list {
+                .books-list {
                     tr {
                         td {
                             vertical-align: middle;
@@ -311,8 +311,18 @@ $yellow-color-1  : rgb(206, 206, 3);
                         width: 10%;
                     }
 
-                    .description {
-                        width: 27%;
+                    .book-description {
+                        width  : 27%;
+                        padding: 0 !important;
+
+                        .description-main {
+                            display           : -webkit-box;
+                            -webkit-line-clamp: 4;
+                            -webkit-box-orient: vertical;
+                            overflow          : hidden;
+                            text-overflow     : ellipsis;
+                        }
+
                     }
 
                     .table-head {
@@ -351,6 +361,22 @@ $yellow-color-1  : rgb(206, 206, 3);
                         &:hover {
                             cursor          : pointer;
                             background-color: $main-red-color;
+                        }
+                    }
+
+                    .update-btn {
+                        border-radius   : 3px;
+                        background-color: #0090D0;
+                        color           : $white-color;
+                        padding-bottom  : 2px;
+
+                        .icon {
+                            font-size: 1.125rem;
+                        }
+
+                        &:hover {
+                            cursor          : pointer;
+                            background-color: #303091;
                         }
                     }
 
@@ -401,7 +427,7 @@ $yellow-color-1  : rgb(206, 206, 3);
                 .publishers-list {
                     tr {
                         td {
-                            word-wrap: break-word;
+                            word-wrap     : break-word;
                             vertical-align: middle;
 
                             &:first-child {
@@ -733,7 +759,7 @@ $yellow-color-1  : rgb(206, 206, 3);
                                 width: 5%;
                             }
 
-                            .customer{
+                            .customer {
                                 width: 15%;
                             }
 
@@ -796,7 +822,7 @@ $yellow-color-1  : rgb(206, 206, 3);
 
                     tr {
                         td {
-                            word-wrap: break-word;
+                            word-wrap     : break-word;
                             vertical-align: middle;
                         }
                     }

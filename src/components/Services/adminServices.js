@@ -81,6 +81,11 @@ const putUpdatePublisher = async (data) => {
 const deletePublisher = async (publisher_id) => {
     return await axios.delete(`/api/publisher/${publisher_id}`);
 }
+
+const getBooksWithPagination = async (limit, page) => {
+    return await axios.get(`/api/book?limit=${limit}&page=${page}`);
+}
+
 export {
     getAllBookCategoryGroup, postCreateNewBookCategoryGroup,
     putUpdateBookCategoryGroup, deleteBookCategoryGroup,
@@ -92,5 +97,7 @@ export {
     putUpdateAuthor, deleteAuthor,
 
     getPublisherWithPagination,postCreateNewPublisher,
-    putUpdatePublisher, deletePublisher
+    putUpdatePublisher, deletePublisher,
+
+    getBooksWithPagination
 }
