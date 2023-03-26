@@ -3,7 +3,8 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { MdCloudUpload } from "react-icons/md";
 import {
-    getAuthorWithPagination, getAllBookCategory, getPublisherWithPagination
+    getAuthorWithPagination, getAllBookCategory, getPublisherWithPagination,
+    postCreateNewBook, putUpdateBook, deleteBook, putUpdateSellingBook
 } from '../../Services/adminServices';
 
 import './Modal.scss';
@@ -80,6 +81,21 @@ const ModalBook = (props) => {
             return false;
         }
 
+        if (modalData?.author === "0") {
+            toast.error('Empty book author is not allowed !', toast_error);
+            return false;
+        }
+
+        if (modalData?.publisher === "0") {
+            toast.error('Empty book publisher is not allowed !', toast_error);
+            return false;
+        }
+
+        if (modalData?.book_category === "0") {
+            toast.error('Empty book category is not allowed !', toast_error);
+            return false;
+        }
+
         return true;
     }
 
@@ -97,34 +113,37 @@ const ModalBook = (props) => {
     const handleButtonOnClick = async () => {
         if (type === 'CREATE') {
 
-            // if (!checkValidNameInput()) {
-            //     return;
-            // }
+            if (!checkValidNameInput()) {
+                return;
+            }
 
-            // let result = await postCreateNewAuthor(modalData);
-            // if (result) {
-            //     showToast(result);
-            // }
+            let result = await postCreateNewBook(modalData);
+            if (result) {
+                showToast(result);
+            }
 
         } else if (type === 'UPDATE') {
 
-            // if (!checkValidNameInput()) {
-            //     return;
-            // }
+            if (!checkValidNameInput()) {
+                return;
+            }
 
-            // let result = await putUpdateAuthor(modalData);
-            // if (result) {
-            //     showToast(result);
-            // }
+            let result = await putUpdateBook(modalData);
+            if (result) {
+                showToast(result);
+            }
         } else if (type === 'UPDATE-SELLING') {
-            //
+            let result = await putUpdateSellingBook(modalData)
+            if (result) {
+                showToast(result);
+            }
         }
         else {
 
-            // let result = await deleteAuthor(modalData?.author_id)
-            // if (result) {
-            //     showToast(result);
-            // }
+            let result = await deleteBook(modalData?.book_id)
+            if (result) {
+                showToast(result);
+            }
         }
     }
 
@@ -180,25 +199,47 @@ const ModalBook = (props) => {
                                 <div className='row'>
                                     <div className='col-6'>
                                         <label className='form-label'>Current Price:</label>
-                                        <input className='form-control' type='text' placeholder='Current Price' />
+                                        <input
+                                            className='form-control'
+                                            type='text'
+                                            placeholder='Current Price'
+                                            onChange={(event) => handleOnChange('current_price', event.target.value)}
+                                            value={modalData?.current_price}
+                                        />
                                     </div>
                                     <div className='col-6'>
                                         <label className='form-label'>Quantity:</label>
-                                        <input className='form-control' type='text' placeholder='Quantity' />
+                                        <input
+                                            className='form-control'
+                                            type='text'
+                                            placeholder='Quantity'
+                                            onChange={(event) => handleOnChange('quantity', event.target.value)}
+                                            value={modalData?.quantity}
+                                        />
                                     </div>
                                 </div>
                                 <div className='row my-3'>
                                     <div className='col-6'>
                                         <label className='form-label'>Quality:</label>
-                                        <input className='form-control' type='text' placeholder='Quanlity' />
+                                        <input
+                                            className='form-control'
+                                            type='text'
+                                            placeholder='Quality'
+                                            onChange={(event) => handleOnChange('quality', event.target.value)}
+                                            value={modalData?.quality}
+                                        />
                                     </div>
                                     <div className='col-6'>
                                         <label className='form-label'>Status:</label>
-                                        <select className="form-select">
-                                            <option defaultValue='0'>Select...</option>
-                                            <option value="1">On sale</option>
-                                            <option value="2">Out of order</option>
-                                            <option value="3">No more</option>
+                                        <select
+                                            className="form-select"
+                                            onChange={(event) => handleOnChange('status', event.target.value)}
+                                            value={modalData?.status}
+                                        >
+                                            <option defaultValue=''>Select...</option>
+                                            <option value="On sale">On sale</option>
+                                            <option value="Out of order">Out of order</option>
+                                            <option value="No more">No more</option>
                                         </select>
                                     </div>
                                 </div>
@@ -221,8 +262,8 @@ const ModalBook = (props) => {
                                         <label className='form-label'>Author:</label>
                                         <select
                                             className="form-select"
-                                            onChange={(event) => handleOnChange('publisher', event.target.value)}
-                                            value={modalData?.publisher}
+                                            onChange={(event) => handleOnChange('author', event.target.value)}
+                                            value={modalData?.author}
                                         >
                                             <option value={"0"} key={`author-option-0`}>Select...</option>
                                             {authorsList && authorsList.length > 0 &&
@@ -279,8 +320,8 @@ const ModalBook = (props) => {
                                             className='form-control'
                                             type='text'
                                             placeholder='Publishing Day'
-                                            onChange={(event) => handleOnChange('publishing_day', event.target.value)}
-                                            value={modalData?.publishing_day}
+                                            onChange={(event) => handleOnChange('publishingDay', event.target.value)}
+                                            value={modalData?.publishingDay}
                                         />
                                     </div>
                                     <div className='col-4'>
@@ -289,8 +330,8 @@ const ModalBook = (props) => {
                                             className='form-control'
                                             type='text'
                                             placeholder='Publishing Company'
-                                            onChange={(event) => handleOnChange('publishing_company', event.target.value)}
-                                            value={modalData?.publishing_company}
+                                            onChange={(event) => handleOnChange('publishingCompany', event.target.value)}
+                                            value={modalData?.publishingCompany}
                                         />
                                     </div>
                                     <div className='col-4'>
@@ -299,8 +340,8 @@ const ModalBook = (props) => {
                                             className='form-control'
                                             type='text'
                                             placeholder='Product Code'
-                                            onChange={(event) => handleOnChange('product_code', event.target.value)}
-                                            value={modalData?.product_code}
+                                            onChange={(event) => handleOnChange('productCode', event.target.value)}
+                                            value={modalData?.productCode}
                                         />
                                     </div>
                                 </div>
@@ -352,7 +393,7 @@ const ModalBook = (props) => {
                                         <select
                                             className="form-select"
                                             onChange={(event) => handleOnChange('publisher', event.target.value)}
-                                            value={modalData?.author}
+                                            value={modalData?.publisher}
                                         >
                                             <option value={"0"} key={`publisher-option-0`}>Select...</option>
                                             {publishersList && publishersList.length > 0 &&
@@ -373,8 +414,8 @@ const ModalBook = (props) => {
                                         <label className='form-label'>Book Category:</label>
                                         <select
                                             className="form-select"
-                                            onChange={(event) => handleOnChange('book_category', event.target.value)}
-                                            value={modalData?.book_category}
+                                            onChange={(event) => handleOnChange('category', event.target.value)}
+                                            value={modalData?.category}
                                         >
                                             <option value={"0"} key={`book-category-option-0`}>Select...</option>
                                             {categoryList && categoryList.length > 0 &&
@@ -429,9 +470,9 @@ const ModalBook = (props) => {
                 </Modal.Body>
                 <Modal.Footer>
                     {type === 'CREATE' ?
-                        <Button variant="success" className='create-btn'>Save</Button>
+                        <Button variant="success" className='create-btn' onClick={handleButtonOnClick}>Save</Button>
                         :
-                        <Button variant={`${Modal_Button_Bg_Color[type]}`}>{Modal_Button_Content[type]}</Button>
+                        <Button variant={`${Modal_Button_Bg_Color[type]}`} onClick={handleButtonOnClick}>{Modal_Button_Content[type]}</Button>
                     }
                     <Button variant="light" onClick={handleClose}>
                         Close

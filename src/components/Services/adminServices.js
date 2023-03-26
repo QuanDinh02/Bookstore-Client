@@ -64,10 +64,10 @@ const getPublisherWithPagination = async (limit, page) => {
     return await axios.get(`/api/publisher?limit=${limit}&page=${page}`);
 }
 const postCreateNewPublisher = async (data) => {
-    return await axios.post('/api/publisher', { 
-        name: data.publisher_name, 
+    return await axios.post('/api/publisher', {
+        name: data.publisher_name,
         description: data.publisher_description,
-        phone: data.publisher_phone 
+        phone: data.publisher_phone
     });
 }
 const putUpdatePublisher = async (data) => {
@@ -85,7 +85,39 @@ const deletePublisher = async (publisher_id) => {
 const getBooksWithPagination = async (limit, page) => {
     return await axios.get(`/api/book?limit=${limit}&page=${page}`);
 }
+const postCreateNewBook = async (data) => {
 
+    const build_data = new FormData();
+
+    Object.entries(data).forEach(([key, value]) => {
+        build_data.append(`${key}`, value);
+    })
+
+    return await axios.post(`/api/book`, build_data, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    });
+}
+const putUpdateBook = async (data) => {
+    const build_data = new FormData();
+
+    Object.entries(data).forEach(([key, value]) => {
+        build_data.append(`${key}`, value);
+    })
+
+    return await axios.put(`/api/book`, build_data, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    });
+}
+const deleteBook = async (book_id) => {
+    return await axios.delete(`/api/book/${book_id}`);
+}
+const putUpdateSellingBook = async (data) => {
+    return await axios.put('/api/selling-book', data);
+}
 export {
     getAllBookCategoryGroup, postCreateNewBookCategoryGroup,
     putUpdateBookCategoryGroup, deleteBookCategoryGroup,
@@ -96,8 +128,9 @@ export {
     getAuthorWithPagination, postCreateNewAuthor,
     putUpdateAuthor, deleteAuthor,
 
-    getPublisherWithPagination,postCreateNewPublisher,
+    getPublisherWithPagination, postCreateNewPublisher,
     putUpdatePublisher, deletePublisher,
 
-    getBooksWithPagination
+    getBooksWithPagination, postCreateNewBook,
+    putUpdateBook, deleteBook, putUpdateSellingBook
 }

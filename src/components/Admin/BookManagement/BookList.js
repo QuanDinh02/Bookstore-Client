@@ -22,19 +22,19 @@ const BookList = () => {
 
     const defaultValue = {
         name: '',
-        author: 0,
+        author: "0",
         price: '',
         language: '',
         translator: '',
-        publishing_day: '',
-        publishing_company: '',
-        product_code: '',
+        publishingDay: '',
+        publishingCompany: '',
+        productCode: '',
         size: '',
         pages: '',
         volume: '',
         format: '',
-        publisher: 0,
-        book_category: 0,
+        publisher: "0",
+        category: "0",
         description: '',
         image: '',
     }
@@ -58,26 +58,33 @@ const BookList = () => {
         }
         else if (action === 'UPDATE') {
             setModifiedData({
+                id: data?.id,
                 name: data?.name,
                 author: data?.Author.id,
                 price: data?.price,
                 language: data?.language,
                 translator: data?.translator,
-                publishing_day: data?.publishingDay,
-                publishing_company: data?.publishingCompany,
-                product_code: data?.productCode,
+                publishingDay: data?.publishingDay,
+                publishingCompany: data?.publishingCompany,
+                productCode: data?.productCode,
                 size: data?.size,
                 pages: data?.pages,
                 volume: data?.volume,
                 format: data?.format,
                 publisher: data?.Publisher.id,
-                book_category: data?.BookCategory.id,
+                category: data?.BookCategory.id,
                 description: data?.description,
                 image: data?.image,
             })
         }
         else if (action === 'UPDATE-SELLING') {
-
+            setModifiedData({
+                book_id: data?.id,
+                current_price: data?.SellingBook.current_price,
+                quantity: data?.SellingBook.quantity,
+                quality: data?.SellingBook.quality,
+                status: data?.SellingBook.status
+            })
         }
         else {
             setModifiedData({
@@ -206,7 +213,7 @@ const BookList = () => {
                                                             <div className='delete-btn px-1' title='Delete' onClick={() => handleShowModal('DELETE', item)}>
                                                                 <FaRegTrashAlt className='icon' />
                                                             </div>
-                                                            <div className='update-btn px-1' title='Selling Update' onClick={() => handleShowModal('UPDATE-SELLING')}>
+                                                            <div className='update-btn px-1' title='Selling Update' onClick={() => handleShowModal('UPDATE-SELLING',item)}>
                                                                 <MdSell className='icon' />
                                                             </div>
                                                         </div>
