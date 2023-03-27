@@ -11,6 +11,7 @@ import Footer from "../components/Footer/Footer";
 import AdminRoutes from "./AdminRoutes";
 import { useState } from "react";
 import { ProSidebarProvider } from 'react-pro-sidebar';
+import UserProfile from "../components/Content/UserProfile/UserProfile";
 
 const AppRoutes = () => {
 
@@ -40,6 +41,9 @@ const AppRoutes = () => {
                 </Route>
                 <Route path="/cart">
                     <Cart />
+                </Route>
+                <Route path="/user">
+                    <UserProfile/>
                 </Route>
                 <Route path="*">
                     <div className="container">
