@@ -1,0 +1,105 @@
+$green-color-1 : #19ae70;
+$bg-color      : #F0F2F5;
+
+.loginPage {
+    width           : 100%;
+    height          : 100vh;
+    background-color: $bg-color;
+
+    .login-container {
+        .content-left {
+            .brand {
+                color      : $green-color-1;
+                font-weight: 700;
+            }
+
+            .content {
+                font-weight: 400;
+            }
+        }
+
+        .content-right {
+            background-color: #FFFFFF;
+            border-radius   : 5px;
+            box-shadow      : rgba(0, 0, 0, 0.24) 0px 3px 8px;
+
+            .login-btn {
+                border-color: $green-color-1;
+                background-color: $green-color-1;
+            }
+
+            .brand {
+                color      : $green-color-1;
+                font-weight: 700;
+            }
+
+            .register-btn {
+                color: white;
+                background-color: $green-color-1;
+                font-weight: 700;
+            }
+
+            .forgottenPass {
+                a {
+                    color: black;
+                    text-decoration: none;
+
+                    &:hover {
+                        text-decoration: underline;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.registerPage {
+    width           : 100%;
+    height          : 100vh;
+    background-color: $bg-color;
+
+    .register-container {
+        .content-left {
+            display        : flex;
+            flex-direction : column;
+            justify-content: center;
+
+            .brand {
+                color      : $green-color-1;
+                font-weight: 700;
+            }
+
+            .content {
+                font-weight: 400;
+            }
+        }
+
+        .content-right {
+            background-color: white;
+            border-radius   : 5px;
+            box-shadow      : rgba(0, 0, 0, 0.24) 0px 3px 8px;
+
+            .brand {
+                color      : $green-color-1;
+                font-weight: 700;
+            }
+
+            .register-btn {
+                border-color: $green-color-1;
+                background-color: $green-color-1;
+            }
+
+            .login-btn {
+                color: white;
+                background-color: $green-color-1;
+                font-weight: 700;
+            }
+
+        }
+    }
+}
+
+.form-control:focus {
+    border-color: #19ae70 !important;
+    box-shadow: 0 0 0 0.1rem #c9ffe8 !important;
+}
