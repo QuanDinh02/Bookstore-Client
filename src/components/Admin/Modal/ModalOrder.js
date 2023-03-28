@@ -6,7 +6,7 @@ import Onepiece from '../../../assets/image/Onepiece.png';
 
 import './Modal.scss';
 
-const ModalUser = (props) => {
+const ModalOrder = (props) => {
     const { show, setShow, type } = props;
 
     const handleClose = () => setShow(false);
@@ -107,4 +107,4 @@ const ModalUser = (props) => {
     );
 }
 
-export default ModalUser;
+export default ModalOrder;

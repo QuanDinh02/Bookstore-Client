@@ -92,12 +92,25 @@ $cart-bg-color    : #F5F5F5;
                     }
 
                     .product-info {
-                        .product-image {
 
+                        .product-image {
                             img {
                                 width : 100%;
                                 height: 100%;
                             }
+                        }
+
+                        .product-title {
+                            padding: 0 !important;
+
+                            .title-content {
+                                display           : -webkit-box;
+                                -webkit-line-clamp: 1;
+                                -webkit-box-orient: vertical;
+                                overflow          : hidden;
+                                text-overflow     : ellipsis;
+                            }
+
                         }
                     }
                 }
@@ -156,6 +169,10 @@ $cart-bg-color    : #F5F5F5;
             }
         }
     }
+}
+
+.cart-confirm-modal {
+    font-size: 1.125rem;
 }
 
 input::-webkit-outer-spin-button,

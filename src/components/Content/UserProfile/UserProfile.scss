@@ -2,13 +2,14 @@ $main-green-color: #06603A;
 $green-color-1   : #19ae70;
 $light-blue-color: #F8F9FD;
 $main-red-color  : #CA2027;
+$red-color       : red;
 $bg-color        : #F5F5F5;
 $blue-color-1    : #0346AE;
 $gray-color-1    : #555953;
 $gray-color-2    : #d4d4d4;
 $gray-color-3    : #F9F9F9;
 $gray-color-4    : #ededed;
-
+$processing-color: orange;
 
 .user-profile-containter {
 
@@ -45,6 +46,10 @@ $gray-color-4    : #ededed;
                     &:hover {
                         cursor: pointer;
                         color : $main-red-color;
+                    }
+
+                    .active-section {
+                        color: $main-red-color;
                     }
                 }
 
@@ -163,6 +168,62 @@ $gray-color-4    : #ededed;
                     padding-bottom: 1rem;
                     border-bottom : 1px solid $gray-color-2;
                 }
+
+                .address-main {
+                    .address-item {
+                        .address-info {
+
+                            .phone,
+                            .address {
+                                font-size: 0.9rem;
+                                color    : $gray-color-1;
+                            }
+
+                            .address-content {
+                                .default-label {
+
+                                    width    : fit-content;
+                                    font-size: 0.9rem;
+                                    padding  : 0 0.3125rem;
+
+                                    color : $red-color;
+                                    border: 1px solid $red-color;
+                                }
+                            }
+                        }
+
+                        .address-actions {
+
+                            .edit-icon,
+                            .delete-icon {
+                                font-size: 1.4rem;
+                                color    : white;
+
+                                &:hover {
+                                    cursor: pointer;
+                                }
+                            }
+
+                            .edit-icon {
+                                padding         : 2px;
+                                background-color: orange;
+
+                                &:hover {
+                                    background-color: rgb(210, 138, 6);
+                                }
+                            }
+
+                            .delete-icon {
+                                background-color: $red-color;
+                                padding         : 2px;
+
+                                &:hover {
+                                    background-color: $main-red-color;
+                                }
+                            }
+                        }
+                    }
+                }
             }
 
             .password-account-container {
@@ -221,8 +282,7 @@ $gray-color-4    : #ededed;
                         }
 
                         &:hover {
-                            cursor             : pointer;
-                            border-bottom-color: $green-color-1;
+                            cursor: pointer;
 
                             .navigation-link {
                                 color: $green-color-1;
@@ -240,16 +300,118 @@ $gray-color-4    : #ededed;
                     }
                 }
 
+                .user-purchase-detail {
+                    .order-container {
+                        border: 1px solid $gray-color-2;
+
+                        .order-info {
+                            .order-id-time {
+                                .order-id {
+                                    font-size  : 1.25rem;
+                                    font-weight: 600;
+
+                                    .code {
+                                        color: $green-color-1;
+                                    }
+                                }
+
+                                .order-time {
+                                    font-size: 0.9rem;
+                                }
+                            }
+
+                            .processing-status {
+                                color  : $processing-color;
+                                border : 1px solid $processing-color;
+                                padding: 0 0.625rem;
+                            }
+
+                            .delivered-status {
+                                color  : $blue-color-1;
+                                border : 1px solid $blue-color-1;
+                                padding: 0 0.625rem;
+                            }
+
+                            .completed-status {
+                                color  : $green-color-1;
+                                border : 1px solid $green-color-1;
+                                padding: 0 0.625rem;
+                            }
+
+                            .canceled-status {
+                                color  : $red-color;
+                                border : 1px solid $red-color;
+                                padding: 0 0.625rem;
+                            }
+                        }
+
+                        .order-detail {
+                            .order-item {
+                                border-top: 1px solid $gray-color-2;
+
+                                .left {
+                                    width: 80%;
+
+                                    .image {
+                                        width : 5.625rem;
+                                        height: 8.4375rem;
+
+                                        img {
+                                            width : 100%;
+                                            height: 100%;
+                                        }
+                                    }
+
+                                    .name {
+                                        font-size: 1.1rem;
+                                    }
+
+                                    .quantity {
+                                        font-size: 0.9rem;
+                                        color    : $gray-color-1;
+                                    }
+                                }
+
+                                .right {
+                                    width      : 20%;
+                                    border-left: 1px solid $gray-color-2;
+
+                                    .price {
+                                        font-size: 1.125rem;
+                                    }
+                                }   
+                            }
+
+                            .order-payment {
+                                border-top: 1px solid $gray-color-2;
+
+                                .total-payments {
+                                    .total-price {
+                                        font-size: 24px;
+                                        color: $red-color;
+                                    }
+                                }
+
+                                .order-delete-btn {
+                                    border          : 1px solid $gray-color-2;
+                                    background-color: white;
+
+                                    padding: 0.25rem 1.5rem;
+
+                                    &:hover {
+                                        color: $red-color;
+                                        border-color: $red-color;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }
 
 }
-
-
-
-
-
 
 .red {
     border: 1px dashed red;

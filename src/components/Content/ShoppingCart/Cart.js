@@ -10,10 +10,15 @@ import {
 
 import { useImmer } from 'use-immer';
 import { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import CartModal from './CartModal';
 
 const Cart = () => {
 
     const dispatch = useDispatch();
+    const history = useHistory();
+    const [showModal, setShowModal] = useState(false);
+
     const bookList = useSelector(state => state.shoppingCart.bookList);
     const booksCount = useSelector(state => state.shoppingCart.booksCount);
 
@@ -31,7 +36,7 @@ const Cart = () => {
         dispatch(ChangeCartItemAmount(book_id, +amount));
         setCartItems(draft => {
             draft = draft.map(item => {
-                if(item.id === book_id) {
+                if (item.id === book_id) {
                     item.amount = +amount;
                 }
                 return item;
@@ -85,6 +90,10 @@ const Cart = () => {
             }
         }
 
+    }
+
+    const handleConfirmCart = () => {
+        history.push('/user/purchase');
     }
 
     useEffect(() => {
@@ -154,163 +163,170 @@ const Cart = () => {
     }, [bookList]);
 
     return (
-        <div className='shopping-cart-container'>
-            <div className='cart-title text-center py-4'>
-                Shopping Cart
-            </div>
-            <div className='cart-detail-container pt-4'>
-                <div className='cart-detail container d-flex flex-column flex-lg-row gap-3 justify-content-lg-between'>
-                    <div className='cart-main col-12 col-lg-9 col-xl-8 position-relative'>
-                        <table class="table table-borderless" key={'checkbox-all-1'}>
-                            <tbody className=''>
-                                <tr className='d-flex'>
-                                    <td className='checkbox-all d-flex'>
-                                        <div class="form-check d-flex h-100 align-items-center">
-                                            <input
-                                                class="form-check-input ms-lg-3 me-lg-4 checkbox-form"
-                                                type="checkbox"
-                                                checked={checkAllCartItems}
-                                                onChange={(event) => handleCheckAllCartItem(event)}
-                                            />
-                                        </div>
-                                        <div className='d-flex align-items-center'>
-                                            <span>Product</span>
-                                        </div>
-                                    </td>
-                                    <td className='table-header d-flex align-items-center justify-content-center'>Unit Price</td>
-                                    <td className='table-header d-flex align-items-center justify-content-center'>Quantity</td>
-                                    <td className='table-header d-flex align-items-center justify-content-center'>Total Price</td>
-                                    <td className='table-header d-flex align-items-center justify-content-center'>Actions</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <table class="table product-table">
-                            <tbody className=''>
-                                {
-                                    cartItems && cartItems.length > 0 &&
-                                    cartItems.map((item, index) => {
-                                        return (
-                                            <tr key={`book-cart-${item.id}`} className='d-flex'>
-                                                <td className='checkbox-product d-flex'>
-                                                    <div class="form-check d-flex h-100 align-items-center">
+        <>
+            <div className='shopping-cart-container'>
+                <div className='cart-title text-center py-4'>
+                    Shopping Cart
+                </div>
+                <div className='cart-detail-container pt-4'>
+                    <div className='cart-detail container d-flex flex-column flex-lg-row gap-3 justify-content-lg-between'>
+                        <div className='cart-main col-12 col-lg-9 col-xl-8 position-relative'>
+                            <table class="table table-borderless" key={'checkbox-all-1'}>
+                                <tbody className=''>
+                                    <tr className='d-flex'>
+                                        <td className='checkbox-all d-flex'>
+                                            <div class="form-check d-flex h-100 align-items-center">
+                                                <input
+                                                    class="form-check-input ms-lg-3 me-lg-4 checkbox-form"
+                                                    type="checkbox"
+                                                    checked={checkAllCartItems}
+                                                    onChange={(event) => handleCheckAllCartItem(event)}
+                                                />
+                                            </div>
+                                            <div className='d-flex align-items-center'>
+                                                <span>Product</span>
+                                            </div>
+                                        </td>
+                                        <td className='table-header d-flex align-items-center justify-content-center'>Unit Price</td>
+                                        <td className='table-header d-flex align-items-center justify-content-center'>Quantity</td>
+                                        <td className='table-header d-flex align-items-center justify-content-center'>Total Price</td>
+                                        <td className='table-header d-flex align-items-center justify-content-center'>Actions</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table class="table product-table">
+                                <tbody className=''>
+                                    {
+                                        cartItems && cartItems.length > 0 &&
+                                        cartItems.map((item, index) => {
+                                            return (
+                                                <tr key={`book-cart-${item.id}`} className='d-flex'>
+                                                    <td className='checkbox-product d-flex'>
+                                                        <div class="form-check d-flex h-100 align-items-center">
+                                                            <input
+                                                                class="form-check-input ms-lg-3 me-lg-4 checkbox-form"
+                                                                type="checkbox"
+                                                                checked={item.isChecked}
+                                                                onChange={(event) => handleCheckCartItem(item.id, event.target.checked)}
+                                                            />
+                                                        </div>
+                                                        <div className='product-info d-flex h-100 w-100 justify-content-between'>
+                                                            <div className='product-image col-4'>
+                                                                <img src={`data:image/jpeg;base64,${item.image}`} alt='' />
+                                                            </div>
+                                                            <div className='product-title d-flex align-items-center col-7'>
+                                                                <span className='title-content'>{item.title}</span>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td className='product-info d-flex align-items-center justify-content-center'>
+                                                        {item.current_price} <span className='unit'>&nbsp;đ</span>
+                                                    </td>
+                                                    <td className='product-info d-flex align-items-center justify-content-center quantity'>
+                                                        <button
+                                                            onClick={() => handleChangeItemAmount(item.id, item.amount - 1)}
+                                                        >
+                                                            &#8722;
+                                                        </button>
+
                                                         <input
-                                                            class="form-check-input ms-lg-3 me-lg-4 checkbox-form"
-                                                            type="checkbox"
-                                                            checked={item.isChecked}
-                                                            onChange={(event) => handleCheckCartItem(item.id, event.target.checked)}
+                                                            type='number'
+                                                            value={item.amount}
+                                                            onChange={(event) => handleChangeItemAmount(item.id, event.target.value)}
                                                         />
-                                                    </div>
-                                                    <div className='product-info d-flex h-100 w-100'>
-                                                        <div className='product-image'>
-                                                            <img src={`data:image/jpeg;base64,${item.image}`} alt='' />
-                                                        </div>
-                                                        <div className='product-title d-flex align-items-center ps-3'>
-                                                            <span>{item.title}</span>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td className='product-info d-flex align-items-center justify-content-center'>
-                                                    {item.current_price} <span className='unit'>&nbsp;đ</span>
-                                                </td>
-                                                <td className='product-info d-flex align-items-center justify-content-center quantity'>
-                                                    <button
-                                                        onClick={() => handleChangeItemAmount(item.id, item.amount - 1)}
-                                                    >
-                                                        &#8722;
-                                                    </button>
 
-                                                    <input
-                                                        type='number'
-                                                        value={item.amount}
-                                                        onChange={(event) => handleChangeItemAmount(item.id, event.target.value)}
-                                                    />
-
-                                                    <button
-                                                        onClick={() => handleChangeItemAmount(item.id, item.amount + 1)}
-                                                    >
-                                                        &#43;
-                                                    </button>
-                                                </td>
-                                                <td className='product-info d-flex align-items-center justify-content-center total-price'>
-                                                    {item.current_price * item.amount} <span className='unit'>&nbsp; đ</span>
-                                                </td>
-                                                <td className='product-info d-flex align-items-center justify-content-center remove-icon'>
-                                                    <span title='delete'>
-                                                        <IoTrashOutline className='icon' onClick={() => handleDeleteCartItem(item.id)} />
-                                                    </span>
-                                                </td>
-                                            </tr>
-                                        )
-                                    })
-                                }
-                            </tbody>
-                        </table>
-                        <table class="table table-borderless select-all-section" key={'checkbox-all-2'}>
-                            <tbody className=''>
-                                <tr className='d-flex'>
-                                    <td className='checkbox-all d-flex'>
-                                        <div class="form-check d-flex h-100 align-items-center">
-                                            <input
-                                                class="form-check-input ms-lg-3 me-lg-4 checkbox-form"
-                                                type="checkbox"
-                                                checked={checkAllCartItems}
-                                                onChange={(event) => handleCheckAllCartItem(event)}
-                                            />
-                                        </div>
-                                        <div className='d-flex align-items-center'>
-                                            <span>SELECT ALL ({booksCount})</span>
-                                        </div>
-                                    </td>
-                                    <td className='table-header-x4 d-flex align-items-center justify-content-end'>
-                                        <span className='remove-all-icon' onClick={handleDeleteManyCartItems}><IoTrashOutline className='icon' />&nbsp;DELETE</span>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div className='cart-payment col-12 col-lg-3 col-xl-4'>
-                        <div className='summary'>
-                            <span>Order Summary</span>
+                                                        <button
+                                                            onClick={() => handleChangeItemAmount(item.id, item.amount + 1)}
+                                                        >
+                                                            &#43;
+                                                        </button>
+                                                    </td>
+                                                    <td className='product-info d-flex align-items-center justify-content-center total-price'>
+                                                        {item.current_price * item.amount} <span className='unit'>&nbsp; đ</span>
+                                                    </td>
+                                                    <td className='product-info d-flex align-items-center justify-content-center remove-icon'>
+                                                        <span title='delete'>
+                                                            <IoTrashOutline className='icon' onClick={() => handleDeleteCartItem(item.id)} />
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            )
+                                        })
+                                    }
+                                </tbody>
+                            </table>
+                            <table class="table table-borderless select-all-section" key={'checkbox-all-2'}>
+                                <tbody className=''>
+                                    <tr className='d-flex'>
+                                        <td className='checkbox-all d-flex'>
+                                            <div class="form-check d-flex h-100 align-items-center">
+                                                <input
+                                                    class="form-check-input ms-lg-3 me-lg-4 checkbox-form"
+                                                    type="checkbox"
+                                                    checked={checkAllCartItems}
+                                                    onChange={(event) => handleCheckAllCartItem(event)}
+                                                />
+                                            </div>
+                                            <div className='d-flex align-items-center'>
+                                                <span>SELECT ALL ({booksCount})</span>
+                                            </div>
+                                        </td>
+                                        <td className='table-header-x4 d-flex align-items-center justify-content-end'>
+                                            <span className='remove-all-icon' onClick={handleDeleteManyCartItems}><IoTrashOutline className='icon' />&nbsp;DELETE</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
-                        <div className='subtotal d-flex justify-content-between mt-3 title-color'>
-                            <div className='subtotal-title'>
-                                Subtotal ({cartItemsAmount} items)
+                        <div className='cart-payment col-12 col-lg-3 col-xl-4'>
+                            <div className='summary'>
+                                <span>Order Summary</span>
                             </div>
-                            <div className='value'>
-                                <span>{subTotal}</span>&nbsp;<span className='unit'>đ</span>
+                            <div className='subtotal d-flex justify-content-between mt-3 title-color'>
+                                <div className='subtotal-title'>
+                                    Subtotal ({cartItemsAmount} items)
+                                </div>
+                                <div className='value'>
+                                    <span>{subTotal}</span>&nbsp;<span className='unit'>đ</span>
+                                </div>
                             </div>
-                        </div>
-                        <div className='product-discount d-flex justify-content-between mt-3 title-color'>
-                            <div className='product-title'>
-                                Product Discount
+                            <div className='product-discount d-flex justify-content-between mt-3 title-color'>
+                                <div className='product-title'>
+                                    Product Discount
+                                </div>
+                                <div className='value'>
+                                    -<span>{discountTotal}</span>&nbsp;<span className='unit'>đ</span>
+                                </div>
                             </div>
-                            <div className='value'>
-                                -<span>{discountTotal}</span>&nbsp;<span className='unit'>đ</span>
+                            <div className='saved d-flex justify-content-between mt-3 title-color'>
+                                <div className='saved-title'>
+                                    Saved
+                                </div>
+                                <div className='value'>
+                                    -<span>{discountTotal}</span>&nbsp;<span className='unit'>đ</span>
+                                </div>
                             </div>
-                        </div>
-                        <div className='saved d-flex justify-content-between mt-3 title-color'>
-                            <div className='saved-title'>
-                                Saved
+                            <div className='total-amount d-flex justify-content-between mt-3'>
+                                <div className='total-amount-title'>
+                                    Total Amount
+                                </div>
+                                <div className='value'>
+                                    <span>{total}</span>&nbsp;<span className='unit'>đ</span>
+                                </div>
                             </div>
-                            <div className='value'>
-                                -<span>{discountTotal}</span>&nbsp;<span className='unit'>đ</span>
+                            <div className='confirm-cart mt-3'>
+                                <button className='btn btn-success' onClick={() => setShowModal(true)}>CONFIRM CART({cartItemsAmount})</button>
                             </div>
-                        </div>
-                        <div className='total-amount d-flex justify-content-between mt-3'>
-                            <div className='total-amount-title'>
-                                Total Amount
-                            </div>
-                            <div className='value'>
-                                <span>{total}</span>&nbsp;<span className='unit'>đ</span>
-                            </div>
-                        </div>
-                        <div className='confirm-cart mt-3'>
-                            <button className='btn btn-success'>CONFIRM CART({cartItemsAmount})</button>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+            <CartModal
+                show={showModal}
+                setShow={setShowModal}
+                confirmCart={handleConfirmCart}
+            />
+        </>
     )
 }
 

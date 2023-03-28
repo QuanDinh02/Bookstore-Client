@@ -20,8 +20,10 @@ import { useHistory, useLocation } from 'react-router-dom';
 
 const Header = (props) => {
 
-    const {setShow} = props;
+    const { setShow } = props;
     const dispatch = useDispatch();
+
+    const urls = ['/admin','/login','/register'];
 
     const bookList = useSelector(state => state.shoppingCart.bookList);
     const booksCount = useSelector(state => state.shoppingCart.booksCount);
@@ -57,16 +59,17 @@ const Header = (props) => {
 
     useEffect(() => {
         setShowShoppingCart(false);
-        
+
         if (location.pathname === '/') {
             setShowBookCategory(true);
         } else {
             setShowBookCategory(false);
         }
+
     }, [location.pathname]);
 
     useEffect(() => {
-        if (location.pathname.includes('/admin')) {
+        if (urls.some(u => location.pathname.includes(u))) {
             setShow(false);
         } else {
             setShow(true);
@@ -128,7 +131,7 @@ const Header = (props) => {
                                                             return (
                                                                 <tr key={`book-cart-item-${item.id}`} className='book-item'>
                                                                     <td className='cart-item-image'>
-                                                                        <img src={`data:image/jpeg;base64,${item.image}`} alt='' onClick={() => handleViewBookDetail(item.id)}/>
+                                                                        <img src={`data:image/jpeg;base64,${item.image}`} alt='' onClick={() => handleViewBookDetail(item.id)} />
                                                                     </td>
                                                                     <td className='cart-item-content'>
                                                                         <div className='cart-item-title' onClick={() => handleViewBookDetail(item.id)}>
@@ -168,10 +171,10 @@ const Header = (props) => {
                             </div>
                             <div className='login-logout ps-3 d-flex justify-content-center align-items-center'>
                                 <div className='login'>
-                                    <a href='/'>Login</a>
+                                    <a href='/login'>Login</a>
                                 </div>
                                 <div className='register'>
-                                    <a href='/'>Register</a>
+                                    <a href='/register'>Register</a>
                                 </div>
                             </div>
                         </div>

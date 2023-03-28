@@ -56,7 +56,7 @@ const ProfileSidebar = () => {
             <div className='sidebar-item' onClick={() => handleAccesRoute('/purchase')}>
                 <span
                     className=
-                    {location.pathname === '/user/purchase' ?
+                    {location.pathname.includes('/user/purchase') ?
                         'user-purchase-section d-flex align-items-center gap-2 active-section'
                         :
                         'user-purchase-section d-flex align-items-center gap-2'

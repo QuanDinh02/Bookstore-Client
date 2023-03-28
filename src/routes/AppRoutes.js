@@ -12,6 +12,8 @@ import AdminRoutes from "./AdminRoutes";
 import { useState } from "react";
 import { ProSidebarProvider } from 'react-pro-sidebar';
 import UserProfile from "../components/Content/UserProfile/UserProfile";
+import Login from "../components/Authentication/Login";
+import Register from "../components/Authentication/Register";
 
 const AppRoutes = () => {
 
@@ -28,6 +30,12 @@ const AppRoutes = () => {
                 <Route path="/" exact>
                     <HomepageContent />
                 </Route>
+                <Route path="/login">
+                    <Login />
+                </Route>
+                <Route path="/register">
+                    <Register />
+                </Route>
                 <Route path="/admin">
                     <ProSidebarProvider>
                         <AdminRoutes />
@@ -43,7 +51,7 @@ const AppRoutes = () => {
                     <Cart />
                 </Route>
                 <Route path="/user">
-                    <UserProfile/>
+                    <UserProfile />
                 </Route>
                 <Route path="*">
                     <div className="container">
