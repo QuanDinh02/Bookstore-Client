@@ -302,7 +302,8 @@ $processing-color: orange;
 
                 .user-purchase-detail {
                     .order-container {
-                        border: 1px solid $gray-color-2;
+                        border       : 1px solid $gray-color-2;
+                        margin-bottom: 3.125rem;
 
                         .order-info {
                             .order-id-time {
@@ -379,7 +380,7 @@ $processing-color: orange;
                                     .price {
                                         font-size: 1.125rem;
                                     }
-                                }   
+                                }
                             }
 
                             .order-payment {
@@ -388,7 +389,7 @@ $processing-color: orange;
                                 .total-payments {
                                     .total-price {
                                         font-size: 24px;
-                                        color: $red-color;
+                                        color    : $red-color;
                                     }
                                 }
 
@@ -399,7 +400,7 @@ $processing-color: orange;
                                     padding: 0.25rem 1.5rem;
 
                                     &:hover {
-                                        color: $red-color;
+                                        color       : $red-color;
                                         border-color: $red-color;
                                     }
                                 }

@@ -8,6 +8,8 @@ import { TailSpin } from 'react-loader-spinner';
 import User from '../../../assets/image/user.png';
 import { useHistory } from 'react-router-dom';
 import ModalUser from '../Modal/ModalUser';
+import { getUserWithPagination } from '../../Services/adminServices';
+import { useImmer } from 'use-immer';
 
 const UserTable = () => {
 
@@ -17,20 +19,73 @@ const UserTable = () => {
     const [modalType, setModalType] = useState('');
 
     const [showModalUser, setShowModalUser] = useState(false);
+    const [usersList, setUsersList] = useImmer([]);
+    const [userCurrentPage, setUserCurrentPage] = useState(1);
+    const [userLimit, setUserLimit] = useState(2);
+
+    const [moddifiedData, setModifiedData] = useState({
+        user_id: '',
+        fullname: '',
+        username: '',
+        email: '',
+        phone: '',
+        address: '',
+        dob: '',
+        gender: '',
+        facebook_url: '',
+        twitter_url: '',
+        user_group: '',
+        image: ''
+    });
 
     // handle pagination
-    const handlePageClick = () => {
-
+    const handlePageClick = (event) => {
+        setUserCurrentPage(+event.selected + 1);
     }
 
-    const handleShowModal = (action) => {
+    const handleShowModal = (action, data = {}) => {
         setModalType(action);
+
+        if (action === 'UPDATE') {
+            setModifiedData({
+                user_id: data.id,
+                fullname: data?.fullname,
+                username: data?.username,
+                email: data?.email,
+                phone: data?.phone,
+                address: data?.address,
+                dob: data?.dob,
+                gender: data?.gender,
+                facebook_url: data?.facebook_url,
+                twitter_url: data?.twitter_url,
+                user_group: `${data?.UserGroup.id}`,
+                image: data?.image
+            })
+        } else {
+            setModifiedData({
+                user_id: data.id,
+                username: data?.username
+            })
+        }
+
         setShowModalUser(true);
     }
 
     const handleAddNewUser = () => {
         history.push('/admin/manager/user-add-new');
     }
+
+    const fetchUserWithPagination = async () => {
+        let result = await getUserWithPagination(userLimit, userCurrentPage);
+        if (result && result.EC === 0) {
+            console.log(result.DT);
+            setUsersList(result.DT);
+        }
+    }
+
+    useEffect(() => {
+        fetchUserWithPagination();
+    }, [userCurrentPage]);
 
     useEffect(() => {
         setTimeout(() => {
@@ -93,7 +148,7 @@ const UserTable = () => {
                                             <span>Contact</span>
                                         </td>
                                         <td className='table-head'>
-                                            <span className='d-flex align-items-center gap-2'>Join Date <HiChevronUpDown className='filter-icon' /></span>
+                                            <span className='d-flex align-items-center gap-2'>Dob <HiChevronUpDown className='filter-icon' /></span>
                                         </td>
                                         <td className='table-head'>
                                             <span className='d-flex align-items-center gap-2'>Gender <HiChevronUpDown className='filter-icon' /></span>
@@ -107,28 +162,48 @@ const UserTable = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {
-                                        [...Array(5)].map((item, index) => {
+                                    {usersList?.users && usersList?.users.length > 0 &&
+                                        usersList?.users.map((item, index) => {
                                             return (
-                                                <tr key={`user-info-${index}`}>
-                                                    <td>{index + 1}</td>
-                                                    <td className='user-img'><img src={User}></img></td>
-                                                    <td className='username'>Steve Hopp</td>
-                                                    <td className='email'>steve@gmail.com</td>
-                                                    <td className='phone'>0123456789</td>
-                                                    <td className='join-date'>03/08/2022</td>
-                                                    <td className='gender'>Man</td>
-                                                    <td className='user-group'>Customer</td>
+                                                <tr key={`user-info-${item.id}`}>
+                                                    <td>{(userCurrentPage - 1) * userLimit + index + 1}</td>
+                                                    <td className='user-img'>
+                                                        {item.image ?
+                                                            <img src={`data:image/jpeg;base64,${item.image}`} alt='' />
+                                                            :
+                                                            <img src={User}></img>
+                                                        }
+                                                    </td>
+                                                    <td className='username'>{item.username}</td>
+                                                    <td className='email'>{item.email}</td>
+                                                    <td className='phone'>{item.phone}</td>
+                                                    <td className='dob'>{item.dob}</td>
+                                                    <td className='gender'>{item.gender}</td>
+                                                    <td className='user-group'>{item.UserGroup.name}</td>
                                                     <td className='actions text-center'>
                                                         <div className='d-flex gap-3'>
-                                                            <div className='edit-btn px-1' title='Edit' onClick={() => handleShowModal('UPDATE')}>
+                                                            <div className='edit-btn px-1' title='Edit' onClick={() => handleShowModal('UPDATE', item)}>
                                                                 <MdModeEditOutline className='icon' />
                                                             </div>
-                                                            <div className='delete-btn px-1' title='Delete' onClick={() => handleShowModal('DELETE')}>
+                                                            <div className='delete-btn px-1' title='Delete' onClick={() => handleShowModal('DELETE', item)}>
                                                                 <FaRegTrashAlt className='icon' />
                                                             </div>
                                                         </div>
                                                     </td>
+                                                </tr>
+                                            )
+                                        })
+                                    }
+                                    {
+                                        usersList?.users.length < userLimit &&
+                                        [...Array(userLimit - usersList?.users.length)].map(item => {
+                                            return (
+                                                <tr key={`empty-item-${item}`}>
+                                                    {[...Array(9)].map(i => {
+                                                        return (
+                                                            <td>...</td>
+                                                        )
+                                                    })}
                                                 </tr>
                                             )
                                         })
@@ -141,7 +216,7 @@ const UserTable = () => {
                                     onPageChange={handlePageClick}
                                     pageRangeDisplayed={3}
                                     marginPagesDisplayed={3}
-                                    pageCount={5}
+                                    pageCount={usersList?.total_pages}
                                     previousLabel="< previous"
                                     pageClassName="page-item"
                                     pageLinkClassName="page-link page-background"
@@ -160,9 +235,11 @@ const UserTable = () => {
                         </div>
                     </div>
                     <ModalUser
+                        data={moddifiedData}
                         type={modalType}
                         show={showModalUser}
                         setShow={setShowModalUser}
+                        fetchUsers={fetchUserWithPagination}
                     />
                 </div>
             }

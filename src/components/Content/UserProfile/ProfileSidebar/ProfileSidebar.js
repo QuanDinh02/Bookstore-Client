@@ -4,10 +4,22 @@ import { AiOutlineUser } from 'react-icons/ai';
 import { HiOutlineClipboardList } from 'react-icons/hi';
 import { useHistory, useLocation, useRouteMatch } from 'react-router-dom';
 
+const NOT_TOGGLE = ['/account', '/password', '/address'];
+
 const ProfileSidebar = () => {
 
-    const [toggle, setToggle] = useState(false);
+    const [toggle, setToggle] = useState(true);
     const location = useLocation();
+
+    const handleToggle = (section) => {
+        handleAccesRoute(section);
+        let check = NOT_TOGGLE.some(u => section.includes(u));
+        if (!check) {
+            setToggle(false);
+        } else {
+            setToggle(true);
+        }
+    }
 
     const history = useHistory();
     const { url } = useRouteMatch();
@@ -21,10 +33,7 @@ const ProfileSidebar = () => {
             <div className='sidebar-item'>
                 <span
                     className='user-account-section d-flex align-items-center gap-2'
-                    onClick={() => {
-                        handleAccesRoute('/account');
-                        setToggle(!toggle);
-                    }}
+                    onClick={() => handleToggle('/account')}
                 >
                     <AiOutlineUser className='user-icon' /> My Account
                 </span>
@@ -33,19 +42,19 @@ const ProfileSidebar = () => {
                         <ul>
                             <li
                                 className={location.pathname === '/user/account' ? 'mt-2 active-section' : 'mt-2'}
-                                onClick={() => handleAccesRoute('/account')}
+                                onClick={() => handleToggle('/account')}
                             >
                                 Profile
                             </li>
                             <li
                                 className={location.pathname === '/user/password' ? 'mt-1 active-section' : 'mt-1'}
-                                onClick={() => handleAccesRoute('/password')}
+                                onClick={() => handleToggle('/password')}
                             >
                                 Change Password
                             </li>
                             <li
                                 className={location.pathname === '/user/address' ? 'mt-1 active-section' : 'mt-1'}
-                                onClick={() => handleAccesRoute('/address')}
+                                onClick={() => handleToggle('/address')}
                             >
                                 Addresses
                             </li>
@@ -53,7 +62,7 @@ const ProfileSidebar = () => {
                     </div>
                 </Collapse>
             </div>
-            <div className='sidebar-item' onClick={() => handleAccesRoute('/purchase')}>
+            <div className='sidebar-item' onClick={() => handleToggle('/purchase')}>
                 <span
                     className=
                     {location.pathname.includes('/user/purchase') ?

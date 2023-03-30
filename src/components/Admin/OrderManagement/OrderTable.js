@@ -5,26 +5,44 @@ import ReactPaginate from 'react-paginate';
 import { useEffect, useState } from 'react';
 import { TailSpin } from 'react-loader-spinner';
 import { useHistory } from 'react-router-dom';
-import ModalUser from '../Modal/ModalUser';
+
+import { getOrderWithPagination } from '../../Services/adminServices';
+import { useImmer } from 'use-immer';
+import ModalDeleteOrder from '../Modal/ModalDeleteOrder';
 
 const OrderTable = () => {
 
     const [isLoading, setIsLoading] = useState(true);
     const history = useHistory();
 
-    const [modalType, setModalType] = useState('');
+    const [showModalOrder, setShowModalOrder] = useState(false);
+    const [orderList, setOrderList] = useImmer([]);
+    const [orderCurrentPage, setOrderCurrentPage] = useState(1);
+    const [orderLimit, setOrderLimit] = useState(3);
 
-    const [showModalUser, setShowModalUser] = useState(false);
+    const [orderDelete, setOrderDelete] = useState('');
 
     // handle pagination
-    const handlePageClick = () => {
-
+    const handlePageClick = (event) => {
+        setOrderCurrentPage(+event.selected + 1);
     }
 
-    const handleShowModal = (action) => {
-        setModalType(action);
-        setShowModalUser(true);
+    const handleShowModal = (orderID) => {
+        setOrderDelete(orderID);
+        setShowModalOrder(true);
     }
+
+    const fetchOrderWithPagination = async () => {
+        let result = await getOrderWithPagination(orderLimit, orderCurrentPage);
+        if (result && result.EC === 0) {
+            console.log(result.DT);
+            setOrderList(result.DT);
+        }
+    }
+
+    useEffect(() => {
+        fetchOrderWithPagination();
+    }, [orderCurrentPage]);
 
     useEffect(() => {
         setTimeout(() => {
@@ -103,29 +121,44 @@ const OrderTable = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {
-                                        [...Array(5)].map((item, index) => {
+                                    {orderList?.orders && orderList?.orders.length > 0 &&
+                                        orderList?.orders.map((item, index) => {
                                             return (
-                                                <tr key={`order-info-${index}`}>
-                                                    <td>{index + 1}</td>
-                                                    <td className='order_id'>#100135</td>
-                                                    <td className='address'>6391PrestonRd.Inglewood6391PrestonRd.Inglewood6391PrestonRd.Inglewood</td>
-                                                    <td className='payment text-center'>Cash</td>
-                                                    <td className='date'>03/08/2022</td>
-                                                    <td className='price'>10,350,000 đ</td>
-                                                    <td className='total-books text-center'>8</td>
-                                                    <td className='customer'>#100135</td>
-                                                    <td className='status'>Processing</td>
+                                                <tr key={`order-info-${item.id}`}>
+                                                    <td>{(orderCurrentPage - 1) * orderLimit + index + 1}</td>
+                                                    <td className='order_id'>{item.id}</td>
+                                                    <td className='address'>
+                                                        <div className='address-content'>
+                                                            {item.address}
+                                                        </div>
+                                                    </td>
+                                                    <td className='payment text-center'>{item.payment}</td>
+                                                    <td className='date'>{item.date}</td>
+                                                    <td className='price'>{item.total_price}</td>
+                                                    <td className='total-books text-center'>{item.total_books}</td>
+                                                    <td className='customer'>{item.User.id}</td>
+                                                    <td className='status'>{item.status}</td>
                                                     <td className='actions text-center'>
                                                         <div className='d-flex gap-3'>
-                                                            <div className='edit-btn px-1' title='Edit' onClick={() => handleShowModal('UPDATE')}>
-                                                                <MdModeEditOutline className='icon' />
-                                                            </div>
-                                                            <div className='delete-btn px-1' title='Delete' onClick={() => handleShowModal('DELETE')}>
+                                                            <div className='delete-btn px-1' title='Delete' onClick={() => handleShowModal(item.id)}>
                                                                 <FaRegTrashAlt className='icon' />
                                                             </div>
                                                         </div>
                                                     </td>
+                                                </tr>
+                                            )
+                                        })
+                                    }
+                                    {
+                                        orderList?.orders.length < orderLimit &&
+                                        [...Array(orderLimit - orderList?.orders.length)].map(item => {
+                                            return (
+                                                <tr key={`empty-item-${item}`}>
+                                                    {[...Array(8)].map(i => {
+                                                        return (
+                                                            <td>...</td>
+                                                        )
+                                                    })}
                                                 </tr>
                                             )
                                         })
@@ -138,7 +171,7 @@ const OrderTable = () => {
                                     onPageChange={handlePageClick}
                                     pageRangeDisplayed={3}
                                     marginPagesDisplayed={3}
-                                    pageCount={5}
+                                    pageCount={orderList.total_pages}
                                     previousLabel="< previous"
                                     pageClassName="page-item"
                                     pageLinkClassName="page-link page-background"
@@ -156,10 +189,11 @@ const OrderTable = () => {
                             </div>
                         </div>
                     </div>
-                    <ModalUser
-                        type={modalType}
-                        show={showModalUser}
-                        setShow={setShowModalUser}
+                    <ModalDeleteOrder
+                        data={orderDelete}
+                        show={showModalOrder}
+                        setShow={setShowModalOrder}
+                        fetchOrders={fetchOrderWithPagination}
                     />
                 </div>
             }

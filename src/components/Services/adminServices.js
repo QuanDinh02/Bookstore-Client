@@ -13,7 +13,6 @@ const deleteBookCategoryGroup = async (group_id) => {
     return await axios.delete(`/api/book-category-group/${group_id}`);
 }
 
-
 const getAllBookCategory = async (limit, page) => {
     return await axios.get(`/api/book-category?limit=${limit}&page=${page}`);
 }
@@ -118,6 +117,66 @@ const deleteBook = async (book_id) => {
 const putUpdateSellingBook = async (data) => {
     return await axios.put('/api/selling-book', data);
 }
+
+const getUserWithPagination = async (limit, page) => {
+    return await axios.get(`/api/user?limit=${limit}&page=${page}`);
+}
+const postCreateNewUser = async (data) => {
+
+    const build_data = new FormData();
+    build_data.append('fullname', data.fullname);
+    build_data.append('username', data.username);
+    build_data.append('email', data.email);
+    build_data.append('phone', data.phone);
+    build_data.append('address', data.address);
+    build_data.append('dob', data.dob);
+    build_data.append('gender', data.gender);
+    build_data.append('facebook_url', data.facebook_url);
+    build_data.append('twitter_url', data.twitter_url);
+    build_data.append('user_group', data.user_group);
+    build_data.append('image', data.image);
+
+    return await axios.post(`/api/user`, build_data, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    });
+}
+const putUpdateUser = async (data) => {
+    const build_data = new FormData();
+    build_data.append('id', data.user_id);
+    build_data.append('fullname', data.fullname);
+    build_data.append('username', data.username);
+    build_data.append('email', data.email);
+    build_data.append('phone', data.phone);
+    build_data.append('dob', data.dob);
+    build_data.append('gender', data.gender);
+    build_data.append('facebook_url', data.facebook_url);
+    build_data.append('twitter_url', data.twitter_url);
+    build_data.append('user_group', data.user_group);
+    build_data.append('image', data.image);
+
+    return await axios.put(`/api/user`, build_data, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    });
+}
+const deleteUser = async (user_id) => {
+    return await axios.delete(`/api/user/${user_id}`);
+}
+const getUserGroups = async (limit, page) => {
+    return await axios.get(`/api/user/group?limit=${limit}&page=${page}`);
+}
+
+const getOrderWithPagination = async (limit, page) => {
+    return await axios.get(`/api/order?limit=${limit}&page=${page}`);
+}
+const getOrderDetail = async (customer_id, order_status) => {
+    return await axios.get(`/api/order-detail?customer=${customer_id}&status=${order_status}`);
+}
+
+
 export {
     getAllBookCategoryGroup, postCreateNewBookCategoryGroup,
     putUpdateBookCategoryGroup, deleteBookCategoryGroup,
@@ -132,5 +191,10 @@ export {
     putUpdatePublisher, deletePublisher,
 
     getBooksWithPagination, postCreateNewBook,
-    putUpdateBook, deleteBook, putUpdateSellingBook
+    putUpdateBook, deleteBook, putUpdateSellingBook,
+
+    getUserWithPagination, postCreateNewUser,
+    putUpdateUser, deleteUser, getUserGroups,
+
+    getOrderWithPagination, getOrderDetail
 }

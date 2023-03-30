@@ -736,13 +736,8 @@ $yellow-color-1  : rgb(206, 206, 3);
                         tr {
                             td {
                                 &:first-child {
-                                    width: 5%;
+                                    //width: 10%;
                                 }
-
-                                &:nth-child(3) {
-                                    //max-width: 50px;
-                                }
-
                             }
 
                             &:active {
@@ -755,30 +750,43 @@ $yellow-color-1  : rgb(206, 206, 3);
                                 cursor: pointer;
                             }
 
+                            .address {
+                                //width: 25%;
+                                padding: 0 !important;
+
+                                .address-content {
+                                    display           : -webkit-box;
+                                    -webkit-line-clamp: 3;
+                                    -webkit-box-orient: vertical;
+                                    overflow          : hidden;
+                                    text-overflow     : ellipsis;
+                                }
+                            }
+
                             .price {
-                                width: 5%;
+                                //width: 5%;
                             }
 
                             .customer {
-                                width: 15%;
+                                //width: 15%;
                             }
 
                             .order_id {
-                                width: 15%;
+                                //width: 15%;
                             }
 
                             .date {
-                                width: 10%;
+                                //width: 10%;
                             }
 
                             .payment,
                             .total-books,
                             .status {
-                                width: 5%;
+                                //width: 5%;
                             }
 
                             .actions {
-                                width: 5%;
+                                //width: 5%;
                             }
 
                             .edit-btn {

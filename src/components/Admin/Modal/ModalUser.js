@@ -6,10 +6,117 @@ import Onepiece from '../../../assets/image/Onepiece.png';
 
 import './Modal.scss';
 
-const ModalUser = (props) => {
-    const { show, setShow, type } = props;
+import { useImmer } from 'use-immer';
+import toast from 'react-hot-toast';
+import { useEffect } from 'react';
+import { getUserGroups, putUpdateUser, deleteUser } from '../../Services/adminServices';
 
-    const handleClose = () => setShow(false);
+const toast_success = {
+    style: {
+        padding: '1rem'
+    },
+    iconTheme: {
+        primary: '#087B44'
+    }
+}
+
+const toast_error = {
+    style: {
+        padding: '1rem'
+    },
+    iconTheme: {
+        primary: '#dd2222'
+    }
+}
+
+const ModalUser = (props) => {
+    const { show, setShow, type, data, fetchUsers } = props;
+
+    const [modalData, setModalData] = useImmer();
+    const [previewImage, setPreviewImage] = useState('');
+    const [userGroup, setUserGroup] = useState([]);
+
+    const handleClose = () => {
+        setPreviewImage('');
+        setShow(false);
+    }
+
+    const handleOnChange = (type, value) => {
+        if (type === 'image') {
+            setPreviewImage(URL.createObjectURL(value));
+        }
+
+        setModalData(draft => {
+            draft[type] = value;
+        })
+    }
+
+    const checkValidInputs = () => {
+
+        if (!modalData?.fullname) {
+            toast.error('Empty fullname is not allowed !', toast_error);
+            return false;
+        }
+
+        if (!modalData?.username) {
+            toast.error('Empty username is not allowed !', toast_error);
+            return false;
+        }
+
+        if (!modalData?.email) {
+            toast.error('Empty email is not allowed !', toast_error);
+            return false;
+        }
+
+        return true;
+    }
+
+    const showToast = (result) => {
+        if (result.EC === 0) {
+            handleClose();
+            toast.success(result.EM, toast_success);
+            fetchUsers();
+        }
+        if (result.EC === 1) {
+            toast.error(result.EM, toast_error);
+        }
+    }
+
+    const handleButtonOnClick = async () => {
+
+        if (type === 'UPDATE') {
+
+            if (!checkValidInputs()) {
+                return;
+            }
+
+            let result = await putUpdateUser(modalData);
+            if (result) {
+                showToast(result);
+            }
+        } else {
+
+            let result = await deleteUser(modalData?.user_id)
+            if (result) {
+                showToast(result);
+            }
+        }
+    }
+
+    const fetchAllUserGroup = async () => {
+        let result = await getUserGroups(0, 0);
+        if (result && result.EC === 0) {
+            setUserGroup(result.DT);
+        }
+    }
+
+    useEffect(() => {
+        fetchAllUserGroup();
+    }, []);
+
+    useEffect(() => {
+        setModalData(data);
+    }, [data]);
 
     return (
         <>
@@ -25,31 +132,59 @@ const ModalUser = (props) => {
                 </Modal.Header>
                 <Modal.Body>
                     {type === 'DELETE' ?
-                        <span>Are you sure to remove this <strong>user</strong> ?</span>
+                        <span>Are you sure to remove this <strong>{modalData?.username}</strong> user?</span>
                         :
                         <>
                             <div className='row'>
                                 <div className='mb-3 col-6'>
                                     <label className='form-label'>Full Name:</label>
-                                    <input className='form-control' type='text' placeholder='Full Name' />
+                                    <input
+                                        className='form-control'
+                                        type='text'
+                                        placeholder='Full Name'
+                                        onChange={(event) => handleOnChange('fullname', event.target.value)}
+                                        value={modalData?.fullname}
+                                    />
                                 </div>
                                 <div className='mb-3 col-6'>
                                     <label className='form-label'>Date of birth:</label>
-                                    <input className='form-control' type='text' placeholder='Birthday' />
+                                    <input
+                                        className='form-control'
+                                        type='text'
+                                        placeholder='Birthday'
+                                        onChange={(event) => handleOnChange('dob', event.target.value)}
+                                        value={modalData?.dob}
+                                    />
                                 </div>
                             </div>
                             <div className='mb-3 col-12'>
                                 <label className='form-label'>Address:</label>
-                                <input className='form-control' type='text' placeholder='Address' />
+                                <input
+                                    className='form-control'
+                                    type='text'
+                                    placeholder='Address'
+                                    onChange={(event) => handleOnChange('address', event.target.value)}
+                                    value={modalData?.address}
+                                />
                             </div>
                             <div className='row'>
                                 <div className='mb-3 col-4'>
                                     <label className='form-label'>Phone:</label>
-                                    <input className='form-control' type='text' placeholder='Phone number' />
+                                    <input
+                                        className='form-control'
+                                        type='text'
+                                        placeholder='Phone number'
+                                        onChange={(event) => handleOnChange('phone', event.target.value)}
+                                        value={modalData?.phone}
+                                    />
                                 </div>
                                 <div className='mb-3 col-4'>
                                     <label className='form-label'>Gender:</label>
-                                    <select className="form-select">
+                                    <select
+                                        className="form-select"
+                                        onChange={(event) => handleOnChange('gender', event.target.value)}
+                                        value={modalData?.gender}
+                                    >
                                         <option defaultValue=''>Select...</option>
                                         <option value="Man">Man</option>
                                         <option value="Woman">Woman</option>
@@ -58,35 +193,79 @@ const ModalUser = (props) => {
                                 </div>
                                 <div className='mb-3 col-4'>
                                     <label className='form-label'>User role:</label>
-                                    <select className="form-select">
-                                        <option defaultValue=''>Select...</option>
-                                        <option value="0">Manager</option>
-                                        <option value="1">Staff</option>
-                                        <option value="2">Customer</option>
+                                    <select
+                                        className="form-select"
+                                        onChange={(event) => handleOnChange('user_group', event.target.value)}
+                                        value={modalData?.user_group}
+                                    >
+                                        <option value={"0"} key={`user-group-option-0`}>Select...</option>
+                                        {userGroup && userGroup.length > 0 &&
+                                            userGroup.map(item => {
+                                                return (
+                                                    <option
+                                                        key={`user-group-option-${item.id}`}
+                                                        value={item.id}
+                                                    >
+                                                        {item.name}
+                                                    </option>
+                                                )
+                                            })
+                                        }
                                     </select>
                                 </div>
                             </div>
                             <div className='pb-4 col-6'>
                                 <label className='form-label'>Email:</label>
-                                <input className='form-control' type='text' placeholder='Email' />
+                                <input
+                                    className='form-control'
+                                    type='text'
+                                    placeholder='Email'
+                                    onChange={(event) => handleOnChange('email', event.target.value)}
+                                    value={modalData?.email}
+                                />
                             </div>
                             <div className='row'>
                                 <div className='mb-3 col-6'>
                                     <label className='form-label'>Facebook Url:</label>
-                                    <input className='form-control' type='text' placeholder='Facebook Url' />
+                                    <input
+                                        className='form-control'
+                                        type='text'
+                                        placeholder='Facebook Url'
+                                        onChange={(event) => handleOnChange('facebook_url', event.target.value)}
+                                        value={modalData?.facebook_url}
+                                    />
                                 </div>
                                 <div className='mb-3 col-6'>
                                     <label className='form-label'>Twitter Url:</label>
-                                    <input className='form-control' type='text' placeholder='Twitter Url' />
+                                    <input
+                                        className='form-control'
+                                        type='text'
+                                        placeholder='Twitter Url'
+                                        onChange={(event) => handleOnChange('twitter_url', event.target.value)}
+                                        value={modalData?.twitter_url}
+                                    />
                                 </div>
                             </div>
                             <div className='my-4 ImageUpload'>
-                                <label for="formFile" class="form-label d-flex align-items-center gap-2 file_upload"><MdCloudUpload /> Upload File</label>
-                                <input class="form-control" type="file" id="formFile" hidden />
+                                <label htmlFor="formFile" className="form-label d-flex align-items-center gap-2 file_upload"><MdCloudUpload /> Upload File</label>
+                                <input
+                                    className="form-control"
+                                    type="file"
+                                    id="formFile"
+                                    hidden
+                                    onChange={(event) => handleOnChange('image', event.target.files[0])}
+                                />
                             </div>
                             <div className='image-preview my-4'>
-                                <img src={Onepiece} alt='' />
-                                {/* <span>Preview Image</span> */}
+                                {previewImage ?
+                                    <img src={previewImage} alt='' />
+                                    :
+                                    (type === 'UPDATE' && data?.image ?
+                                        <img src={`data:image/jpeg;base64,${data.image}`} alt='' />
+                                        :
+                                        <span>Preview Image</span>
+                                    )
+                                }
                             </div>
                         </>
                     }
@@ -94,9 +273,9 @@ const ModalUser = (props) => {
                 </Modal.Body>
                 <Modal.Footer>
                     {type === 'UPDATE' ?
-                        <Button variant="warning">Save</Button>
+                        <Button variant="warning" onClick={handleButtonOnClick}>Save</Button>
                         :
-                        <Button variant="outline-danger">Confirm</Button>
+                        <Button variant="outline-danger" onClick={handleButtonOnClick}>Confirm</Button>
                     }
                     <Button variant="light" onClick={handleClose}>
                         Close
