@@ -1,8 +1,33 @@
 import './Authentication.scss';
 
 import { useHistory } from 'react-router-dom';
-import {useState } from 'react';
-// import toast from 'react-hot-toast';
+import { useState } from 'react';
+import { userRegister } from '../Services/userServices';
+import toast from 'react-hot-toast';
+
+const toast_success = {
+    style: {
+        padding: '1rem',
+        background: '#47D764',
+        color: '#FFFFFF'
+    },
+    iconTheme: {
+        primary: '#FFFFFF',
+        secondary: '#47D764'
+    }
+}
+
+const toast_error = {
+    style: {
+        padding: '1rem',
+        background: '#FE355B',
+        color: '#FFFFFF'
+    },
+    iconTheme: {
+        primary: '#FFFFFF',
+        secondary: '#FE355B'
+    }
+}
 
 const Register = () => {
 
@@ -35,61 +60,61 @@ const Register = () => {
 
     const handleRegister = async () => {
 
-        // resetValidInput();
+        resetValidInput();
 
-        // if (!email) {
-        //     setValidEmail(false);
-        //     toast.error("email is empty !");
-        //     return;
-        // }
+        if (!email) {
+            setValidEmail(false);
+            toast.error("email is empty !", toast_error);
+            return;
+        }
 
-        // if (!username) {
-        //     setValidUsername(false);
-        //     toast.error("username is empty !");
-        //     return;
-        // }
+        if (!username) {
+            setValidUsername(false);
+            toast.error("username is empty !", toast_error);
+            return;
+        }
 
-        // if (!phone) {
-        //     setValidPhone(false);
-        //     toast.error("phone is empty !");
-        //     return;
-        // }
+        if (!phone) {
+            setValidPhone(false);
+            toast.error("phone is empty !", toast_error);
+            return;
+        }
 
-        // if (!password) {
-        //     setValidPassword(false);
-        //     toast.error("password is empty !");
-        //     return;
-        // }
+        if (!password) {
+            setValidPassword(false);
+            toast.error("password is empty !", toast_error);
+            return;
+        }
 
-        // if (!reEnterPassword) {
-        //     setValidReEnterPassword(false);
-        //     toast.error("confirm password is empty !");
-        //     return;
-        // }
+        if (!reEnterPassword) {
+            setValidReEnterPassword(false);
+            toast.error("confirm password is empty !", toast_error);
+            return;
+        }
 
-        // if (password !== reEnterPassword) {
-        //     setValidReEnterPassword(false);
-        //     toast.error("confirm password is not the same !");
-        //     return;
-        // }
+        if (password !== reEnterPassword) {
+            setValidReEnterPassword(false);
+            toast.error("confirm password is not the same !", toast_error);
+            return;
+        }
 
-        // var re = /\S+@\S+\.\S+/;
-        // if (!re.test(email)) {
-        //     setValidEmail(false);
-        //     toast.error("email is invalid !");
-        //     return;
-        // }
+        var re = /\S+@\S+\.\S+/;
+        if (!re.test(email)) {
+            setValidEmail(false);
+            toast.error("email is invalid !", toast_error);
+            return;
+        }
 
-        // let result = await userRegister(email, username, password, phone);
-        // let res = result;
-        // if(res) {
-        //     if (+res.EC === 0) {
-        //         toast.success(res.EM);
-        //         history.push('/login');
-        //     } else {
-        //         toast.error(res.EM);
-        //     }
-        // }  
+        let result = await userRegister(email, username, password, phone);
+        let res = result;
+        if (res) {
+            if (+res.EC === 0) {
+                toast.success(res.EM, toast_success);
+                history.push('/login');
+            } else {
+                toast.error(res.EM, toast_error);
+            }
+        }
     }
 
     return (

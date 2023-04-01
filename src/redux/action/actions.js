@@ -2,7 +2,9 @@ import
 {   INCREMENT, DECREMENT, 
     ADD_BOOK_TO_SHOPPING_CART, DELETE_BOOK_FROM_SHOPPING_CART,
     CHANGE_CART_ITEM_AMOUNT, DELETE_ALL_FROM_SHOPPING_CART,
-    DELETE_MANY_CART_ITEMS
+    DELETE_MANY_CART_ITEMS,
+
+    USER_LOGIN
 } from './type';
 
 export const increaseCounter = () => {
@@ -53,5 +55,12 @@ export const ChangeCartItemAmount = (book_id, item_amount) => {
             bookId: book_id,
             itemAmount: item_amount
         }
+    };
+};
+
+export const UserLogin = (data) => {
+    return {
+        type: USER_LOGIN,
+        payload: data
     };
 };

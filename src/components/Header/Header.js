@@ -17,16 +17,20 @@ import { DeleteShoppingCart } from '../../redux/action/actions';
 import BookCategory from '../Content/BookCategory/BookCategory';
 import { useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
+import { fetchAccount } from '../Services/userServices';
+import { UserLogin } from '../../redux/action/actions';
 
 const Header = (props) => {
 
     const { setShow } = props;
     const dispatch = useDispatch();
 
-    const urls = ['/admin','/login','/register'];
+    const urls = ['/admin', '/login', '/register'];
 
     const bookList = useSelector(state => state.shoppingCart.bookList);
     const booksCount = useSelector(state => state.shoppingCart.booksCount);
+    const isAuthenticated = useSelector(state => state.user.isAuthenticated);
+    const account = useSelector(state => state.user.account);
 
     const [showBookCategory, setShowBookCategory] = useState(false);
     const [showDetailBookCategory, setShowDetailBookCategory] = useState(false);
@@ -57,8 +61,24 @@ const Header = (props) => {
         window.scrollTo(0, 0);
     }
 
+    const fetchAccountInfo = async () => {
+        let result = await fetchAccount();
+        if (result && result.EC === 0) {
+            let buildData = {
+                isAuthenticated: result.DT.isAuthenticated,
+                account: {
+                    email: result.DT.email,
+                    username: result.DT.username
+                }
+            }
+            dispatch(UserLogin(buildData));
+        }
+    }
+
     useEffect(() => {
         setShowShoppingCart(false);
+
+        fetchAccountInfo();
 
         if (location.pathname === '/') {
             setShowBookCategory(true);
@@ -69,12 +89,17 @@ const Header = (props) => {
     }, [location.pathname]);
 
     useEffect(() => {
+
         if (urls.some(u => location.pathname.includes(u))) {
             setShow(false);
         } else {
             setShow(true);
         }
     }, [location.pathname]);
+
+    useEffect(()=> {
+        window.scroll(0,0);
+    });
 
     return (
         <>
@@ -169,13 +194,22 @@ const Header = (props) => {
                                     </div>
                                 }
                             </div>
-                            <div className='login-logout ps-3 d-flex justify-content-center align-items-center'>
-                                <div className='login'>
-                                    <a href='/login'>Login</a>
-                                </div>
-                                <div className='register'>
-                                    <a href='/register'>Register</a>
-                                </div>
+                            <div className='login-logout d-flex justify-content-center align-items-center'>
+                                {isAuthenticated === false ?
+                                    <>
+                                        <div className='login'>
+                                            <a href='/login'>Login</a>
+                                        </div>
+                                        <div className='register'>
+                                            <a href='/register'>Register</a>
+                                        </div>
+                                    </>
+                                    :
+                                    <div className='login-success'>
+                                        <span>Welcome {account.username} !</span>
+                                    </div>
+
+                                }
                             </div>
                         </div>
                     </div>

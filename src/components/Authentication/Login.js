@@ -1,36 +1,49 @@
 import './Authentication.scss';
 
-import { useEffect, useState} from 'react';
-import { useHistory } from 'react-router-dom';
-// import toast from 'react-hot-toast';
+import { useEffect, useState } from 'react';
+import { Redirect, useHistory } from 'react-router-dom';
+import toast from 'react-hot-toast';
+import { userLogin } from '../Services/userServices';
+import { useDispatch, useSelector } from "react-redux";
+import { UserLogin } from '../../redux/action/actions';
 
 const toast_success = {
     style: {
-        padding: '1rem'
+        padding: '1rem',
+        background: '#47D764',
+        color: '#FFFFFF'
     },
     iconTheme: {
-        primary: '#087B44'
+        primary: '#FFFFFF',
+        secondary: '#47D764'
     }
 }
 
 const toast_error = {
     style: {
-        padding: '1rem'
+        padding: '1rem',
+        background: '#FE355B',
+        color: '#FFFFFF'
     },
     iconTheme: {
-        primary: '#dd2222'
+        primary: '#FFFFFF',
+        secondary: '#FE355B'
     }
 }
 
 const Login = () => {
 
     let history = useHistory();
+    const dispatch = useDispatch();
 
     const [loginData, setLoginData] = useState('');
     const [password, setPasssword] = useState('');
 
     const [validLogin, setValidLogin] = useState(true);
     const [validPassword, setValidPassword] = useState(true);
+
+    const account = useSelector(state => state.user.account);
+    const isAuthenticated = useSelector(state => state.user.isAuthenticated);
 
     const handleNavigateToRegisterPage = () => {
         history.push('/register');
@@ -43,52 +56,59 @@ const Login = () => {
 
     const handleLogin = async () => {
 
-        // resetValidData();
-        // if (!loginData) {
-        //     setValidLogin(false);
-        //     toast.error("Email or phone is empty !");
-        // }
-        // if (!password) {
-        //     setValidPassword(false);
-        //     toast.error("Password is empty !");
-        // }
+        resetValidData();
+        if (!loginData) {
+            setValidLogin(false);
+            toast.error("Email or phone is empty !", toast_error);
+        }
+        if (!password) {
+            setValidPassword(false);
+            toast.error("Password is empty !", toast_error);
+        }
 
-        // let result = await userLogin(loginData, password);
-        // if (result) {
-        //     let res = result;
-        //     if (+res.EC === 0) {
-        //         toast.success(res.EM);
+        let result = await userLogin(loginData, password);
+        if (result) {
+            let res = result;
+            if (+res.EC === 0) {
+                toast.success(res.EM, toast_success);
 
-        //         let accessToken = res.DT.accessToken;
-        //         let groupWithRoles = res.DT.groupWithRoles;
-        //         let email = res.DT.email;
-        //         let username =res.DT.username;
+                //let accessToken = res.DT.accessToken;
+                //let groupWithRoles = res.DT.groupWithRoles;
+                let email = res.DT.email;
+                let username = res.DT.username;
 
-        //         let data = {
-        //             isAuthenticated: true,
-        //             token: accessToken,
-        //             account: {email, username, groupWithRoles}
-        //         }
+                let data = {
+                    isAuthenticated: true,
+                    // token: accessToken,
+                    account: { email, username }
+                    //account: {email, username, groupWithRoles}
+                }
 
-        //         userContextlogin(data);
-        //         history.push('/users');
+                dispatch(UserLogin(data));
+                history.push('/');
+                //window.location.reload();
 
-        //     } else {
-        //         toast.error(res.EM);
-        //     }
-        // }
+            } else {
+                toast.error(res.EM, toast_error);
+            }
+        }
 
     }
 
     const handleKeyPress = (event) => {
-        // if(event.key === 'Enter') {
-        //     handleLogin();
-        // }
+        if (event.key === 'Enter') {
+            handleLogin();
+        }
     }
 
-    // if(user && user.isAuthenticated === true) {
-    //     history.push('/users');
-    // }
+    if (account && isAuthenticated === true) {
+        history.push('/');
+        //window.location.reload();
+    }
+
+    // useEffect(() => {
+    //     window.scroll(0, 0);
+    // }, []);
 
     return (
         <div className='loginPage'>
@@ -111,7 +131,7 @@ const Login = () => {
                         placeholder='Email address or phone number'
                         value={loginData}
                         onChange={(event) => setLoginData(event.target.value)}
-                        onKeyPress={(event)=> handleKeyPress(event)}
+                        onKeyPress={(event) => handleKeyPress(event)}
                     />
                     <input
                         type="password"
@@ -119,7 +139,7 @@ const Login = () => {
                         placeholder='Password'
                         value={password}
                         onChange={(event) => setPasssword(event.target.value)}
-                        onKeyPress={(event)=> handleKeyPress(event)}
+                        onKeyPress={(event) => handleKeyPress(event)}
                     />
                     <button
                         className='btn btn-primary fs-6 login-btn py-2'

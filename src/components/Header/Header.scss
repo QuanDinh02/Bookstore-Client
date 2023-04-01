@@ -190,7 +190,7 @@ $main-red-color  : #CA2027;
                                 }
                             }
 
-                        } 
+                        }
                     }
 
                     &:hover {
@@ -210,6 +210,7 @@ $main-red-color  : #CA2027;
         }
 
         .login-logout {
+
             a {
                 text-decoration: none;
                 color          : black;
@@ -225,7 +226,7 @@ $main-red-color  : #CA2027;
                 padding-right: 0.4rem;
             }
 
-            .register {
+            .register, .login-success {
                 padding-left: 0.4rem;
             }
         }

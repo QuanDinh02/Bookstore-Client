@@ -24,4 +24,6 @@ instance.interceptors.response.use(function (response) {
     return error && error.response && error.response.data ? error.response.data : Promise.reject(error);
 });
 
+instance.defaults.withCredentials = true;
+
 export default instance;
