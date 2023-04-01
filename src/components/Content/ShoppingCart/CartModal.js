@@ -2,16 +2,24 @@ import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import './Cart.scss';
+import { useSelector } from 'react-redux';
 
 const CartModal = (props) => {
-    const { show, setShow, confirmCart } = props;
+    const { show, setShow, confirmCart, login } = props;
+
+    const isAuthenticated = useSelector(state => state.user.isAuthenticated);
 
     const handleClose = () => setShow(false);
 
     const handleOrder = () => {
         handleClose();
-        confirmCart();
+        if (!isAuthenticated) {
+            login();
+        } else {
+            confirmCart();
+        }
     }
+
     return (
         <>
             <Modal
@@ -21,14 +29,19 @@ const CartModal = (props) => {
                 keyboard={false}
                 centered
             >
-                {/* <Modal.Header closeButton>
-                    <Modal.Title>{type === 'UPDATE' ? 'Order Detail' : 'Delete Order'}</Modal.Title>
-                </Modal.Header> */}
                 <Modal.Body>
-                    <span className='cart-confirm-modal'>Are you sure to order ?</span>
+                    {isAuthenticated === false ?
+                        <span className='cart-confirm-modal'>Please login to order</span>
+                        :
+                        <span className='cart-confirm-modal'>Are you sure to order ?</span>
+                    }
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="outline-danger" onClick={handleOrder}>Confirm</Button>
+                    {isAuthenticated === false ?
+                        <Button variant="btn btn-success" onClick={handleOrder}>Login</Button>
+                        :
+                        <Button variant="outline-danger" onClick={handleOrder}>Confirm</Button>
+                    }
                     <Button variant="light" onClick={handleClose}>Close</Button>
                 </Modal.Footer>
             </Modal>

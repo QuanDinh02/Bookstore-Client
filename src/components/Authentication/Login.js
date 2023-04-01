@@ -76,17 +76,18 @@ const Login = () => {
                 //let groupWithRoles = res.DT.groupWithRoles;
                 let email = res.DT.email;
                 let username = res.DT.username;
+                let id = res.DT.id;
 
                 let data = {
                     isAuthenticated: true,
                     // token: accessToken,
-                    account: { email, username }
+                    account: { id, email, username }
                     //account: {email, username, groupWithRoles}
                 }
 
                 dispatch(UserLogin(data));
                 history.push('/');
-                //window.location.reload();
+                window.location.reload();
 
             } else {
                 toast.error(res.EM, toast_error);
@@ -103,7 +104,7 @@ const Login = () => {
 
     if (account && isAuthenticated === true) {
         history.push('/');
-        //window.location.reload();
+        window.location.reload();
     }
 
     // useEffect(() => {

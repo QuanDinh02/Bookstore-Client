@@ -2,6 +2,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import NoImage from '../../../../assets/image/NoImage.png';
 import { getOrderDetail } from "../../../Services/adminServices";
+import { useSelector } from "react-redux";
 
 const ORDER_STATUS = ['All', 'Processing', 'Delivered', 'Completed', 'Cancel'];
 
@@ -10,16 +11,17 @@ const PurchaseDetail = () => {
     const { id } = useParams();
     const [orderDetailList, setOrderDetailList] = React.useState([]);
 
+    const account = useSelector(state => state.user.account);
+
     const fetchOrderDetail = async (customer_id, order_status) => {
         let result = await getOrderDetail(customer_id, order_status);
         if (result && result.EC === 0) {
             setOrderDetailList(result.DT);
-            console.log(result.DT);
         }
     }
 
     React.useEffect(() => {
-        fetchOrderDetail(1, ORDER_STATUS[+id - 1]);
+        fetchOrderDetail(account.id, ORDER_STATUS[+id - 1]);
     }, [id]);
 
     return (

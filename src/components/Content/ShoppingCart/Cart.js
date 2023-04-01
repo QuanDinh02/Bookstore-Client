@@ -8,10 +8,38 @@ import {
     DeleteAllInShoppingCart, DeleteManyCartItems
 } from '../../../redux/action/actions';
 
+import { createNewOrder, createNewOrderDetails } from '../../Services/apiServices';
+
 import { useImmer } from 'use-immer';
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import CartModal from './CartModal';
+
+import toast from 'react-hot-toast';
+
+const toast_success = {
+    style: {
+        padding: '1rem',
+        background: '#47D764',
+        color: '#FFFFFF'
+    },
+    iconTheme: {
+        primary: '#FFFFFF',
+        secondary: '#47D764'
+    }
+}
+
+const toast_error = {
+    style: {
+        padding: '1rem',
+        background: '#FE355B',
+        color: '#FFFFFF'
+    },
+    iconTheme: {
+        primary: '#FFFFFF',
+        secondary: '#FE355B'
+    }
+}
 
 const Cart = () => {
 
@@ -21,6 +49,8 @@ const Cart = () => {
 
     const bookList = useSelector(state => state.shoppingCart.bookList);
     const booksCount = useSelector(state => state.shoppingCart.booksCount);
+
+    const account = useSelector(state => state.user.account);
 
     const [cartItems, setCartItems] = useImmer([]);
     const [checkAllCartItems, setCheckAllCartItems] = useState(false);
@@ -92,8 +122,62 @@ const Cart = () => {
 
     }
 
-    const handleConfirmCart = () => {
-        history.push('/user/purchase');
+    const handleConfirmCart = async () => {
+        if (cartItems.every(item => item.isChecked === false)) {
+            toast.error('No items are selected !', toast_error);
+            return;
+        } else {
+            let bookAmounts = 0;
+            cartItems.forEach(item => {
+                bookAmounts += item.amount;
+            })
+
+            const date = new Date();
+
+            let day = date.getDate();
+            let month = date.getMonth() + 1;
+            let year = date.getFullYear();
+
+            let currentDate = `${day}/${month}/${year}`;
+
+            let result = await createNewOrder({
+                date: currentDate,
+                status: 'Processing',
+                address: 'Test Address',
+                payment: 'Cash',
+                total_price: total,
+                total_books: bookAmounts,
+                customer_id: account.id
+            })
+
+            if (result && result.EC === 0) {
+                let orderID = result.DT.order.id;
+                let orderItems = cartItems.filter(item => item.isChecked === true);
+
+                orderItems = orderItems.map(item => {
+                    return {
+                        order_id: orderID,
+                        book_id: item.id,
+                        book_amount: item.amount,
+                        price: item.current_price * item.amount
+                    }
+                })
+
+                let msg = await createNewOrderDetails(orderItems);
+                if (msg && msg.EC === 0) {
+                    toast.success('Order successfully !', toast_success);
+                    dispatch(DeleteAllInShoppingCart());
+                    
+                    setTimeout(() => {
+                        history.push('/user/purchase');
+                    }, 1500);
+                }
+            }
+        }
+    }
+
+    const handleLoginToBuy = () => {
+        history.push('/login');
     }
 
     useEffect(() => {
@@ -325,6 +409,7 @@ const Cart = () => {
                 show={showModal}
                 setShow={setShowModal}
                 confirmCart={handleConfirmCart}
+                login={handleLoginToBuy}
             />
         </>
     )

@@ -68,7 +68,8 @@ const Header = (props) => {
                 isAuthenticated: result.DT.isAuthenticated,
                 account: {
                     email: result.DT.email,
-                    username: result.DT.username
+                    username: result.DT.username,
+                    id: result.DT.id,
                 }
             }
             dispatch(UserLogin(buildData));
@@ -96,10 +97,6 @@ const Header = (props) => {
             setShow(true);
         }
     }, [location.pathname]);
-
-    useEffect(()=> {
-        window.scroll(0,0);
-    });
 
     return (
         <>
