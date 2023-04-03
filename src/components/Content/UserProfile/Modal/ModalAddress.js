@@ -4,6 +4,10 @@ import Modal from 'react-bootstrap/Modal';
 
 import { useImmer } from 'use-immer';
 import toast from 'react-hot-toast';
+import {
+    createNewUserAddress, deleteAddress,
+    updateUserAddress, setDefaultAddress
+} from '../../../Services/userServices';
 
 const toast_success = {
     style: {
@@ -25,16 +29,18 @@ const toast_error = {
 
 const Modal_Button_Bg_Color = {
     'UPDATE': 'warning',
-    'DELETE': 'outline-danger'
+    'DELETE': 'outline-danger',
+    'SET_DEFAULT': 'warning'
 }
 
 const Modal_Button_Content = {
     'UPDATE': 'Save',
-    'DELETE': 'Confirm'
+    'DELETE': 'Confirm',
+    'SET_DEFAULT': 'Save'
 }
 
 const ModalAddress = (props) => {
-    const { show, setShow, type, data} = props;
+    const { show, setShow, type, data, fetchAddress } = props;
 
     const [modalData, setModalData] = useImmer();
 
@@ -51,7 +57,7 @@ const ModalAddress = (props) => {
     const checkValidInputs = () => {
 
         if (!modalData?.name) {
-            toast.error('Empty book name is not allowed !', toast_error);
+            toast.error('Empty name is not allowed !', toast_error);
             return false;
         }
 
@@ -72,7 +78,7 @@ const ModalAddress = (props) => {
         if (result.EC === 0) {
             handleClose();
             toast.success(result.EM, toast_success);
-            //fetchAddress();
+            fetchAddress();
         }
         if (result.EC === 1) {
             toast.error(result.EM, toast_error);
@@ -82,32 +88,38 @@ const ModalAddress = (props) => {
     const handleButtonOnClick = async () => {
         if (type === 'CREATE') {
 
-            // if (!checkValidInputs()) {
-            //     return;
-            // }
+            if (!checkValidInputs()) {
+                return;
+            }
 
-            // let result = await postCreateNewBook(modalData);
-            // if (result) {
-            //     showToast(result);
-            // }
+            let result = await createNewUserAddress(modalData);
+            if (result) {
+                showToast(result);
+            }
 
         } else if (type === 'UPDATE') {
 
-            // if (!checkValidInputs()) {
-            //     return;
-            // }
+            if (!checkValidInputs()) {
+                return;
+            }
 
-            // let result = await putUpdateBook(modalData);
-            // if (result) {
-            //     showToast(result);
-            // }
-        }
-        else {
+            let result = await updateUserAddress(modalData);
+            if (result) {
+                showToast(result);
+            }
+        } else if (type === 'SET_DEFAULT') {
 
-            // let result = await deleteBook(modalData?.book_id)
-            // if (result) {
-            //     showToast(result);
-            // }
+            let result = await setDefaultAddress(modalData);
+            if (result) {
+                showToast(result);
+            }
+
+        } else {
+
+            let result = await deleteAddress(modalData?.address_id)
+            if (result) {
+                showToast(result);
+            }
         }
     }
 
@@ -124,11 +136,16 @@ const ModalAddress = (props) => {
                 keyboard={false}
             >
                 <Modal.Header closeButton>
-                    
+
                 </Modal.Header>
                 <Modal.Body>
-                    {type === 'DELETE' ?
-                        <span>Are you sure to remove this address?</span>
+                    {type === 'DELETE' || type === 'SET_DEFAULT' ?
+                        (type === 'DELETE' ?
+                            <span>Are you sure to remove this address?</span>
+                            :
+                            <span>Do you want to set this address <strong>DEFAULT</strong> ?</span>
+                        )
+
                         :
                         <>
                             <div className='row'>

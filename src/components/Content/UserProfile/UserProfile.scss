@@ -113,6 +113,10 @@ $processing-color: orange;
                                 color: white;
                             }
                         }
+
+                        .form-control:disabled {
+                            cursor: not-allowed !important;
+                        }
                     }
 
                     .account-image {

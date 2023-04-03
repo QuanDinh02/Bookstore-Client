@@ -12,13 +12,23 @@ import { TiDelete } from 'react-icons/ti';
 
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { DeleteShoppingCart } from '../../redux/action/actions';
+import { DeleteShoppingCart, UserLogin, UserLogout } from '../../redux/action/actions';
 
 import BookCategory from '../Content/BookCategory/BookCategory';
 import { useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import { fetchAccount } from '../Services/userServices';
-import { UserLogin } from '../../redux/action/actions';
+import { fetchAccount, userLogout } from '../Services/userServices';
+
+import toast from 'react-hot-toast';
+
+const toast_success = {
+    style: {
+        padding: '1rem'
+    },
+    iconTheme: {
+        primary: '#087B44'
+    }
+}
 
 const Header = (props) => {
 
@@ -29,6 +39,7 @@ const Header = (props) => {
 
     const bookList = useSelector(state => state.shoppingCart.bookList);
     const booksCount = useSelector(state => state.shoppingCart.booksCount);
+
     const isAuthenticated = useSelector(state => state.user.isAuthenticated);
     const account = useSelector(state => state.user.account);
 
@@ -59,6 +70,25 @@ const Header = (props) => {
     const handleViewShoppingCart = () => {
         history.push('/cart');
         window.scrollTo(0, 0);
+    }
+
+    const handleUserLogout = async () => {
+        let res = await userLogout();
+        if (res && res.EC === 0) {
+            toast.success(res.EM, toast_success);
+            dispatch(UserLogout());
+            setTimeout(() => {
+                window.location.reload();
+            }, 700);
+        }
+    }
+
+    const handleViewProfile = () => {
+        history.push('/user/account');
+    }
+
+    const handleViewPurchase = () => {
+        history.push('/user/purchase');
     }
 
     const fetchAccountInfo = async () => {
@@ -202,8 +232,20 @@ const Header = (props) => {
                                         </div>
                                     </>
                                     :
-                                    <div className='login-success'>
-                                        <span>Welcome {account.username} !</span>
+                                    <div className='login-success position-relative'>
+                                        <div className='profile-username'>Welcome {account.username} !</div>
+                                        <div className='profile position-absolute'>
+                                            <div className='profile-item' onClick={handleViewProfile}>
+                                                <span>My Account</span>
+                                            </div>
+                                            <div className='profile-item' onClick={handleViewPurchase}>
+                                                <span>My Purchase</span>
+                                            </div>
+                                            <div className='profile-item' onClick={handleUserLogout}>
+                                                <span>Logout</span>
+                                            </div>
+                                        </div>
+
                                     </div>
 
                                 }

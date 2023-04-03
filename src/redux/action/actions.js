@@ -4,7 +4,7 @@ import
     CHANGE_CART_ITEM_AMOUNT, DELETE_ALL_FROM_SHOPPING_CART,
     DELETE_MANY_CART_ITEMS,
 
-    USER_LOGIN
+    USER_LOGIN, USER_LOGOUT
 } from './type';
 
 export const increaseCounter = () => {
@@ -62,5 +62,11 @@ export const UserLogin = (data) => {
     return {
         type: USER_LOGIN,
         payload: data
+    };
+};
+
+export const UserLogout = () => {
+    return {
+        type: USER_LOGOUT
     };
 };

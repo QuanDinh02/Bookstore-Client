@@ -1,5 +1,5 @@
 import {
-    USER_LOGIN
+    USER_LOGIN, USER_LOGOUT
 } from '../action/type';
 
 const INITIAL_STATE = {
@@ -19,7 +19,14 @@ const userReducer = (state = INITIAL_STATE, action) => {
                 account: action?.payload?.account,
             };
 
+        case USER_LOGOUT:
 
+            return {
+                ...state,
+                isAuthenticated: false,
+                account: {},
+            };
+            
         default: return state;
 
     }

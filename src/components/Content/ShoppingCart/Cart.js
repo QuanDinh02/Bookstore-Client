@@ -9,6 +9,7 @@ import {
 } from '../../../redux/action/actions';
 
 import { createNewOrder, createNewOrderDetails } from '../../Services/apiServices';
+import { getDefaultAddress } from '../../Services/userServices';
 
 import { useImmer } from 'use-immer';
 import { useEffect, useState } from 'react';
@@ -140,37 +141,40 @@ const Cart = () => {
 
             let currentDate = `${day}/${month}/${year}`;
 
-            let result = await createNewOrder({
-                date: currentDate,
-                status: 'Processing',
-                address: 'Test Address',
-                payment: 'Cash',
-                total_price: total,
-                total_books: bookAmounts,
-                customer_id: account.id
-            })
-
-            if (result && result.EC === 0) {
-                let orderID = result.DT.order.id;
-                let orderItems = cartItems.filter(item => item.isChecked === true);
-
-                orderItems = orderItems.map(item => {
-                    return {
-                        order_id: orderID,
-                        book_id: item.id,
-                        book_amount: item.amount,
-                        price: item.current_price * item.amount
-                    }
+            let fetchDefaultAddress = await getDefaultAddress(account.id);
+            if (fetchDefaultAddress && fetchDefaultAddress.EC === 0 && fetchDefaultAddress.DT) {
+                let result = await createNewOrder({
+                    date: currentDate,
+                    status: 'Processing',
+                    address: fetchDefaultAddress.DT.address,
+                    payment: 'Cash',
+                    total_price: total,
+                    total_books: bookAmounts,
+                    customer_id: account.id
                 })
 
-                let msg = await createNewOrderDetails(orderItems);
-                if (msg && msg.EC === 0) {
-                    toast.success('Order successfully !', toast_success);
-                    dispatch(DeleteAllInShoppingCart());
-                    
-                    setTimeout(() => {
-                        history.push('/user/purchase');
-                    }, 1500);
+                if (result && result.EC === 0) {
+                    let orderID = result.DT.order.id;
+                    let orderItems = cartItems.filter(item => item.isChecked === true);
+
+                    orderItems = orderItems.map(item => {
+                        return {
+                            order_id: orderID,
+                            book_id: item.id,
+                            book_amount: item.amount,
+                            price: item.current_price * item.amount
+                        }
+                    })
+
+                    let msg = await createNewOrderDetails(orderItems);
+                    if (msg && msg.EC === 0) {
+                        toast.success('Order successfully !', toast_success);
+                        dispatch(DeleteAllInShoppingCart());
+
+                        setTimeout(() => {
+                            history.push('/user/purchase');
+                        }, 1500);
+                    }
                 }
             }
         }
