@@ -18,6 +18,7 @@ import UserAddNew from "../UserManagement/UserAddNew";
 import OrderTable from "../OrderManagement/OrderTable";
 import AccessLinksTable from "../Access/AccessLinksTable";
 import UserGroup from "../Access/UserGroup";
+import OrderDetail from "../OrderManagement/OrderDetail";
 
 const Manager = () => {
 
@@ -54,6 +55,9 @@ const Manager = () => {
                     </Route>
                     <Route path={`${path}/order`}>
                         <OrderTable />
+                    </Route>
+                    <Route path={`${path}/order-detail/:id`}>
+                        <OrderDetail/>
                     </Route>
                     <Route path={`${path}/access`}>
                         <AccessLinksTable />

@@ -126,20 +126,20 @@ const Sidebars = (props) => {
                 <hr />
                 <Menu menuItemStyles={menuItemStyles}>
                     <MenuItem icon={<RiHome4Line />} onClick={()=> handleAccesRoute('')}>Dashboard</MenuItem>
-                    <SubMenu defaultOpen label={"Store"} icon={<IoStorefrontOutline />}>
+                    <SubMenu label={"Store"} icon={<IoStorefrontOutline />}>
                         <MenuItem icon={<BiCategoryAlt />} onClick={()=> handleAccesRoute('/book-category')}>Books Category</MenuItem>
                         <MenuItem icon={<BsFileEarmarkPerson />} onClick={()=> handleAccesRoute('/book-author')}>Authors</MenuItem>
                         <MenuItem icon={<RiBook2Line />} onClick={()=> handleAccesRoute('/books')}>Books</MenuItem>
                         <MenuItem icon={<MdOutlineHomeWork />} onClick={()=> handleAccesRoute('/book-publisher')}>Publishers</MenuItem>
                     </SubMenu>
-                    <SubMenu defaultOpen label={"User"} icon={<RxPerson />}>
+                    <SubMenu label={"User"} icon={<RxPerson />}>
                         <MenuItem icon={<CgUserList />} onClick={()=> handleAccesRoute('/user-list')}>User List</MenuItem>
                         <MenuItem icon={<CgUserAdd />} onClick={()=> handleAccesRoute('/user-add-new')}>User Add</MenuItem>
                     </SubMenu>
-                    <SubMenu defaultOpen label={"Order"} icon={<GoPackage />}>
+                    <SubMenu label={"Order"} icon={<GoPackage />}>
                         <MenuItem icon={<RiListCheck2 />} onClick={()=> handleAccesRoute('/order')}>Order List</MenuItem>
                     </SubMenu>
-                    <SubMenu defaultOpen label={"Access"} icon={<MdSecurity />}>
+                    <SubMenu label={"Access"} icon={<MdSecurity />}>
                         <MenuItem icon={<MdChecklistRtl />} onClick={()=> handleAccesRoute('/access')}>Access Links</MenuItem>
                         <MenuItem icon={<RxPerson />} onClick={()=> handleAccesRoute('/user-group')}>User Group</MenuItem>
                     </SubMenu>

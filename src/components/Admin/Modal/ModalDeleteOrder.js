@@ -1,60 +1,17 @@
-import React, { useEffect } from 'react';
-import { useState } from 'react';
+import React from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import './Modal.scss';
-import toast from 'react-hot-toast';
-
-const toast_success = {
-    style: {
-        padding: '1rem'
-    },
-    iconTheme: {
-        primary: '#087B44'
-    }
-}
-
-const toast_error = {
-    style: {
-        padding: '1rem'
-    },
-    iconTheme: {
-        primary: '#dd2222'
-    }
-}
-
 
 const ModalDeleteOrder = (props) => {
-    const { show, setShow, data, fetchOrders } = props;
+    const { show, setShow, handleDeleteOrder } = props;
 
-    const [modalData, setModalData] = useState('');
-
-    const handleClose = () => {
-        setShow(false)
-        setModalData('');
-    };
-
-    const showToast = (result) => {
-        if (result.EC === 0) {
-            setShow(false);
-            toast.success(result.EM, toast_success);
-            fetchOrders();
-        }
-        if (result.EC === 1) {
-            toast.error(result.EM, toast_error);
-        }
-    }
+    const handleClose = () => setShow(false);
 
     const handleButtonOnClick = async () => {
-        // let result = await deletePublisher(modalData?.publisher_id)
-        // if (result) {
-        //     showToast(result);
-        // }
+        handleDeleteOrder();
+        setShow(false);
     }
-
-    useEffect(() => {
-        setModalData(data);
-    }, [data]);
 
     return (
         <>
@@ -68,7 +25,7 @@ const ModalDeleteOrder = (props) => {
                     <Modal.Title>Delete Order</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <span>Are you sure to remove this <strong>#{modalData}</strong> order?</span>
+                    <span>Are you sure to remove this <strong>order</strong> ?</span>
 
                 </Modal.Body>
                 <Modal.Footer>

@@ -148,6 +148,7 @@ const putUpdateUser = async (data) => {
     build_data.append('fullname', data.fullname);
     build_data.append('username', data.username);
     build_data.append('email', data.email);
+    build_data.append('address', data.address);
     build_data.append('phone', data.phone);
     build_data.append('dob', data.dob);
     build_data.append('gender', data.gender);
@@ -175,7 +176,19 @@ const getOrderWithPagination = async (limit, page) => {
 const getOrderDetail = async (customer_id, order_status) => {
     return await axios.get(`/api/order-detail?customer=${customer_id}&status=${order_status}`);
 }
+const getOrderDetailById = async (orderID) => {
+    return await axios.get(`/api/order-detail/${orderID}`);
+}
+const upateOrderStatus = async (data) => {
+    return await axios.put('/api/order-detail', data);
+}
+const deleteOrderDetailItem = async (data) => {
+    return await axios.put('/api/order-detail-delete', data);
+}
 
+const deleteOrder = async (order_id) => {
+    return await axios.delete(`/api/order/${order_id}`)
+}
 
 export {
     getAllBookCategoryGroup, postCreateNewBookCategoryGroup,
@@ -196,5 +209,6 @@ export {
     getUserWithPagination, postCreateNewUser,
     putUpdateUser, deleteUser, getUserGroups,
 
-    getOrderWithPagination, getOrderDetail
+    getOrderWithPagination, getOrderDetail, getOrderDetailById,
+    upateOrderStatus, deleteOrderDetailItem, deleteOrder
 }

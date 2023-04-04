@@ -4,7 +4,7 @@ import NoImage from '../../../../assets/image/NoImage.png';
 import { getOrderDetail } from "../../../Services/adminServices";
 import { useSelector } from "react-redux";
 
-const ORDER_STATUS = ['All', 'Processing', 'Delivered', 'Completed', 'Cancel'];
+const ORDER_STATUS = ['All', 'Processing', 'Delivered', 'Completed', 'Canceled'];
 
 const PurchaseDetail = () => {
 

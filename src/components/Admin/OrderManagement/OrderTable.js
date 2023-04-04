@@ -6,9 +6,29 @@ import { useEffect, useState } from 'react';
 import { TailSpin } from 'react-loader-spinner';
 import { useHistory } from 'react-router-dom';
 
-import { getOrderWithPagination } from '../../Services/adminServices';
+import { getOrderWithPagination, deleteOrder } from '../../Services/adminServices';
 import { useImmer } from 'use-immer';
 import ModalDeleteOrder from '../Modal/ModalDeleteOrder';
+
+import toast from 'react-hot-toast';
+
+const toast_success = {
+    style: {
+        padding: '1rem'
+    },
+    iconTheme: {
+        primary: '#087B44'
+    }
+}
+
+const toast_error = {
+    style: {
+        padding: '1rem'
+    },
+    iconTheme: {
+        primary: '#dd2222'
+    }
+}
 
 const OrderTable = () => {
 
@@ -27,17 +47,33 @@ const OrderTable = () => {
         setOrderCurrentPage(+event.selected + 1);
     }
 
-    const handleShowModal = (orderID) => {
+    const handleShowModal = (orderID, event) => {
+        event.stopPropagation();
         setOrderDelete(orderID);
         setShowModalOrder(true);
+    }
+
+    const handleDeleteOrder = async () => {
+        let result = await deleteOrder(orderDelete);
+        if (result && result.EC === 0) {
+            toast.success(result.EM, toast_success);
+            setTimeout(() => {
+                fetchOrderWithPagination();
+            }, 500);
+        } else {
+            toast.error(result.EM, toast_error);
+        }
     }
 
     const fetchOrderWithPagination = async () => {
         let result = await getOrderWithPagination(orderLimit, orderCurrentPage);
         if (result && result.EC === 0) {
-            console.log(result.DT);
             setOrderList(result.DT);
         }
+    }
+
+    const handleViewOrderDetail = (orderID) => {
+        history.push(`/admin/manager/order-detail/${orderID}`);
     }
 
     useEffect(() => {
@@ -85,7 +121,7 @@ const OrderTable = () => {
                             </div>
                         </div>
                         <div className="orders-list  mt-4">
-                            <table className="table table-hover">
+                            <table className="table">
                                 <thead>
                                     <tr>
                                         <td className='table-head'>
@@ -107,7 +143,7 @@ const OrderTable = () => {
                                             <span className='d-flex align-items-center gap-2'>Price<HiChevronUpDown className='filter-icon' /></span>
                                         </td>
                                         <td className='table-head'>
-                                            <span className='d-flex align-items-center gap-2'>TotalBooks<HiChevronUpDown className='filter-icon' /></span>
+                                            <span>TotalBooks</span>
                                         </td>
                                         <td className='table-head'>
                                             <span className='d-flex align-items-center gap-2'>CustomerID<HiChevronUpDown className='filter-icon' /></span>
@@ -115,8 +151,8 @@ const OrderTable = () => {
                                         <td className='table-head'>
                                             <span className='d-flex align-items-center gap-2'>Status<HiChevronUpDown className='filter-icon' /></span>
                                         </td>
-                                        <td className='table-head'>
-                                            <span className='d-flex align-items-center gap-2'>Actions <HiChevronUpDown className='filter-icon' /></span>
+                                        <td className='table-head text-center'>
+                                            <span>Actions</span>
                                         </td>
                                     </tr>
                                 </thead>
@@ -124,7 +160,7 @@ const OrderTable = () => {
                                     {orderList?.orders && orderList?.orders.length > 0 &&
                                         orderList?.orders.map((item, index) => {
                                             return (
-                                                <tr key={`order-info-${item.id}`}>
+                                                <tr key={`order-info-${item.id}`} onClick={() => handleViewOrderDetail(item.id)}>
                                                     <td>{(orderCurrentPage - 1) * orderLimit + index + 1}</td>
                                                     <td className='order_id'>{item.id}</td>
                                                     <td className='address'>
@@ -137,10 +173,10 @@ const OrderTable = () => {
                                                     <td className='price'>{item.total_price}</td>
                                                     <td className='total-books text-center'>{item.total_books}</td>
                                                     <td className='customer'>{item.User.id}</td>
-                                                    <td className='status'>{item.status}</td>
+                                                    <td className={`${item.status.toLowerCase()}-status`}>{item.status}</td>
                                                     <td className='actions text-center'>
-                                                        <div className='d-flex gap-3'>
-                                                            <div className='delete-btn px-1' title='Delete' onClick={() => handleShowModal(item.id)}>
+                                                        <div className='d-flex justify-content-center'>
+                                                            <div className='delete-btn px-1' title='Delete' onClick={(event) => handleShowModal(item.id, event)}>
                                                                 <FaRegTrashAlt className='icon' />
                                                             </div>
                                                         </div>
@@ -190,10 +226,9 @@ const OrderTable = () => {
                         </div>
                     </div>
                     <ModalDeleteOrder
-                        data={orderDelete}
                         show={showModalOrder}
                         setShow={setShowModalOrder}
-                        fetchOrders={fetchOrderWithPagination}
+                        handleDeleteOrder={handleDeleteOrder}
                     />
                 </div>
             }
