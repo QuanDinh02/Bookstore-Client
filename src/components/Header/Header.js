@@ -100,6 +100,7 @@ const Header = (props) => {
                     email: result.DT.email,
                     username: result.DT.username,
                     id: result.DT.id,
+                    user_group: result.DT.group
                 }
             }
             dispatch(UserLogin(buildData));

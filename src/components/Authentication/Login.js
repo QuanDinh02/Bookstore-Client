@@ -72,17 +72,14 @@ const Login = () => {
             if (+res.EC === 0) {
                 toast.success(res.EM, toast_success);
 
-                //let accessToken = res.DT.accessToken;
-                //let groupWithRoles = res.DT.groupWithRoles;
                 let email = res.DT.email;
                 let username = res.DT.username;
                 let id = res.DT.id;
+                let user_group = res.DT.group;
 
                 let data = {
                     isAuthenticated: true,
-                    // token: accessToken,
-                    account: { id, email, username }
-                    //account: {email, username, groupWithRoles}
+                    account: { id, email, username, user_group }
                 }
 
                 dispatch(UserLogin(data));

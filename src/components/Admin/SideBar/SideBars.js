@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { RiHome4Line, RiBook2Line } from "react-icons/ri";
 import { IoStorefrontOutline } from "react-icons/io5";
-import { MdSecurity, MdChecklistRtl, MdOutlineHomeWork } from "react-icons/md";
+import { MdOutlineHomeWork } from "react-icons/md";
 import { RxPerson } from "react-icons/rx";
 import { GoPackage } from "react-icons/go";
 import { RiListCheck2 } from "react-icons/ri";
@@ -138,10 +138,6 @@ const Sidebars = (props) => {
                     </SubMenu>
                     <SubMenu label={"Order"} icon={<GoPackage />}>
                         <MenuItem icon={<RiListCheck2 />} onClick={()=> handleAccesRoute('/order')}>Order List</MenuItem>
-                    </SubMenu>
-                    <SubMenu label={"Access"} icon={<MdSecurity />}>
-                        <MenuItem icon={<MdChecklistRtl />} onClick={()=> handleAccesRoute('/access')}>Access Links</MenuItem>
-                        <MenuItem icon={<RxPerson />} onClick={()=> handleAccesRoute('/user-group')}>User Group</MenuItem>
                     </SubMenu>
                 </Menu>
             </Sidebar>

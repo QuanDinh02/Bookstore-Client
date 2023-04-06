@@ -14,6 +14,8 @@ import { ProSidebarProvider } from 'react-pro-sidebar';
 import UserProfile from "../components/Content/UserProfile/UserProfile";
 import Login from "../components/Authentication/Login";
 import Register from "../components/Authentication/Register";
+import PrivateRoute from "./PrivateRoute";
+import ProfileRoute from "./ProfileRoute";
 
 const AppRoutes = () => {
 
@@ -37,9 +39,11 @@ const AppRoutes = () => {
                     <Register />
                 </Route>
                 <Route path="/admin">
-                    <ProSidebarProvider>
-                        <AdminRoutes />
-                    </ProSidebarProvider>
+                    <PrivateRoute>
+                        <ProSidebarProvider>
+                            <AdminRoutes />
+                        </ProSidebarProvider>
+                    </PrivateRoute>
                 </Route>
                 <Route path="/book-category/:id">
                     <BookCategoryDetail />
@@ -48,10 +52,14 @@ const AppRoutes = () => {
                     <BookDetail />
                 </Route>
                 <Route path="/cart">
-                    <Cart />
+                    <ProfileRoute>
+                        <Cart />
+                    </ProfileRoute>
                 </Route>
                 <Route path="/user">
-                    <UserProfile />
+                    <ProfileRoute>
+                        <UserProfile />
+                    </ProfileRoute>
                 </Route>
                 <Route path="*">
                     <div className="container">
