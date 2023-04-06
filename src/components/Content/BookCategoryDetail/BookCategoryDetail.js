@@ -10,7 +10,9 @@ import BookCategoryDetailSidebar from './BookCategoryDetailSidebar';
 import { useEffect, useState } from 'react';
 import MediaQuery, { useMediaQuery } from 'react-responsive';
 import {
-    getABookCategoryGroup, getBooksByCategoryGroup, getBooksByBookCategory
+    getABookCategoryGroup, getBooksByCategoryGroup,
+    getBooksByBookCategory, getBooksByAuthor,
+    getBooksByPublisher
 } from '../../Services/apiServices';
 
 import { useDispatch } from "react-redux";
@@ -71,6 +73,38 @@ const BookCategoryDetail = () => {
         }
     }
 
+    const fetchBooksByAuthor = async (author_id) => {
+        let result = await getBooksByAuthor(author_id);
+        if (result && result.EC === 0) {
+            if (result.DT) {
+                setTimeout(() => {
+                    setCheckEmptyData(false);
+                    setBooksData(result.DT);
+                }, 1000);
+            } else {
+                setTimeout(() => {
+                    setCheckEmptyData(false);
+                }, 1000);
+            }
+        }
+    }
+
+    const fetchBooksByPublisher = async (publisher_id) => {
+        let result = await getBooksByPublisher(publisher_id);
+        if (result && result.EC === 0) {
+            if (result.DT) {
+                setTimeout(() => {
+                    setCheckEmptyData(false);
+                    setBooksData(result.DT);
+                }, 1000);
+            } else {
+                setTimeout(() => {
+                    setCheckEmptyData(false);
+                }, 1000);
+            }
+        }
+    }
+
     const fetchBooksByGroup = async (group_id) => {
         let result = await getBooksByCategoryGroup(group_id);
         if (result && result.EC === 0) {
@@ -112,20 +146,76 @@ const BookCategoryDetail = () => {
         dispatch(AddShoppingCart(data));
     }
 
-    useEffect(() => {
+    const setDataEmpty = () => {
         setBooksData([]);
         setBookCategoryGroup({});
-
         setCheckEmptyData(true);
+    }
 
+    const TITLE = (value) => {
+        switch (value) {
+            case (-1):
+                return (
+                    <>
+                        {bookCategoryGroup?.group_name} Books
+                    </>
+                );
+            case (-2):
+                return (
+                    <>
+                        {location.state.author_name} Books
+                    </>
+                );
+            case (-3):
+                return (
+                    <>
+                        {location.state.publisher_name} Books
+                    </>
+                );
+            default:
+                return (
+                    <>
+                        {location.state.book_category_name} Books
+                    </>
+                )
+        }
+    }
+
+    useEffect(() => {
+        setDataEmpty();
         fetchABookGroup(id);
         if (location.state.book_category_id === -1) {
             fetchBooksByGroup(id);
-        } else {
+        }
+        else if (location.state.book_category_id === -2) {
+            fetchBooksByAuthor(location.state.author_id);
+        }
+        else if (location.state.book_category_id === -3) {
+            fetchBooksByPublisher(location.state.publisher_id);
+        }
+        else {
             handleSelectSubBookCategory(location.state.book_category_id);
         }
 
     }, [id, location.state.book_category_id]);
+
+    useEffect(() => {
+        if (location.state.book_category_id === -2) {
+            setDataEmpty();
+            fetchABookGroup(id);
+            fetchBooksByAuthor(location.state.author_id);
+        }
+
+    }, [id, location.state?.author_id]);
+
+    useEffect(() => {
+        if (location.state.book_category_id === -3) {
+            setDataEmpty();
+            fetchABookGroup(id);
+            fetchBooksByPublisher(location.state.publisher_id);
+        }
+
+    }, [id, location.state?.publisher_id]);
 
     return (
         <>
@@ -158,7 +248,8 @@ const BookCategoryDetail = () => {
                                             {bookCategoryGroup?.group_name}
                                         </Link>
                                     </li>
-                                    {location.state.book_category_id !== -1 &&
+                                    {location.state.book_category_id !== -1 && location.state.book_category_id !== -2 &&
+                                        location.state.book_category_id !== -3 &&
                                         <li className="breadcrumb-item sub-book-category">
                                             {location.state.book_category_name}
                                         </li>
@@ -174,11 +265,7 @@ const BookCategoryDetail = () => {
                             </div>
                             <div className='book-category-detail-main col-12 col-md-9 '>
                                 <div className='book-category-title' >
-                                    {location.state.book_category_id !== -1 ?
-                                        location.state.book_category_name
-                                        :
-                                        bookCategoryGroup?.group_name
-                                    } Books
+                                    {TITLE(location.state.book_category_id)}
                                 </div>
                                 <div className='sort-container d-flex justify-content-end mt-4'>
                                     <div className='select-sort col-8 col-md-6 col-xl-4'>

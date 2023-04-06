@@ -6,10 +6,16 @@ const BookCategoryDetailSidebar = (props) => {
     const { data } = props;
     const history = useHistory();
 
-    const handleSelectSubBookCategory = (type, id, name='None') => {
+    const handleSelectSubBookCategory = (type, id, name = 'None') => {
         switch (type) {
             case 'BOOK_CATEROGY':
-                history.push(`/book-category/${data?.group_id}`, { book_category_id: id, book_category_name: name})
+                history.push(`/book-category/${data?.group_id}`, { book_category_id: id, book_category_name: name })
+                break;
+            case 'AUTHOR':
+                history.push(`/book-category/${data?.group_id}`, { book_category_id: -2, author_id: id, author_name: name })
+                break;
+            case 'PUBLISHER':
+                history.push(`/book-category/${data?.group_id}`, { book_category_id: -3, publisher_id: id, publisher_name: name })
                 break;
             default:
                 break;
@@ -48,7 +54,7 @@ const BookCategoryDetailSidebar = (props) => {
                         <div
                             key={`category-item-${item.id}`}
                             className="category-item d-flex align-items-center justify-content-between"
-                            onClick={() => handleSelectSubBookCategory('BOOK_CATEROGY',item.id,item.name)}
+                            onClick={() => handleSelectSubBookCategory('BOOK_CATEROGY', item.id, item.name)}
                         >
                             <span className="category-title">{item.name}</span>
                             <IoIosArrowForward className="icon" />
@@ -63,7 +69,11 @@ const BookCategoryDetailSidebar = (props) => {
             {
                 data?.Authors?.map(item => {
                     return (
-                        <div key={`category-item-author-${item.id}`} className="category-item d-flex align-items-center justify-content-between">
+                        <div
+                            key={`category-item-author-${item.id}`}
+                            className="category-item d-flex align-items-center justify-content-between"
+                            onClick={() => handleSelectSubBookCategory('AUTHOR', item.id, item.name)}
+                        >
                             <span className="category-title">{item.name}</span>
                             <IoIosArrowForward className="icon" />
                         </div>
@@ -77,7 +87,11 @@ const BookCategoryDetailSidebar = (props) => {
             {
                 data?.Publishers?.map(item => {
                     return (
-                        <div key={`category-item-publisher-${item.id}`} className="category-item d-flex align-items-center justify-content-between">
+                        <div
+                            key={`category-item-publisher-${item.id}`}
+                            className="category-item d-flex align-items-center justify-content-between"
+                            onClick={() => handleSelectSubBookCategory('PUBLISHER', item.id, item.name)}
+                        >
                             <span className="category-title">{item.name}</span>
                             <IoIosArrowForward className="icon" />
                         </div>

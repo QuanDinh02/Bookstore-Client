@@ -37,6 +37,12 @@ const BookCategory = (props) => {
             case 'BOOK_CATEROGY':
                 history.push(`/book-category/${bookGroupID}`, { book_category_id: id, book_category_name: name })
                 break;
+            case 'AUTHOR':
+                history.push(`/book-category/${bookGroupID}`, { book_category_id: -2, author_id: id, author_name: name })
+                break;
+            case 'PUBLISHER':
+                history.push(`/book-category/${bookGroupID}`, { book_category_id: -3, publisher_id: id, publisher_name: name })
+                break;
             default:
                 break;
         }
@@ -115,6 +121,7 @@ const BookCategory = (props) => {
                                                     <span
                                                         className="title-name"
                                                         title={item.name}
+                                                        onClick={() => handleSelectItem('AUTHOR', item.id, item.name)}
                                                     >
                                                         {item.name}
                                                     </span>
@@ -137,6 +144,7 @@ const BookCategory = (props) => {
                                                     <span
                                                         className="title-name"
                                                         title={item.name}
+                                                        onClick={() => handleSelectItem('PUBLISHER', item.id, item.name)}
                                                     >
                                                         {item.name}
                                                     </span>

@@ -23,6 +23,14 @@ const getBooksByBookCategory = async (id) => {
     return await axios.get(`/api/book/book-category/${id}`);
 }
 
+const getBooksByAuthor = async (id) => {
+    return await axios.get(`/api/book/author/${id}`);
+}
+
+const getBooksByPublisher = async (id) => {
+    return await axios.get(`/api/book/publisher/${id}`);
+}
+
 const getBooksByCategoryGroup = async (group_id) => {
     return await axios.get(`/api/book/book-category-group/${group_id}`);
 }
@@ -42,5 +50,6 @@ const createNewOrderDetails = async (data) => {
 export { 
     postCreateABook, getAllBookCategoryGroup, getHighlightBook,
     getBooksByBookCategory, getABookCategoryGroup, getBooksByCategoryGroup,
-    getBookDetail, createNewOrder, createNewOrderDetails
+    getBookDetail, createNewOrder, createNewOrderDetails,
+    getBooksByAuthor, getBooksByPublisher
 }
