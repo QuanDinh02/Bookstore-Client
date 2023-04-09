@@ -4,26 +4,8 @@ import Modal from 'react-bootstrap/Modal';
 import './Modal.scss';
 
 import { useImmer } from 'use-immer';
-import toast from 'react-hot-toast';
 import { postCreateNewPublisher, putUpdatePublisher, deletePublisher } from '../../Services/adminServices';
-
-const toast_success = {
-    style: {
-        padding: '1rem'
-    },
-    iconTheme: {
-        primary: '#087B44'
-    }
-}
-
-const toast_error = {
-    style: {
-        padding: '1rem'
-    },
-    iconTheme: {
-        primary: '#dd2222'
-    }
-}
+import { successToast, errorToast } from '../../Toast/Toast';
 
 const ModalPublisher = (props) => {
     const { show, setShow, type, data, fetchPublisher } = props;
@@ -44,7 +26,7 @@ const ModalPublisher = (props) => {
     const checkValidName = () => {
 
         if (!modalData?.publisher_name) {
-            toast.error('Empty name is not allowed !', toast_error);
+            errorToast('Empty name is not allowed !');
             return false;
         }
 
@@ -54,11 +36,11 @@ const ModalPublisher = (props) => {
     const showToast = (result) => {
         if (result.EC === 0) {
             setShow(false);
-            toast.success(result.EM, toast_success);
+            successToast(result.EM);
             fetchPublisher();
         }
         if (result.EC === 1) {
-            toast.error(result.EM, toast_error);
+            errorToast(result.EM);
         }
     }
 

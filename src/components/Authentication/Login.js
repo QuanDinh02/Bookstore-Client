@@ -1,35 +1,11 @@
 import './Authentication.scss';
 
 import { useEffect, useState } from 'react';
-import { Redirect, useHistory } from 'react-router-dom';
-import toast from 'react-hot-toast';
+import { useHistory } from 'react-router-dom';
 import { userLogin } from '../Services/userServices';
 import { useDispatch, useSelector } from "react-redux";
 import { UserLogin } from '../../redux/action/actions';
-
-const toast_success = {
-    style: {
-        padding: '1rem',
-        background: '#47D764',
-        color: '#FFFFFF'
-    },
-    iconTheme: {
-        primary: '#FFFFFF',
-        secondary: '#47D764'
-    }
-}
-
-const toast_error = {
-    style: {
-        padding: '1rem',
-        background: '#FE355B',
-        color: '#FFFFFF'
-    },
-    iconTheme: {
-        primary: '#FFFFFF',
-        secondary: '#FE355B'
-    }
-}
+import { successToast2, errorToast2 } from '../Toast/Toast';
 
 const Login = () => {
 
@@ -59,18 +35,18 @@ const Login = () => {
         resetValidData();
         if (!loginData) {
             setValidLogin(false);
-            toast.error("Email or phone is empty !", toast_error);
+            errorToast2("Email or phone is empty !");
         }
         if (!password) {
             setValidPassword(false);
-            toast.error("Password is empty !", toast_error);
+            errorToast2("Password is empty !");
         }
 
         let result = await userLogin(loginData, password);
         if (result) {
             let res = result;
             if (+res.EC === 0) {
-                toast.success(res.EM, toast_success);
+                successToast2(res.EM);
 
                 let email = res.DT.email;
                 let username = res.DT.username;
@@ -82,12 +58,14 @@ const Login = () => {
                     account: { id, email, username, user_group }
                 }
 
-                dispatch(UserLogin(data));
-                history.push('/');
-                window.location.reload();
+                setTimeout(() => {
+                    dispatch(UserLogin(data));
+                    history.push('/');
+                    window.location.reload();
+                }, 1000);
 
             } else {
-                toast.error(res.EM, toast_error);
+                errorToast2(res.EM);
             }
         }
 

@@ -5,25 +5,27 @@ import {
     Route,
     useRouteMatch,
     useHistory,
-    Redirect,
-    useLocation
+    Redirect
 } from "react-router-dom";
 import PurchaseDetail from './PurchaseDetail';
+import ModalPurchase from '../Modal/ModalPurchase';
 
 const Purchase = () => {
 
     const [isLoading, setIsLoading] = useState(true);
     const [status, setStatus] = useState(1);
     const { path, url } = useRouteMatch();
+    const [showModal, setShowModal] = useState(false);
+    const [deleteOrder, setDeleteOrder] = useState('');
 
     const history = useHistory();
- 
+
     const handleAccesRoute = (route) => {
         setStatus(+route);
         history.push(`${url}/${route}`);
     }
 
-    useEffect(() => {  
+    useEffect(() => {
         setTimeout(() => {
             setIsLoading(false);
         }, 500);
@@ -69,11 +71,19 @@ const Purchase = () => {
                                     <Redirect to={`${url}/1`} />
                                 </Route>
                                 <Route path={`${path}/:id`}>
-                                    <PurchaseDetail />
+                                    <PurchaseDetail
+                                        setShow={setShowModal}
+                                        setDeleteOrder={setDeleteOrder}
+                                    />
                                 </Route>
 
                             </Switch>
                         </div>
+                        <ModalPurchase
+                            show={showModal}
+                            setShow={setShowModal}
+                            order_id={deleteOrder}
+                        />
                     </div>
             }
         </>

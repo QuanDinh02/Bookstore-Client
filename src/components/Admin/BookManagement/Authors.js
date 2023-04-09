@@ -10,7 +10,7 @@ import ModalAuthor from '../Modal/ModalAuthor';
 import { useImmer } from 'use-immer';
 import { getAuthorWithPagination } from '../../Services/adminServices';
 
-const Authors = () => {
+const Authors = (props) => {
 
     const [isLoading, setIsLoading] = useState(true);
     const [modalType, setModalType] = useState('');
@@ -19,6 +19,8 @@ const Authors = () => {
     const [authorsList, setAuthorsList] = useImmer([]);
     const [authorCurrentPage, setAuthorCurrentPage] = useState(1);
     const [authorLimit, setAuthorLimit] = useState(2);
+
+    const { setTitle } = props;
 
     const [moddifiedData, setModifiedData] = useState({
         author_name: '',
@@ -70,6 +72,7 @@ const Authors = () => {
     }, [authorCurrentPage]);
 
     useEffect(() => {
+        setTitle('Authors');
         setTimeout(() => {
             setIsLoading(false);
         }, 1000);

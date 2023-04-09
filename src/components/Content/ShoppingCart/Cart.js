@@ -1,8 +1,6 @@
 import './Cart.scss';
 import { IoTrashOutline } from 'react-icons/io5';
-
 import { useDispatch, useSelector } from "react-redux";
-
 import {
     ChangeCartItemAmount, DeleteShoppingCart,
     DeleteAllInShoppingCart, DeleteManyCartItems
@@ -10,37 +8,11 @@ import {
 
 import { createNewOrder, createNewOrderDetails } from '../../Services/apiServices';
 import { getDefaultAddress } from '../../Services/userServices';
-
 import { useImmer } from 'use-immer';
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import CartModal from './CartModal';
-
-import toast from 'react-hot-toast';
-
-const toast_success = {
-    style: {
-        padding: '1rem',
-        background: '#47D764',
-        color: '#FFFFFF'
-    },
-    iconTheme: {
-        primary: '#FFFFFF',
-        secondary: '#47D764'
-    }
-}
-
-const toast_error = {
-    style: {
-        padding: '1rem',
-        background: '#FE355B',
-        color: '#FFFFFF'
-    },
-    iconTheme: {
-        primary: '#FFFFFF',
-        secondary: '#FE355B'
-    }
-}
+import { successToast2, errorToast2 } from '../../Toast/Toast';
 
 const Cart = () => {
 
@@ -125,7 +97,7 @@ const Cart = () => {
 
     const handleConfirmCart = async () => {
         if (cartItems.every(item => item.isChecked === false)) {
-            toast.error('No items are selected !', toast_error);
+            errorToast2('No items are selected !');
             return;
         } else {
             let bookAmounts = 0;
@@ -168,7 +140,7 @@ const Cart = () => {
 
                     let msg = await createNewOrderDetails(orderItems);
                     if (msg && msg.EC === 0) {
-                        toast.success('Order successfully !', toast_success);
+                        successToast2('Order successfully !');
                         dispatch(DeleteAllInShoppingCart());
 
                         setTimeout(() => {

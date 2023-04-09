@@ -16,13 +16,13 @@ import './Manager.scss';
 import UserTable from "../UserManagement/UserTable";
 import UserAddNew from "../UserManagement/UserAddNew";
 import OrderTable from "../OrderManagement/OrderTable";
-import AccessLinksTable from "../Access/AccessLinksTable";
-import UserGroup from "../Access/UserGroup";
 import OrderDetail from "../OrderManagement/OrderDetail";
+import { useState } from "react";
 
 const Manager = () => {
 
     const { path } = useRouteMatch();
+    const [title, setTitle] = useState('');
 
     return (
         <div className="manager-container d-flex">
@@ -30,40 +30,34 @@ const Manager = () => {
                 <Sidebars />
             </div>
             <div className="manager-content position-relative">
-                <AdminHeader />
+                <AdminHeader title={title} />
                 <Switch>
                     <Route path={path} exact>
-                        <Dashboard />
+                        <Dashboard setTitle={setTitle}/>
                     </Route>
                     <Route path={`${path}/book-category`}>
-                        <BookCategories />
+                        <BookCategories setTitle={setTitle}/>
                     </Route>
                     <Route path={`${path}/book-author`}>
-                        <Authors />
+                        <Authors setTitle={setTitle}/>
                     </Route>
                     <Route path={`${path}/book-publisher`}>
-                        <Publishers/>
+                        <Publishers setTitle={setTitle}/>
                     </Route>
                     <Route path={`${path}/books`}>
-                        <BookList />
+                        <BookList setTitle={setTitle}/>
                     </Route>
                     <Route path={`${path}/user-list`}>
-                        <UserTable />
+                        <UserTable setTitle={setTitle}/>
                     </Route>
                     <Route path={`${path}/user-add-new`}>
-                        <UserAddNew />
+                        <UserAddNew setTitle={setTitle}/>
                     </Route>
                     <Route path={`${path}/order`}>
-                        <OrderTable />
+                        <OrderTable setTitle={setTitle}/>
                     </Route>
                     <Route path={`${path}/order-detail/:id`}>
-                        <OrderDetail/>
-                    </Route>
-                    <Route path={`${path}/access`}>
-                        <AccessLinksTable />
-                    </Route>
-                    <Route path={`${path}/user-group`}>
-                        <UserGroup />
+                        <OrderDetail setTitle={setTitle}/>
                     </Route>
                 </Switch>
             </div>

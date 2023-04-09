@@ -10,7 +10,7 @@ import ModalBook from '../Modal/ModalBook';
 import { useImmer } from 'use-immer';
 import { getBooksWithPagination } from '../../Services/adminServices';
 
-const BookList = () => {
+const BookList = (props) => {
 
     const [isLoading, setIsLoading] = useState(true);
     const [modalType, setModalType] = useState('');
@@ -19,6 +19,8 @@ const BookList = () => {
     const [booksList, setBooksList] = useImmer([]);
     const [bookCurrentPage, setBookCurrentPage] = useState(1);
     const [bookLimit, setBookLimit] = useState(3);
+
+    const { setTitle } = props;
 
     const defaultValue = {
         name: '',
@@ -108,6 +110,7 @@ const BookList = () => {
     }, [bookCurrentPage]);
 
     useEffect(() => {
+        setTitle('Books');
         setTimeout(() => {
             setIsLoading(false);
         }, 1500);
@@ -213,7 +216,7 @@ const BookList = () => {
                                                             <div className='delete-btn px-1' title='Delete' onClick={() => handleShowModal('DELETE', item)}>
                                                                 <FaRegTrashAlt className='icon' />
                                                             </div>
-                                                            <div className='update-btn px-1' title='Selling Update' onClick={() => handleShowModal('UPDATE-SELLING',item)}>
+                                                            <div className='update-btn px-1' title='Selling Update' onClick={() => handleShowModal('UPDATE-SELLING', item)}>
                                                                 <MdSell className='icon' />
                                                             </div>
                                                         </div>

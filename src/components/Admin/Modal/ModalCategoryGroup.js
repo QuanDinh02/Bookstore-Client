@@ -2,29 +2,12 @@ import React, { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { useImmer } from 'use-immer';
-import toast from 'react-hot-toast';
 import { 
     postCreateNewBookCategoryGroup,
     putUpdateBookCategoryGroup, deleteBookCategoryGroup
 } from '../../Services/adminServices';
 
-const toast_success = {
-    style: {
-        padding: '1rem'
-    },
-    iconTheme: {
-        primary: '#087B44'
-    }
-}
-
-const toast_error = {
-    style: {
-        padding: '1rem'
-    },
-    iconTheme: {
-        primary: '#dd2222'
-    }
-}
+import { successToast, errorToast } from '../../Toast/Toast';
 
 const ModalCategoryGroup = (props) => {
     const { show, setShow, type, data, fetchBookCategoryGroup } = props;
@@ -41,7 +24,7 @@ const ModalCategoryGroup = (props) => {
 
     const checkValidInput = () => {
         if (!modalData?.category_group_name) {
-            toast.error('Empty input is not allowed !', toast_error);
+            errorToast('Empty input is not allowed !');
             return false;
         }
         return true;
@@ -50,11 +33,11 @@ const ModalCategoryGroup = (props) => {
     const showToast = (result) => {
         if (result.EC === 0) {
             setShow(false);
-            toast.success(result.EM, toast_success);
+            successToast(result.EM);
             fetchBookCategoryGroup();
         }
         if (result.EC === 1) {
-            toast.error(result.EM, toast_error);
+            errorToast(result.EM);
         }
     }
 

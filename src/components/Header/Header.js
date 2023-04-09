@@ -18,17 +18,7 @@ import BookCategory from '../Content/BookCategory/BookCategory';
 import { useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { fetchAccount, userLogout } from '../Services/userServices';
-
-import toast from 'react-hot-toast';
-
-const toast_success = {
-    style: {
-        padding: '1rem'
-    },
-    iconTheme: {
-        primary: '#087B44'
-    }
-}
+import { successToast } from '../Toast/Toast';
 
 const Header = (props) => {
 
@@ -75,7 +65,7 @@ const Header = (props) => {
     const handleUserLogout = async () => {
         let res = await userLogout();
         if (res && res.EC === 0) {
-            toast.success(res.EM, toast_success);
+            successToast(res.EM);
             dispatch(UserLogout());
             setTimeout(() => {
                 window.location.reload();

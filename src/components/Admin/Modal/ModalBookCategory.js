@@ -6,25 +6,8 @@ import {
     putUpdateBookCategory, deleteBookCategory
 } from '../../Services/adminServices';
 import { useImmer } from 'use-immer';
-import toast from 'react-hot-toast';
 
-const toast_success = {
-    style: {
-        padding: '1rem'
-    },
-    iconTheme: {
-        primary: '#087B44'
-    }
-}
-
-const toast_error = {
-    style: {
-        padding: '1rem'
-    },
-    iconTheme: {
-        primary: '#dd2222'
-    }
-}
+import { successToast, errorToast } from '../../Toast/Toast';
 
 const ModalBookCategory = (props) => {
     const { show, setShow, type, data, fetchBookCategory } = props;
@@ -50,12 +33,12 @@ const ModalBookCategory = (props) => {
     const checkValidInputs = () => {
 
         if (!modalData?.category_name || !modalData?.category_group) {
-            toast.error('Empty inputs are not allowed !', toast_error);
+            errorToast('Empty inputs are not allowed !');
             return false;
         }
 
         if (modalData?.category_group === '0') {
-            toast.error('Category group has not selected yet !', toast_error);
+            errorToast('Category group has not selected yet !');
             return false;
         }
 
@@ -65,11 +48,11 @@ const ModalBookCategory = (props) => {
     const showToast = (result) => {
         if (result.EC === 0) {
             setShow(false);
-            toast.success(result.EM, toast_success);
+            successToast(result.EM);
             fetchBookCategory();
         }
         if (result.EC === 1) {
-            toast.error(result.EM, toast_error);
+            errorToast(result.EM);
         }
     }
 

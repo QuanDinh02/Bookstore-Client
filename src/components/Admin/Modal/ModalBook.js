@@ -10,25 +10,7 @@ import {
 import './Modal.scss';
 
 import { useImmer } from 'use-immer';
-import toast from 'react-hot-toast';
-
-const toast_success = {
-    style: {
-        padding: '1rem'
-    },
-    iconTheme: {
-        primary: '#087B44'
-    }
-}
-
-const toast_error = {
-    style: {
-        padding: '1rem'
-    },
-    iconTheme: {
-        primary: '#dd2222'
-    }
-}
+import { successToast, errorToast } from '../../Toast/Toast';
 
 const Modal_Title = {
     'CREATE': 'Add New Book',
@@ -77,22 +59,22 @@ const ModalBook = (props) => {
     const checkValidNameInput = () => {
 
         if (!modalData?.name) {
-            toast.error('Empty book name is not allowed !', toast_error);
+            errorToast('Empty book name is not allowed !');
             return false;
         }
 
         if (modalData?.author === "0") {
-            toast.error('Empty book author is not allowed !', toast_error);
+            errorToast('Empty book author is not allowed !');
             return false;
         }
 
         if (modalData?.publisher === "0") {
-            toast.error('Empty book publisher is not allowed !', toast_error);
+            errorToast('Empty book publisher is not allowed !');
             return false;
         }
 
         if (modalData?.book_category === "0") {
-            toast.error('Empty book category is not allowed !', toast_error);
+            errorToast('Empty book category is not allowed !');
             return false;
         }
 
@@ -102,11 +84,11 @@ const ModalBook = (props) => {
     const showToast = (result) => {
         if (result.EC === 0) {
             handleClose();
-            toast.success(result.EM, toast_success);
+            successToast(result.EM);
             fetchBooks();
         }
         if (result.EC === 1) {
-            toast.error(result.EM, toast_error);
+            errorToast(result.EM);
         }
     }
 

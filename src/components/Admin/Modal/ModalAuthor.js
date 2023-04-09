@@ -2,29 +2,10 @@ import React, { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { MdCloudUpload } from "react-icons/md";
+import { useImmer } from 'use-immer';
 import { postCreateNewAuthor, putUpdateAuthor, deleteAuthor } from '../../Services/adminServices';
 import './Modal.scss';
-
-import { useImmer } from 'use-immer';
-import toast from 'react-hot-toast';
-
-const toast_success = {
-    style: {
-        padding: '1rem'
-    },
-    iconTheme: {
-        primary: '#087B44'
-    }
-}
-
-const toast_error = {
-    style: {
-        padding: '1rem'
-    },
-    iconTheme: {
-        primary: '#dd2222'
-    }
-}
+import { successToast, errorToast } from '../../Toast/Toast';
 
 const ModalAuthor = (props) => {
     const { show, setShow, type, data, fetchAuthors } = props;
@@ -50,7 +31,7 @@ const ModalAuthor = (props) => {
     const checkValidNameInput = () => {
 
         if (!modalData?.author_name) {
-            toast.error('Empty author name is not allowed !', toast_error);
+            errorToast('Empty author name is not allowed !');
             return false;
         }
 
@@ -60,11 +41,11 @@ const ModalAuthor = (props) => {
     const showToast = (result) => {
         if (result.EC === 0) {
             handleClose();
-            toast.success(result.EM, toast_success);
+            successToast(result.EM);
             fetchAuthors();
         }
         if (result.EC === 1) {
-            toast.error(result.EM, toast_error);
+            errorToast(result.EM);
         }
     }
 

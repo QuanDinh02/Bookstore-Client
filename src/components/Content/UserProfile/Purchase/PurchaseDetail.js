@@ -6,9 +6,11 @@ import { useSelector } from "react-redux";
 
 const ORDER_STATUS = ['All', 'Processing', 'Delivered', 'Completed', 'Canceled'];
 
-const PurchaseDetail = () => {
+const PurchaseDetail = (props) => {
 
     const { id } = useParams();
+    const { setShow, setDeleteOrder } = props;
+
     const [orderDetailList, setOrderDetailList] = React.useState([]);
 
     const account = useSelector(state => state.user.account);
@@ -18,6 +20,11 @@ const PurchaseDetail = () => {
         if (result && result.EC === 0) {
             setOrderDetailList(result.DT);
         }
+    }
+
+    const handleCancelOrder = (order_id) => {
+        setShow(true);
+        setDeleteOrder(order_id);
     }
 
     React.useEffect(() => {
@@ -75,7 +82,12 @@ const PurchaseDetail = () => {
                                         <span>Total Payments: <span className="total-price">{o.order.total_price} đ</span></span>
                                     </div>
                                     {o.order.status.toLowerCase() === 'processing' &&
-                                        <button className="order-delete-btn">Cancel Order</button>
+                                        <button
+                                            className="order-delete-btn"
+                                            onClick={() => handleCancelOrder(o.order.id)}
+                                        >
+                                            Cancel Order
+                                        </button>
                                     }
                                 </div>
                             </div>

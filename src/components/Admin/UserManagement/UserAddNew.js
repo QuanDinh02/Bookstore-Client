@@ -3,29 +3,11 @@ import { FiUpload } from 'react-icons/fi';
 import { useState } from 'react';
 import { getUserGroups, postCreateNewUser } from '../../Services/adminServices';
 import { useEffect } from 'react';
-import toast from 'react-hot-toast';
 import { useImmer } from 'use-immer';
 import { useHistory } from 'react-router-dom';
+import { successToast, errorToast } from '../../Toast/Toast';
 
-const toast_success = {
-    style: {
-        padding: '1rem'
-    },
-    iconTheme: {
-        primary: '#087B44'
-    }
-}
-
-const toast_error = {
-    style: {
-        padding: '1rem'
-    },
-    iconTheme: {
-        primary: '#dd2222'
-    }
-}
-
-const UserAddNew = () => {
+const UserAddNew = (props) => {
 
     const history = useHistory();
 
@@ -33,6 +15,8 @@ const UserAddNew = () => {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [previewImage, setPreviewImage] = useState('');
+
+    const { setTitle } = props;
 
     const [data, setData] = useImmer({
         fullname: '',
@@ -61,32 +45,32 @@ const UserAddNew = () => {
     const checkValidInputs = () => {
 
         if (!data?.fullname) {
-            toast.error('Empty fullname is not allowed !', toast_error);
+            errorToast('Empty fullname is not allowed !');
             return false;
         }
 
         if (!data?.username) {
-            toast.error('Empty username is not allowed !', toast_error);
+            errorToast('Empty username is not allowed !');
             return false;
         }
 
         if (!data?.email) {
-            toast.error('Empty email is not allowed !', toast_error);
+            errorToast('Empty email is not allowed !');
             return false;
         }
 
         if (data?.user_group === '0') {
-            toast.error('Empty user role is not allowed !', toast_error);
+            errorToast('Empty user role is not allowed !');
             return false;
         }
 
         if (!password) {
-            toast.error('Empty password is not allowed !', toast_error);
+            errorToast('Empty password is not allowed !');
             return false;
         }
 
         if (password !== confirmPassword) {
-            toast.error('Confirm password is incorrect !', toast_error);
+            errorToast('Confirm password is incorrect !');
             return false;
         }
 
@@ -95,13 +79,13 @@ const UserAddNew = () => {
 
     const showToast = (result) => {
         if (result.EC === 0) {
-            toast.success(result.EM, toast_success);
+            successToast(result.EM);
             setTimeout(()=> {
                 history.push('/admin/manager/user-list');
             },1000);
         }
         if (result.EC === 1) {
-            toast.error(result.EM, toast_error);
+            errorToast(result.EM);
         }
     }
 
@@ -124,6 +108,7 @@ const UserAddNew = () => {
     }
 
     useEffect(() => {
+        setTitle('User');
         fetchAllUserGroups();
     }, []);
 

@@ -2,32 +2,12 @@ import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { MdCloudUpload } from "react-icons/md";
-import Onepiece from '../../../assets/image/Onepiece.png';
-
 import './Modal.scss';
 
 import { useImmer } from 'use-immer';
-import toast from 'react-hot-toast';
 import { useEffect } from 'react';
 import { getUserGroups, putUpdateUser, deleteUser } from '../../Services/adminServices';
-
-const toast_success = {
-    style: {
-        padding: '1rem'
-    },
-    iconTheme: {
-        primary: '#087B44'
-    }
-}
-
-const toast_error = {
-    style: {
-        padding: '1rem'
-    },
-    iconTheme: {
-        primary: '#dd2222'
-    }
-}
+import { successToast, errorToast } from '../../Toast/Toast';
 
 const ModalUser = (props) => {
     const { show, setShow, type, data, fetchUsers } = props;
@@ -54,17 +34,17 @@ const ModalUser = (props) => {
     const checkValidInputs = () => {
 
         if (!modalData?.fullname) {
-            toast.error('Empty fullname is not allowed !', toast_error);
+            errorToast('Empty fullname is not allowed !');
             return false;
         }
 
         if (!modalData?.username) {
-            toast.error('Empty username is not allowed !', toast_error);
+            errorToast('Empty username is not allowed !');
             return false;
         }
 
         if (!modalData?.email) {
-            toast.error('Empty email is not allowed !', toast_error);
+            errorToast('Empty email is not allowed !');
             return false;
         }
 
@@ -74,11 +54,11 @@ const ModalUser = (props) => {
     const showToast = (result) => {
         if (result.EC === 0) {
             handleClose();
-            toast.success(result.EM, toast_success);
+            successToast(result.EM);
             fetchUsers();
         }
         if (result.EC === 1) {
-            toast.error(result.EM, toast_error);
+            errorToast(result.EM);
         }
     }
 

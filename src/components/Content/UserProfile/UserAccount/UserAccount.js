@@ -3,29 +3,10 @@ import { ThreeDots } from 'react-loader-spinner';
 import User from '../../../../assets/image/user.png';
 import { useImmer } from 'use-immer';
 import { getUserProfile } from '../../../Services/userServices';
-import _ from 'lodash';
 import { useSelector } from 'react-redux';
 import ModalProfile from '../Modal/ModalProfile';
-import toast from 'react-hot-toast';
 import { putUpdateUserProfile } from '../../../Services/userServices';
-
-const toast_success = {
-    style: {
-        padding: '1rem'
-    },
-    iconTheme: {
-        primary: '#087B44'
-    }
-}
-
-const toast_error = {
-    style: {
-        padding: '1rem'
-    },
-    iconTheme: {
-        primary: '#dd2222'
-    }
-}
+import { successToast, errorToast } from '../../../Toast/Toast';
 
 const UserAccount = () => {
 
@@ -51,11 +32,11 @@ const UserAccount = () => {
     const showToast = (result) => {
         if (result.EC === 0) {
             setShowModal(false);
-            toast.success(result.EM, toast_success);
+            successToast(result.EM);
             fetchUserProfile();
         }
         if (result.EC === 1) {
-            toast.error(result.EM, toast_error);
+            errorToast(result.EM);
         }
     }
 

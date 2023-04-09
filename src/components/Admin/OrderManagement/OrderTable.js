@@ -1,5 +1,4 @@
 import { FaRegTrashAlt } from 'react-icons/fa';
-import { MdModeEditOutline } from 'react-icons/md';
 import { HiChevronUpDown } from 'react-icons/hi2';
 import ReactPaginate from 'react-paginate';
 import { useEffect, useState } from 'react';
@@ -9,28 +8,9 @@ import { useHistory } from 'react-router-dom';
 import { getOrderWithPagination, deleteOrder } from '../../Services/adminServices';
 import { useImmer } from 'use-immer';
 import ModalDeleteOrder from '../Modal/ModalDeleteOrder';
+import { successToast, errorToast } from '../../Toast/Toast';
 
-import toast from 'react-hot-toast';
-
-const toast_success = {
-    style: {
-        padding: '1rem'
-    },
-    iconTheme: {
-        primary: '#087B44'
-    }
-}
-
-const toast_error = {
-    style: {
-        padding: '1rem'
-    },
-    iconTheme: {
-        primary: '#dd2222'
-    }
-}
-
-const OrderTable = () => {
+const OrderTable = (props) => {
 
     const [isLoading, setIsLoading] = useState(true);
     const history = useHistory();
@@ -41,6 +21,8 @@ const OrderTable = () => {
     const [orderLimit, setOrderLimit] = useState(3);
 
     const [orderDelete, setOrderDelete] = useState('');
+
+    const { setTitle } = props;
 
     // handle pagination
     const handlePageClick = (event) => {
@@ -56,12 +38,12 @@ const OrderTable = () => {
     const handleDeleteOrder = async () => {
         let result = await deleteOrder(orderDelete);
         if (result && result.EC === 0) {
-            toast.success(result.EM, toast_success);
+            successToast(result.EM);
             setTimeout(() => {
                 fetchOrderWithPagination();
             }, 500);
         } else {
-            toast.error(result.EM, toast_error);
+            errorToast(result.EM);
         }
     }
 
@@ -81,6 +63,7 @@ const OrderTable = () => {
     }, [orderCurrentPage]);
 
     useEffect(() => {
+        setTitle('Order');
         setTimeout(() => {
             setIsLoading(false);
         }, 1000);

@@ -9,7 +9,7 @@ import ModalPublisher from '../Modal/ModalPublisher';
 import { useImmer } from 'use-immer';
 import { getPublisherWithPagination } from '../../Services/adminServices';
 
-const Publishers = () => {
+const Publishers = (props) => {
 
     const [isLoading, setIsLoading] = useState(true);
     const [modalType, setModalType] = useState('');
@@ -18,6 +18,8 @@ const Publishers = () => {
     const [publisherList, setPublisherList] = useImmer([]);
     const [publisherCurrentPage, setPublisherCurrentPage] = useState(1);
     const [publisherLimit, setPublisherLimit] = useState(3);
+
+    const { setTitle } = props;
 
     const [moddifiedData, setModifiedData] = useState({
         publisher_name: '',
@@ -70,6 +72,7 @@ const Publishers = () => {
     }, [publisherCurrentPage]);
 
     useEffect(() => {
+        setTitle('Publishers');
         setTimeout(() => {
             setIsLoading(false);
         }, 1000);

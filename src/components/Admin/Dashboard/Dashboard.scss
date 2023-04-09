@@ -1,0 +1,55 @@
+.dashboard-container {
+    .statis {
+        margin    : 1.875rem;
+
+        .statis-item {
+            background-color: white;
+            width           : 23%;
+            box-shadow      : 0px 0px 20px 0px rgba(44, 101, 144, 0.1);
+            padding: 1rem;
+
+            .icon {
+                font-size: 2.25rem;
+            }
+
+            .content {
+                display       : flex;
+                flex-direction: column;
+                gap           : 0.5rem;
+
+                .statis-title {
+                    font-size: 1.2rem;
+                }
+
+                .statis-value {
+                    font-size  : 1.25rem;
+                    font-weight: 600;
+                }
+            }
+        }
+    }
+
+    .dashboard-chart {
+        margin          : 1.875rem;
+        background-color: white;
+        box-shadow      : 0px 0px 20px 0px rgba(44, 101, 144, 0.1);
+
+        height: 400px;
+    }
+}
+
+.green-icon {
+    color: green;
+}
+
+.orange-icon {
+    color: orange;
+}
+
+.blue-icon {
+    color: #0197f6;
+}
+
+.red-icon {
+    color: red;
+}

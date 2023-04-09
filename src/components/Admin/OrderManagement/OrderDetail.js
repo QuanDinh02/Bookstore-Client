@@ -1,5 +1,4 @@
 import React from 'react';
-import Onepiece from '../../../assets/image/Onepiece.png';
 import { HiUser, HiPhone } from "react-icons/hi";
 import { IoMail } from "react-icons/io5";
 import { MdLocationOn } from "react-icons/md";
@@ -8,29 +7,11 @@ import { useParams } from 'react-router-dom';
 import { getOrderDetailById, upateOrderStatus, deleteOrderDetailItem } from '../../Services/adminServices';
 import NoImage from '../../../assets/image/NoImage.png';
 import { TailSpin } from 'react-loader-spinner';
-import toast from 'react-hot-toast';
 import ModalOrderDetail from '../Modal/ModalOrderDetail';
 import { useImmer } from 'use-immer';
+import { successToast, errorToast } from '../../Toast/Toast';
 
-const toast_success = {
-    style: {
-        padding: '1rem'
-    },
-    iconTheme: {
-        primary: '#087B44'
-    }
-}
-
-const toast_error = {
-    style: {
-        padding: '1rem'
-    },
-    iconTheme: {
-        primary: '#dd2222'
-    }
-}
-
-const OrderDetail = () => {
+const OrderDetail = (props) => {
 
     const [orderStatus, setOrderStatus] = React.useState('Processing');
     const { id } = useParams();
@@ -51,10 +32,11 @@ const OrderDetail = () => {
         }
     });
 
+    const { setTitle } = props;
+
     const fetchOrderDetail = async () => {
         let result = await getOrderDetailById(id);
         if (result && result.EC === 0) {
-            console.log(result.DT);
             setDetailData(result.DT);
             setOrderStatus(result.DT?.order.status);
             setDeleteItem(draft => {
@@ -76,24 +58,23 @@ const OrderDetail = () => {
             status: orderStatus
         });
         if (result && result.EC === 0) {
-            toast.success(result.EM, toast_success);
+            successToast(result.EM);
             setShowModal(false);
             fetchOrderDetail();
         } else {
-            toast.error(result.EM, toast_error);
+            errorToast(result.EM);
         }
     }
 
 
     const handleDeleteOrderDetailItem = async () => {
-        console.log(deleteItem);
         let result = await deleteOrderDetailItem(deleteItem);
         if (result && result.EC === 0) {
-            toast.success(result.EM, toast_success);
+            successToast(result.EM);
             setShowModal(false);
             fetchOrderDetail();
         } else {
-            toast.error(result.EM, toast_error);
+            errorToast(result.EM);
         }
     }
 
@@ -102,6 +83,7 @@ const OrderDetail = () => {
     }, []);
 
     React.useEffect(() => {
+        setTitle('Order');
         setTimeout(() => {
             setIsLoading(false);
         }, 1000);

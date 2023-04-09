@@ -4,7 +4,8 @@ import {
     DELETE_MANY_CART_ITEMS
 } from '../action/type';
 
-import toast from 'react-hot-toast';
+
+import { successToast} from '../../components/Toast/Toast';
 
 const INITIAL_STATE = {
     bookList: [],
@@ -16,14 +17,7 @@ const shoppingCartReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
 
         case ADD_BOOK_TO_SHOPPING_CART:
-            toast.success('Add product to cart successfully!', {
-                style: {
-                    padding: '1rem'
-                },
-                iconTheme: {
-                    primary: '#087B44'
-                }
-            });
+            successToast('Add product to cart successfully!');
             if (state.bookList.length > 0) {
                 let idx = state.bookList.findIndex(item => item.id === action?.payload?.id);
                 if (idx !== -1) {
@@ -47,14 +41,7 @@ const shoppingCartReducer = (state = INITIAL_STATE, action) => {
             if (state.bookList.length > 0) {
 
                 let _bookList = state.bookList.filter(item => item.id !== action?.payload?.bookId);
-                toast.success('Product has been deleted!', {
-                    style: {
-                        padding: '1rem'
-                    },
-                    iconTheme: {
-                        primary: '#087B44'
-                    }
-                });
+                successToast('Product has been deleted!');
                 return {
                     ...state, bookList: [..._bookList], booksCount: state.booksCount - 1
                 };
@@ -69,14 +56,7 @@ const shoppingCartReducer = (state = INITIAL_STATE, action) => {
 
             if (state.bookList.length > 0) {
 
-                toast.success('Products have been deleted!', {
-                    style: {
-                        padding: '1rem'
-                    },
-                    iconTheme: {
-                        primary: '#087B44'
-                    }
-                });
+                successToast('Products have been deleted!');
                 return {
                     ...state, bookList: [], booksCount: 0
                 };
@@ -94,14 +74,7 @@ const shoppingCartReducer = (state = INITIAL_STATE, action) => {
                 let deletedCartItems = action?.payload;
                 let _bookList = state.bookList.filter(item => !deletedCartItems.includes(item.id));
 
-                toast.success('Products have been deleted!', {
-                    style: {
-                        padding: '1rem'
-                    },
-                    iconTheme: {
-                        primary: '#087B44'
-                    }
-                });
+                successToast('Products have been deleted!');
                 return {
                     ...state, bookList: [..._bookList], booksCount: _bookList.length
                 };

@@ -11,11 +11,47 @@ import {
 } from "react-pro-sidebar";
 import './AdminHeader.scss';
 import User from '../../../assets/image/user.png';
-import { Link } from "react-router-dom";
+import { UserLogout } from "../../../redux/action/actions";
+import { useDispatch, useSelector } from "react-redux";
+import { userLogout } from "../../Services/userServices";
+import { successToast2 } from "../../Toast/Toast";
+import { getUserProfile } from "../../Services/userServices";
+import { useEffect, useState } from "react";
+import _ from 'lodash';
 
-const AdminHeader = () => {
+const AdminHeader = (props) => {
 
     const { collapseSidebar, collapsed } = useProSidebar();
+    const { title } = props;
+    const [adminImage, setAdminImage] = useState('');
+
+    const dispatch = useDispatch();
+
+    const account = useSelector(state => state.user.account);
+
+    const handleUserLogout = async () => {
+        let res = await userLogout();
+        if (res && res.EC === 0) {
+            successToast2(res.EM);
+            dispatch(UserLogout());
+            setTimeout(() => {
+                window.location.reload();
+            }, 1500);
+        }
+    }
+
+    const fetchProfile = async () => {
+        if (!_.isEmpty(account)) {
+            let result = await getUserProfile(account.id);
+            if (result && result.EC === 0) {
+                setAdminImage(result.DT.image);
+            }
+        }
+    }
+
+    useEffect(() => {
+        fetchProfile();
+    }, [account]);
 
     return (
         <div className="admin-header-container sticky-top d-flex gap-2">
@@ -26,22 +62,10 @@ const AdminHeader = () => {
                     <FiChevronsLeft className="sidebar-icon" onClick={() => collapseSidebar()} />
                 }
             </div>
-            <div className="admin-main flex-grow-1 d-flex justify-content-between align-items-center px-3 py-2">
+            <div className="admin-main flex-grow-1 d-flex justify-content-between align-items-center px-3 py-3">
                 <div className="admin-left-content">
                     <div className="section mb-2">
-                        <span>Category Lists</span>
-                    </div>
-                    <div className="breadcrumb-section">
-                        <nav aria-label="breadcrumb">
-                            <ol className="breadcrumb">
-                                <li className="breadcrumb-item">
-                                    <Link to='/admin/manager'>Admin</Link>
-                                </li>
-                                <li className="breadcrumb-item">
-                                    <Link to='/admin/manager'>Category Lists</Link>
-                                </li>
-                            </ol>
-                        </nav>
+                        <span>{title}</span>
                     </div>
                 </div>
                 <div className="admin-right-content d-flex align-items-end">
@@ -53,9 +77,9 @@ const AdminHeader = () => {
                                 <div className="message-amount">5</div>
                             </div>
                             <div className="mail-main py-3">
-                                {[...Array(4)].map(item => {
+                                {[...Array(4)].map((item, index) => {
                                     return (
-                                        <div className="mail-message d-flex align-items-center mb-3 px-3 gap-2">
+                                        <div key={`mail-item-${index}`} className="mail-message d-flex align-items-center mb-3 px-3 gap-2">
                                             <div className="user-mail-image">
                                                 <img src={User} alt='' />
                                             </div>
@@ -71,15 +95,19 @@ const AdminHeader = () => {
                     </div>
                     <div className="profile d-flex align-items-center position-relative gap-3">
                         <div className="image">
-                            <img src={User} alt='' />
+                            {adminImage ?
+                                <img src={`data:image/jpeg;base64,${adminImage}`} alt='image' />
+                                :
+                                <img src={User} alt='image' />
+                            }
                         </div>
                         <div className="account-info d-flex flex-column">
-                            <span className="account-name">Beron Tech</span>
-                            <span className="account-role">Manager</span>
+                            <span className="account-name">{account?.username}</span>
+                            <span className="account-role">{account?.user_group}</span>
                         </div>
                         <div className="settings-box position-absolute end-0 top-100 mt-2">
                             <div className="account-name d-flex justify-content-between align-items-center p-3">
-                                <span>Hello Baron Tech</span>
+                                <span>Hello {account?.username}</span>
                             </div>
                             <div className="settings py-3">
                                 <div className="setting-item d-flex align-items-center mb-4 px-4 gap-4">
@@ -119,7 +147,7 @@ const AdminHeader = () => {
                                     </div>
                                 </div>
                                 <div className="logout-btn my-2 mx-auto">
-                                    <button className="btn">Sign out <RxExit/></button>
+                                    <button className="btn" onClick={handleUserLogout}>Sign out <RxExit /></button>
                                 </div>
                             </div>
                         </div>

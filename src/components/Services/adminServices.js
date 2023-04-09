@@ -190,6 +190,10 @@ const deleteOrder = async (order_id) => {
     return await axios.delete(`/api/order/${order_id}`)
 }
 
+const getDashboardInfo = async (date) => {
+    return await axios.get(`/api/dashboard?date=${date}`);
+}
+
 export {
     getAllBookCategoryGroup, postCreateNewBookCategoryGroup,
     putUpdateBookCategoryGroup, deleteBookCategoryGroup,
@@ -210,5 +214,5 @@ export {
     putUpdateUser, deleteUser, getUserGroups,
 
     getOrderWithPagination, getOrderDetail, getOrderDetailById,
-    upateOrderStatus, deleteOrderDetailItem, deleteOrder
+    upateOrderStatus, deleteOrderDetailItem, deleteOrder, getDashboardInfo
 }

@@ -1,36 +1,18 @@
 import { useState, useEffect } from 'react';
 import { ThreeDots } from 'react-loader-spinner';
 import { useImmer } from 'use-immer';
-
-import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
 import { changePassword, userLogout } from '../../Services/userServices';
 import { useHistory } from 'react-router-dom';
 import _ from 'lodash';
 import ModalPassword from './Modal/ModalPassword';
 import { UserLogout } from '../../../redux/action/actions';
-
-const toast_success = {
-    style: {
-        padding: '1rem'
-    },
-    iconTheme: {
-        primary: '#087B44'
-    }
-}
-
-const toast_error = {
-    style: {
-        padding: '1rem'
-    },
-    iconTheme: {
-        primary: '#dd2222'
-    }
-}
+import { successToast, errorToast } from '../../Toast/Toast';
+import toast from 'react-hot-toast';
 
 const toast_info = {
     style: {
-        padding: '1rem',
+        padding: '0.5rem',
         background: '#0095DE',
         color: '#FFFFFF'
     },
@@ -66,20 +48,20 @@ const ChangePassword = () => {
         }
 
         if (!data.old_password) {
-            toast.error('Old password is empty !', toast_error);
+            errorToast('Old password is empty !');
             return;
         }
         if (!data.new_password) {
-            toast.error('New password is empty !', toast_error);
+            errorToast('New password is empty !');
             return;
         }
         if (!data.confirm_password) {
-            toast.error('Confirm password is empty !', toast_error);
+            errorToast('Confirm password is empty !');
             return;
         }
 
         if (data.new_password !== data.confirm_password) {
-            toast.error('Confirm password is incorrect !', toast_error);
+            errorToast('Confirm password is incorrect !');
             return;
         }
 
@@ -91,13 +73,16 @@ const ChangePassword = () => {
 
         if (result && result.EC === 0) {
             setShowModal(false);
-            toast.success(result.EM, toast_success);
+            successToast(result.EM);
             setData({
                 old_password: '',
                 new_password: '',
                 confirm_password: ''
-            })
-            toast("Please login again !", toast_info);
+            });
+            
+            setTimeout(() => {
+                toast("Please login again !", toast_info);
+            }, 1000);
 
             setTimeout(async () => {
                 let res = await userLogout();
@@ -108,7 +93,7 @@ const ChangePassword = () => {
             }, 2000);
 
         } else {
-            toast.error(result.EM, toast_error);
+            errorToast(result.EM);
         }
 
     }

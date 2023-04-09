@@ -10,7 +10,7 @@ import ModalCategoryGroup from '../Modal/ModalCategoryGroup';
 import { getAllBookCategory, getAllBookCategoryGroup } from '../../Services/adminServices';
 import { useImmer } from 'use-immer';
 
-const BookCategories = () => {
+const BookCategories = (props) => {
 
     const [isLoading, setIsLoading] = useState(true);
     const [modalType, setModalType] = useState('');
@@ -24,6 +24,8 @@ const BookCategories = () => {
     const [catgoryGroupList, setCategoryGroupList] = useImmer([]);
     const [groupCurrentPage, setGroupCurrentPage] = useState(1);
     const [groupLimit, setGroupLimit] = useState(3);
+
+    const { setTitle } = props;
 
     const [moddifiedData, setModifiedData] = useState({
         category_name: '',
@@ -106,6 +108,8 @@ const BookCategories = () => {
     }, [groupCurrentPage]);
 
     useEffect(() => {
+        setTitle('Book Category');
+
         setTimeout(() => {
             setIsLoading(false);
         }, 1000);

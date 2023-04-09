@@ -11,7 +11,7 @@ import ModalUser from '../Modal/ModalUser';
 import { getUserWithPagination } from '../../Services/adminServices';
 import { useImmer } from 'use-immer';
 
-const UserTable = () => {
+const UserTable = (props) => {
 
     const [isLoading, setIsLoading] = useState(true);
     const history = useHistory();
@@ -22,6 +22,8 @@ const UserTable = () => {
     const [usersList, setUsersList] = useImmer([]);
     const [userCurrentPage, setUserCurrentPage] = useState(1);
     const [userLimit, setUserLimit] = useState(2);
+
+    const { setTitle } = props;
 
     const [moddifiedData, setModifiedData] = useState({
         user_id: '',
@@ -88,6 +90,7 @@ const UserTable = () => {
     }, [userCurrentPage]);
 
     useEffect(() => {
+        setTitle('User');
         setTimeout(() => {
             setIsLoading(false);
         }, 1000);
