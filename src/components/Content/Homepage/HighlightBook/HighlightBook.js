@@ -2,9 +2,9 @@ import './HighlightBook.scss';
 import { getHighlightBook } from '../../../Services/apiServices';
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-
 import { useDispatch } from "react-redux";
 import { AddShoppingCart } from '../../../../redux/action/actions';
+import { NumberFormat } from '../../../FormatNumber/currencyFormat';
 
 const HighlightBook = (props) => {
 
@@ -82,8 +82,8 @@ const HighlightBook = (props) => {
                             <div className='sale-off'>
                                 -{Math.round(((bookData.price - bookData.current_price) * 100) / bookData.price)}%
                             </div>
-                            <div className='old-price'>{bookData.price} <span className='unit'>đ</span></div>
-                            <div className='price'>{bookData.current_price} <span className='unit'>đ</span></div>
+                            <div className='old-price'>{NumberFormat(bookData.price)}</div>
+                            <div className='price'>{NumberFormat(bookData.current_price)}</div>
                         </div>
 
                         <div

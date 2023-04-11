@@ -19,6 +19,7 @@ import { useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { fetchAccount, userLogout } from '../Services/userServices';
 import { successToast } from '../Toast/Toast';
+import { NumberFormat } from '../FormatNumber/currencyFormat';
 
 const Header = (props) => {
 
@@ -181,7 +182,7 @@ const Header = (props) => {
                                                                             {item.title}
                                                                         </div>
                                                                         <div className='cart-item-price'>
-                                                                            {item.amount} x <span className='current_price'>{item.current_price} <span className='unit'>đ</span></span>
+                                                                            {item.amount} x <span className='current_price'>{NumberFormat(item.current_price)}</span>
                                                                         </div>
                                                                     </td>
                                                                     <td className='cart-item-remove-icon'>

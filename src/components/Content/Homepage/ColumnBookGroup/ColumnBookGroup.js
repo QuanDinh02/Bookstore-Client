@@ -3,6 +3,7 @@ import { IoIosStar } from "react-icons/io";
 import { useEffect, useState } from 'react';
 import { getBooksByBookCategory } from '../../../Services/apiServices';
 import { useHistory } from 'react-router-dom';
+import { NumberFormat } from '../../../FormatNumber/currencyFormat';
 
 const ColumnBookGroup = (props) => {
 
@@ -37,7 +38,7 @@ const ColumnBookGroup = (props) => {
                         return (
                             <div className='book' key={`book-column-item-${item.id}`}>
                                 <div className='book-image'>
-                                    <img src={`data:image/jpeg;base64,${item.image}`} alt='' title={item.name} onClick={() => handleSeeBookDetail(item.id)}/>
+                                    <img src={`data:image/jpeg;base64,${item.image}`} alt='' title={item.name} onClick={() => handleSeeBookDetail(item.id)} />
                                 </div>
                                 <div className='book-content'>
                                     <div className='title' title={item.name} onClick={() => handleSeeBookDetail(item.id)}>{item.name}</div>
@@ -53,14 +54,14 @@ const ColumnBookGroup = (props) => {
                                         {item.rate < 5 && item.rate > 0 &&
                                             [...Array(5 - item.rate)].map(item => {
                                                 return (
-                                                    <IoIosStar className='no-star'/>
+                                                    <IoIosStar className='no-star' />
                                                 )
                                             })
                                         }
                                     </div>
                                     <div className='price'>
-                                        <span className='old-price'>{item.price} <span className='unit'>đ</span></span>
-                                        <span className='new-price'>{item.current_price} <span className='unit'>đ</span></span>
+                                        <span className='old-price'>{NumberFormat(item.price)}</span>
+                                        <span className='new-price'>{NumberFormat(item.current_price)}</span>
                                     </div>
                                 </div>
                             </div>

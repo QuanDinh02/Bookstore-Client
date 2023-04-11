@@ -13,6 +13,7 @@ import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import CartModal from './CartModal';
 import { successToast2, errorToast2 } from '../../Toast/Toast';
+import {NumberFormat} from '../../FormatNumber/currencyFormat';
 
 const Cart = () => {
 
@@ -280,7 +281,7 @@ const Cart = () => {
                                                         </div>
                                                     </td>
                                                     <td className='product-info d-flex align-items-center justify-content-center'>
-                                                        {item.current_price} <span className='unit'>&nbsp;đ</span>
+                                                        {NumberFormat(item.current_price)}
                                                     </td>
                                                     <td className='product-info d-flex align-items-center justify-content-center quantity'>
                                                         <button
@@ -302,7 +303,7 @@ const Cart = () => {
                                                         </button>
                                                     </td>
                                                     <td className='product-info d-flex align-items-center justify-content-center total-price'>
-                                                        {item.current_price * item.amount} <span className='unit'>&nbsp; đ</span>
+                                                        {NumberFormat(item.current_price * item.amount)}
                                                     </td>
                                                     <td className='product-info d-flex align-items-center justify-content-center remove-icon'>
                                                         <span title='delete'>
@@ -347,7 +348,7 @@ const Cart = () => {
                                     Subtotal ({cartItemsAmount} items)
                                 </div>
                                 <div className='value'>
-                                    <span>{subTotal}</span>&nbsp;<span className='unit'>đ</span>
+                                    <span>{NumberFormat(subTotal)}</span>
                                 </div>
                             </div>
                             <div className='product-discount d-flex justify-content-between mt-3 title-color'>
@@ -355,7 +356,7 @@ const Cart = () => {
                                     Product Discount
                                 </div>
                                 <div className='value'>
-                                    -<span>{discountTotal}</span>&nbsp;<span className='unit'>đ</span>
+                                    -<span>{NumberFormat(discountTotal)}</span>
                                 </div>
                             </div>
                             <div className='saved d-flex justify-content-between mt-3 title-color'>
@@ -363,7 +364,7 @@ const Cart = () => {
                                     Saved
                                 </div>
                                 <div className='value'>
-                                    -<span>{discountTotal}</span>&nbsp;<span className='unit'>đ</span>
+                                    -<span>{NumberFormat(discountTotal)}</span>
                                 </div>
                             </div>
                             <div className='total-amount d-flex justify-content-between mt-3'>
@@ -371,7 +372,7 @@ const Cart = () => {
                                     Total Amount
                                 </div>
                                 <div className='value'>
-                                    <span>{total}</span>&nbsp;<span className='unit'>đ</span>
+                                    <span>{NumberFormat(total)}</span>
                                 </div>
                             </div>
                             <div className='confirm-cart mt-3'>

@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import NoImage from '../../../../assets/image/NoImage.png';
 import { getOrderDetail } from "../../../Services/adminServices";
 import { useSelector } from "react-redux";
+import {NumberFormat} from '../../../FormatNumber/currencyFormat';
 
 const ORDER_STATUS = ['All', 'Processing', 'Delivered', 'Completed', 'Canceled'];
 
@@ -71,7 +72,7 @@ const PurchaseDetail = (props) => {
                                                 </div>
 
                                                 <div className="right d-flex justify-content-center align-items-center">
-                                                    <span className="price">{item.price} đ</span>
+                                                    <span className="price">{NumberFormat(item.price)}</span>
                                                 </div>
                                             </div>
                                         )
@@ -79,7 +80,7 @@ const PurchaseDetail = (props) => {
                                 }
                                 <div className="order-payment w-100 pt-3 d-flex flex-column align-items-end">
                                     <div className="total-payments mt-2 mb-3">
-                                        <span>Total Payments: <span className="total-price">{o.order.total_price} đ</span></span>
+                                        <span>Total Payments: <span className="total-price">{NumberFormat(o.order.total_price)}</span></span>
                                     </div>
                                     {o.order.status.toLowerCase() === 'processing' &&
                                         <button

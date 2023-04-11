@@ -16,6 +16,7 @@ import Login from "../components/Authentication/Login";
 import Register from "../components/Authentication/Register";
 import PrivateRoute from "./PrivateRoute";
 import ProfileRoute from "./ProfileRoute";
+import PageNotFound from "../components/Content/ErrorPage/PageNotFound";
 
 const AppRoutes = () => {
 
@@ -62,9 +63,7 @@ const AppRoutes = () => {
                     </ProfileRoute>
                 </Route>
                 <Route path="*">
-                    <div className="container">
-                        404 Page Not Found
-                    </div>
+                    <PageNotFound />
                 </Route>
             </Switch>
             {showHeaderFooter && <Footer />}

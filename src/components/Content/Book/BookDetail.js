@@ -15,6 +15,7 @@ import _ from 'lodash';
 
 import { useDispatch } from "react-redux";
 import { AddShoppingCart } from '../../../redux/action/actions';
+import { NumberFormat } from '../../FormatNumber/currencyFormat';
 
 const BookDetail = (props) => {
 
@@ -145,18 +146,24 @@ const BookDetail = (props) => {
                                     <div className='main my-3 py-3'>
                                         <div className='price mb-3 d-flex justify-content-between'>
                                             <span>Cover price</span>
-                                            <span className='price-value'>{data?.price} <span className='unit'>đ</span></span>
+                                            <span className={data.price !== data.current_price ? 'price-value' : 'price-old-value'}>{NumberFormat(data?.price)}</span>
                                         </div>
-                                        <div className='current_price mb-3 d-flex justify-content-between align-items-center'>
-                                            <span>Price</span>
-                                            <span className='current-price-value'>{data?.current_price} <span className='unit'>đ</span></span>
-                                        </div>
-                                        <div className='sale-off mb-3 d-flex justify-content-between'>
-                                            <span>Sale-off</span>
-                                            <span className='sale-off-value'>
-                                                ({data?.current_price && data?.price ? (data.price - data.current_price) : 0} <span className='unit'>đ</span>) {Math.round(((data.price - data.current_price) * 100) / data.price)}%
-                                            </span>
-                                        </div>
+                                        {data.price !== data.current_price &&
+                                            <>
+                                                <div className='current_price mb-3 d-flex justify-content-between align-items-center'>
+                                                    <span>Price</span>
+                                                    <span className='current-price-value'>{NumberFormat(data?.current_price)}</span>
+                                                </div>
+                                                <div className='sale-off mb-3 d-flex justify-content-between'>
+                                                    <span>Sale-off</span>
+                                                    <span className='sale-off-value'>
+                                                        ({data?.current_price && data?.price ? NumberFormat(data.price - data.current_price) : 0}) {Math.round(((data.price - data.current_price) * 100) / data.price)}%
+                                                    </span>
+                                                </div>
+                                            </>
+
+                                        }
+
                                         <div className='quality d-flex justify-content-between'>
                                             <span>Quality</span>
                                             <span className='value'>{data?.quality}</span>
@@ -360,7 +367,7 @@ const BookDetail = (props) => {
                             </div>
                         </div>
                     </div>
-                </div>
+                </div >
             }
         </>
     )

@@ -3,6 +3,7 @@ import { IoIosArrowForward } from "react-icons/io";
 import { useEffect, useState } from 'react';
 import { getBooksByBookCategory } from '../../../Services/apiServices';
 import { useHistory } from 'react-router-dom';
+import { NumberFormat } from '../../../FormatNumber/currencyFormat';
 
 const BookGroup = (props) => {
 
@@ -67,10 +68,9 @@ const BookGroup = (props) => {
                                         </div>
                                     </div>
                                     <div className='price-box'>
-                                        <div className='old-price'>{item.price} <span className='unit'>đ</span></div>
-                                        <div className='price'>{item.current_price} <span className='unit'>đ</span></div>
+                                        <div className='old-price'>{NumberFormat(item.price)}</div>
+                                        <div className='price'>{NumberFormat(item.current_price)}</div>
                                     </div>
-
                                 </div>
                             </div>
                         )

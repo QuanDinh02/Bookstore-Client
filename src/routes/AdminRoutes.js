@@ -1,22 +1,26 @@
 import {
     Switch,
     Route,
-    useRouteMatch
+    useRouteMatch,
+    Redirect
 } from "react-router-dom";
-import AdminHomepage from "../components/Admin/AdminHomepage";
 import Manager from "../components/Admin/Manager/Manager";
+import PageNotFound from "../components/Content/ErrorPage/PageNotFound";
 
 const AdminRoutes = () => {
 
-    const { path} = useRouteMatch();
+    const { path } = useRouteMatch();
 
     return (
         <Switch>
             <Route path={path} exact>
-                <AdminHomepage />
+                <Redirect to={`${path}/manager`} />
             </Route>
             <Route path={`${path}/manager`}>
-                <Manager/>
+                <Manager />
+            </Route>
+            <Route path="*">
+                <PageNotFound />
             </Route>
         </Switch>
     )

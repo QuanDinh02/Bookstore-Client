@@ -5,10 +5,10 @@ $light-gray-color      : #8a8984;
 $more-light-gray-color : #F9F9F9;
 
 .book-detail-container {
-    font-family  : 'Montserrat', sans-serif;
-    margin-bottom: 2rem;
+    font-family     : 'Montserrat', sans-serif;
+    margin-bottom   : 2rem;
     background-color: white;
-    
+
     .book-detail {
         padding: 0 4rem;
 
@@ -137,8 +137,8 @@ $more-light-gray-color : #F9F9F9;
                                 text-decoration: line-through;
                             }
 
-                            .unit {
-                                text-decoration: underline;
+                            .price-old-value {
+                                letter-spacing: 0.02rem;
                             }
                         }
 
@@ -261,7 +261,7 @@ $more-light-gray-color : #F9F9F9;
 
                 .customer-responses {
                     .title {
-                        color: $main-green-color;
+                        color           : $main-green-color;
                         background-color: white;
                     }
 
@@ -346,6 +346,7 @@ $more-light-gray-color : #F9F9F9;
 
                         .denied-access {
                             height: 100%;
+
                             button {
                                 width: 120px;
                             }
@@ -356,9 +357,10 @@ $more-light-gray-color : #F9F9F9;
 
                             .sign-up {
                                 color: blue;
+
                                 &:hover {
                                     text-decoration: underline;
-                                    cursor: pointer;
+                                    cursor         : pointer;
                                 }
                             }
                         }

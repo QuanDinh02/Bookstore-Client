@@ -204,6 +204,10 @@ $more-light-gray-color : #F9F9F9;
                                     }
                                 }
 
+                                .book-price-not-change {
+                                    font-size      : 0.9rem;
+                                }
+
                                 .book-current-price {
                                     font-size: 0.95rem;
                                     color    : $main-red-color;
@@ -282,6 +286,10 @@ $more-light-gray-color : #F9F9F9;
                                             text-decoration: underline;
                                         }
                                     } 
+
+                                    .book-price-not-change {
+                                        font-size      : 1.2rem;
+                                    }
                                 }
 
                                 .add-to-cart-btn {

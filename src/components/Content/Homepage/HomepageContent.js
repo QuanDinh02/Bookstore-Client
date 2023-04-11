@@ -44,11 +44,11 @@ const HomepageContent = () => {
                         <HighlightBook
                             book_title='Best New Book'
                             backgroud_color='dark-green'
-                            book_id={1}
+                            book_id={2}
                         />
                         <BookGroup 
                             group_title='Best Sale Book'
-                            book_group_id={3}
+                            book_group_id={4}
                         />
                         <HighlightBook
                             book_title='Comic'
@@ -63,7 +63,7 @@ const HomepageContent = () => {
                     <div className='content-right d-none d-xl-block col-xl-3'>
                         <ColumnBookGroup 
                             group_title='Best Sale Book In Week'
-                            book_group_id={3}
+                            book_group_id={2}
                         />
                         <ColumnBookGroup 
                             group_title='New Imported Books'
@@ -71,11 +71,11 @@ const HomepageContent = () => {
                         />
                         <ColumnBookGroup 
                             group_title='Best Sale Book In Week'
-                            book_group_id={3}
+                            book_group_id={4}
                         />
                         <ColumnBookGroup 
                             group_title='Best Sale Book In Week'
-                            book_group_id={3}
+                            book_group_id={5}
                         />
                     </div>
                 </div>

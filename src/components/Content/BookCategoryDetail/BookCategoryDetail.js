@@ -17,7 +17,7 @@ import {
 
 import { useDispatch } from "react-redux";
 import { AddShoppingCart } from '../../../redux/action/actions';
-
+import { NumberFormat } from '../../FormatNumber/currencyFormat';
 import { TailSpin } from 'react-loader-spinner';
 import _ from 'lodash';
 
@@ -302,11 +302,13 @@ const BookCategoryDetail = () => {
                                                         <div key={`multicolum-book-item-${item.id}`} className='book col'>
                                                             <div className='book-image d-flex flex-column align-items-center position-relative'>
                                                                 <img src={`data:image/jpeg;base64,${item.image}`} alt='' title={item.name} onClick={() => handleSeeBookDetail(item.id)} />
-                                                                <span
-                                                                    className={isSmallerThanLarge === true ? "sale-off position-absolute bottom-0 end-1 badge bg-danger py-2" : "sale-off position-absolute bottom-0 end-0 badge bg-danger py-2"}
-                                                                >
-                                                                    -{Math.round(((item.price - item.current_price) * 100) / item.price)}%
-                                                                </span>
+                                                                {item.price !== item.current_price &&
+                                                                    <span
+                                                                        className={isSmallerThanLarge === true ? "sale-off position-absolute bottom-0 end-1 badge bg-danger py-2" : "sale-off position-absolute bottom-0 end-0 badge bg-danger py-2"}
+                                                                    >
+                                                                        -{Math.round(((item.price - item.current_price) * 100) / item.price)}%
+                                                                    </span>
+                                                                }
                                                             </div>
                                                             <div className='book-content mt-4 px-4 px-lg-3'>
                                                                 <div className='book-title' title={item.name} onClick={() => handleSeeBookDetail(item.id)}>
@@ -315,14 +317,22 @@ const BookCategoryDetail = () => {
                                                                 <div className='book-author my-2'>
                                                                     <span>{item.author}</span>
                                                                 </div>
-                                                                <div className='book-price'>
-                                                                    <span>{item.price} </span>
-                                                                    <span className='unit'>đ</span>
-                                                                </div>
-                                                                <div className='book-current-price'>
-                                                                    <span>{item.current_price} </span>
-                                                                    <span className='unit'>đ</span>
-                                                                </div>
+                                                                {item.price !== item.current_price ?
+                                                                    <>
+                                                                        <div className='book-price'>
+                                                                            <span>{NumberFormat(item.price)} </span>
+                                                                        </div>
+                                                                        <div className='book-current-price'>
+                                                                            <span>{NumberFormat(item.current_price)} </span>
+                                                                        </div>
+                                                                    </>
+                                                                    :
+                                                                    <div className='book-price-not-change'>
+                                                                        <span>
+                                                                            {NumberFormat(item.price)} 
+                                                                        </span>
+                                                                    </div>
+                                                                }
                                                             </div>
                                                         </div>
                                                     )
@@ -339,11 +349,13 @@ const BookCategoryDetail = () => {
                                                             <div key={`row-book-item-${item.id}`} className='book-row row mb-3 pb-4'>
                                                                 <div className='book-row-image col-3 d-flex flex-column align-items-center position-relative'>
                                                                     <img src={`data:image/jpeg;base64,${item.image}`} alt='' title={item.name} onClick={() => handleSeeBookDetail(item.id)} />
-                                                                    <span
-                                                                        className={isExtraExtraLarge === true ? "sale-off position-absolute bottom-0 end-1 badge bg-danger py-2" : "sale-off position-absolute bottom-0 end-0 badge bg-danger py-2"}
-                                                                    >
-                                                                        -{Math.round(((item.price - item.current_price) * 100) / item.price)}%
-                                                                    </span>
+                                                                    {item.price !== item.current_price &&
+                                                                        <span
+                                                                            className={isExtraExtraLarge === true ? "sale-off position-absolute bottom-0 end-1 badge bg-danger py-2" : "sale-off position-absolute bottom-0 end-0 badge bg-danger py-2"}
+                                                                        >
+                                                                            -{Math.round(((item.price - item.current_price) * 100) / item.price)}%
+                                                                        </span>
+                                                                    }
                                                                 </div>
                                                                 <div className='book-row-content px-3 pt-1 col-9'>
                                                                     <div className='book-title' title={item.name} onClick={() => handleSeeBookDetail(item.id)}>
@@ -355,14 +367,20 @@ const BookCategoryDetail = () => {
                                                                                 <span>{item.author}</span>
                                                                             </div>
                                                                             <div className='price-box d-flex gap-3 align-items-end mb-2'>
-                                                                                <div className='book-current-price'>
-                                                                                    <span>{item.current_price} </span>
-                                                                                    <span className='unit'>đ</span>
-                                                                                </div>
-                                                                                <div className='book-price'>
-                                                                                    <span>{item.price} </span>
-                                                                                    <span className='unit'>đ</span>
-                                                                                </div>
+                                                                                {item.price !== item.current_price ?
+                                                                                    <>
+                                                                                        <div className='book-current-price'>
+                                                                                            <span>{NumberFormat(item.current_price)} </span>
+                                                                                        </div>
+                                                                                        <div className='book-price'>
+                                                                                            <span>{NumberFormat(item.price)} </span>
+                                                                                        </div>
+                                                                                    </>
+                                                                                    :
+                                                                                    <div className='book-price-not-change'>
+                                                                                        <span>{NumberFormat(item.price)} </span>
+                                                                                    </div>
+                                                                                }
                                                                             </div>
                                                                         </div>
 
