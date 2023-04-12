@@ -21,6 +21,8 @@ import { NumberFormat } from '../../FormatNumber/currencyFormat';
 import { TailSpin } from 'react-loader-spinner';
 import _ from 'lodash';
 
+const BOOK_LIMIT = 10;
+
 const BookCategoryDetail = () => {
 
     const dispatch = useDispatch();
@@ -30,6 +32,8 @@ const BookCategoryDetail = () => {
     const [bookCategoryGroup, setBookCategoryGroup] = useState({});
     const [booksData, setBooksData] = useState([]);
     const [checkEmptyData, setCheckEmptyData] = useState(true);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [isLoading, setIsLoading] = useState(false);
 
     const location = useLocation();
     const history = useHistory();
@@ -43,8 +47,8 @@ const BookCategoryDetail = () => {
     })
 
     // handle pagination
-    const handlePageClick = () => {
-
+    const handlePageClick = (event) => {
+        setCurrentPage(+event.selected + 1);
     }
 
     const handleMediaQueryChange = (matches) => {
@@ -73,8 +77,8 @@ const BookCategoryDetail = () => {
         }
     }
 
-    const fetchBooksByAuthor = async (author_id) => {
-        let result = await getBooksByAuthor(author_id);
+    const fetchBooksByAuthor = async (author_id, current_page) => {
+        let result = await getBooksByAuthor(author_id, BOOK_LIMIT, current_page);
         if (result && result.EC === 0) {
             if (result.DT) {
                 setTimeout(() => {
@@ -89,8 +93,8 @@ const BookCategoryDetail = () => {
         }
     }
 
-    const fetchBooksByPublisher = async (publisher_id) => {
-        let result = await getBooksByPublisher(publisher_id);
+    const fetchBooksByPublisher = async (publisher_id, current_page) => {
+        let result = await getBooksByPublisher(publisher_id, BOOK_LIMIT, current_page);
         if (result && result.EC === 0) {
             if (result.DT) {
                 setTimeout(() => {
@@ -105,8 +109,8 @@ const BookCategoryDetail = () => {
         }
     }
 
-    const fetchBooksByGroup = async (group_id) => {
-        let result = await getBooksByCategoryGroup(group_id);
+    const fetchBooksByGroup = async (group_id, current_page) => {
+        let result = await getBooksByCategoryGroup(group_id, BOOK_LIMIT, current_page);
         if (result && result.EC === 0) {
             if (result.DT) {
                 setTimeout(() => {
@@ -121,8 +125,8 @@ const BookCategoryDetail = () => {
         }
     }
 
-    const handleSelectSubBookCategory = async (book_category_id) => {
-        let result = await getBooksByBookCategory(book_category_id)
+    const handleSelectSubBookCategory = async (book_category_id, current_page) => {
+        let result = await getBooksByBookCategory(book_category_id, BOOK_LIMIT, current_page);
         if (result && result.EC === 0) {
             if (result.DT) {
                 setTimeout(() => {
@@ -142,14 +146,20 @@ const BookCategoryDetail = () => {
         window.scrollTo(0, 0);
     }
 
-    const handleAddBookToShoppingCart = (data) => {
-        dispatch(AddShoppingCart(data));
+    const handleAddBookToShoppingCart = async (data) => {
+        dispatch(AddShoppingCart(data)); 
     }
 
     const setDataEmpty = () => {
         setBooksData([]);
         setBookCategoryGroup({});
         setCheckEmptyData(true);
+    }
+
+    const handleLoading = () => {
+        setTimeout(() => {
+            setIsLoading(false);
+        }, 1000);
     }
 
     const TITLE = (value) => {
@@ -182,44 +192,71 @@ const BookCategoryDetail = () => {
     }
 
     useEffect(() => {
+        setIsLoading(true);
+        if (location.state.book_category_id === -1) {
+            fetchBooksByGroup(id, currentPage);
+            handleLoading();
+        }
+        else if (location.state.book_category_id === -2) {
+            fetchBooksByAuthor(location.state.author_id, currentPage);
+            handleLoading();
+        }
+        else if (location.state.book_category_id === -3) {
+            fetchBooksByPublisher(location.state.publisher_id, currentPage);
+            handleLoading();
+        }
+        else {
+            handleSelectSubBookCategory(location.state.book_category_id, currentPage);
+            handleLoading();
+        }
+    }, [currentPage]);
+
+    useEffect(() => {
+        setCurrentPage(1);
         setDataEmpty();
         fetchABookGroup(id);
         if (location.state.book_category_id === -1) {
-            fetchBooksByGroup(id);
+            fetchBooksByGroup(id, 1);
         }
         else if (location.state.book_category_id === -2) {
-            fetchBooksByAuthor(location.state.author_id);
+            fetchBooksByAuthor(location.state.author_id, 1);
         }
         else if (location.state.book_category_id === -3) {
-            fetchBooksByPublisher(location.state.publisher_id);
+            fetchBooksByPublisher(location.state.publisher_id, 1);
         }
         else {
-            handleSelectSubBookCategory(location.state.book_category_id);
+            handleSelectSubBookCategory(location.state.book_category_id, 1);
         }
 
     }, [id, location.state.book_category_id]);
 
     useEffect(() => {
+
         if (location.state.book_category_id === -2) {
+            console.log('author change !');
+            setCurrentPage(1);
             setDataEmpty();
             fetchABookGroup(id);
-            fetchBooksByAuthor(location.state.author_id);
+            fetchBooksByAuthor(location.state.author_id, 1);
         }
 
     }, [id, location.state?.author_id]);
 
     useEffect(() => {
+
         if (location.state.book_category_id === -3) {
+            console.log("publisher change !");
+            setCurrentPage(1);
             setDataEmpty();
             fetchABookGroup(id);
-            fetchBooksByPublisher(location.state.publisher_id);
+            fetchBooksByPublisher(location.state.publisher_id, 1);
         }
 
     }, [id, location.state?.publisher_id]);
 
     return (
         <>
-            {(_.isEmpty(booksData) && checkEmptyData === true) ?
+            {(_.isEmpty(booksData?.books_data) && checkEmptyData === true) ?
                 <TailSpin
                     height="80"
                     width="80"
@@ -268,14 +305,6 @@ const BookCategoryDetail = () => {
                                     {TITLE(location.state.book_category_id)}
                                 </div>
                                 <div className='sort-container d-flex justify-content-end mt-4'>
-                                    <div className='select-sort col-8 col-md-6 col-xl-4'>
-                                        <select class="form-select" aria-label="Default select example">
-                                            <option selected>Sort by book status</option>
-                                            <option value="1">Latest</option>
-                                            <option value="2">A to Z</option>
-                                            <option value="3">Z to A</option>
-                                        </select>
-                                    </div>
 
                                     <div className='sort-icon d-none d-lg-block d-lg-flex align-items-center ms-2'>
                                         <div
@@ -292,150 +321,166 @@ const BookCategoryDetail = () => {
                                         </div>
                                     </div>
                                 </div>
-                                <div className='content-container overflow-hidden mt-4 mb-3'>
-                                    {multiColumn === true ?
-                                        <div className='multiColumn-display row row-cols-2 row-cols-lg-4 row-cols-xl-5 g-2 g-lg-3'>
-                                            {
-                                                booksData && booksData.length > 0 &&
-                                                booksData.map((item) => {
-                                                    return (
-                                                        <div key={`multicolum-book-item-${item.id}`} className='book col'>
-                                                            <div className='book-image d-flex flex-column align-items-center position-relative'>
-                                                                <img src={`data:image/jpeg;base64,${item.image}`} alt='' title={item.name} onClick={() => handleSeeBookDetail(item.id)} />
-                                                                {item.price !== item.current_price &&
-                                                                    <span
-                                                                        className={isSmallerThanLarge === true ? "sale-off position-absolute bottom-0 end-1 badge bg-danger py-2" : "sale-off position-absolute bottom-0 end-0 badge bg-danger py-2"}
-                                                                    >
-                                                                        -{Math.round(((item.price - item.current_price) * 100) / item.price)}%
-                                                                    </span>
-                                                                }
-                                                            </div>
-                                                            <div className='book-content mt-4 px-4 px-lg-3'>
-                                                                <div className='book-title' title={item.name} onClick={() => handleSeeBookDetail(item.id)}>
-                                                                    <span>{item.name}</span>
-                                                                </div>
-                                                                <div className='book-author my-2'>
-                                                                    <span>{item.author}</span>
-                                                                </div>
-                                                                {item.price !== item.current_price ?
-                                                                    <>
-                                                                        <div className='book-price'>
-                                                                            <span>{NumberFormat(item.price)} </span>
-                                                                        </div>
-                                                                        <div className='book-current-price'>
-                                                                            <span>{NumberFormat(item.current_price)} </span>
-                                                                        </div>
-                                                                    </>
-                                                                    :
-                                                                    <div className='book-price-not-change'>
-                                                                        <span>
-                                                                            {NumberFormat(item.price)} 
-                                                                        </span>
+                                {isLoading ?
+                                    <TailSpin
+                                        height="80"
+                                        width="80"
+                                        color="#4fa94d"
+                                        ariaLabel="tail-spin-loading"
+                                        radius="1"
+                                        wrapperStyle={{}}
+                                        wrapperClass="d-flex justify-content-center align-items-center tail-spin"
+                                        visible={true}
+                                    />
+                                    :
+                                    <>
+                                        <div className='content-container overflow-hidden mt-4 mb-3'>
+                                            {multiColumn === true ?
+                                                <div className='multiColumn-display row row-cols-2 row-cols-lg-4 row-cols-xl-5 g-2 g-lg-3'>
+                                                    {
+                                                        booksData?.books_data && booksData?.books_data.length > 0 &&
+                                                        booksData?.books_data.map((item) => {
+                                                            return (
+                                                                <div key={`multicolum-book-item-${item.id}`} className='book col'>
+                                                                    <div className='book-image d-flex flex-column align-items-center position-relative'>
+                                                                        <img src={`data:image/jpeg;base64,${item.image}`} alt='' title={item.name} onClick={() => handleSeeBookDetail(item.id)} />
+                                                                        {item.price !== item.current_price &&
+                                                                            <span
+                                                                                className={isSmallerThanLarge === true ? "sale-off position-absolute bottom-0 end-1 badge bg-danger py-2" : "sale-off position-absolute bottom-0 end-0 badge bg-danger py-2"}
+                                                                            >
+                                                                                -{Math.round(((item.price - item.current_price) * 100) / item.price)}%
+                                                                            </span>
+                                                                        }
                                                                     </div>
-                                                                }
-                                                            </div>
-                                                        </div>
-                                                    )
-                                                })
+                                                                    <div className='book-content mt-4 px-4 px-lg-3'>
+                                                                        <div className='book-title' title={item.name} onClick={() => handleSeeBookDetail(item.id)}>
+                                                                            <span>{item.name}</span>
+                                                                        </div>
+                                                                        <div className='book-author my-2'>
+                                                                            <span>{item.author}</span>
+                                                                        </div>
+                                                                        {item.price !== item.current_price ?
+                                                                            <>
+                                                                                <div className='book-price'>
+                                                                                    <span>{NumberFormat(item.price)} </span>
+                                                                                </div>
+                                                                                <div className='book-current-price'>
+                                                                                    <span>{NumberFormat(item.current_price)} </span>
+                                                                                </div>
+                                                                            </>
+                                                                            :
+                                                                            <div className='book-price-not-change'>
+                                                                                <span>
+                                                                                    {NumberFormat(item.price)}
+                                                                                </span>
+                                                                            </div>
+                                                                        }
+                                                                    </div>
+                                                                </div>
+                                                            )
+                                                        })
+                                                    }
+                                                </div>
+                                                :
+                                                <MediaQuery minWidth={992} onChange={handleMediaQueryChange}>
+                                                    <div className='Row-display'>
+                                                        {
+                                                            booksData?.books_data && booksData?.books_data.length > 0 &&
+                                                            booksData?.books_data.map((item) => {
+                                                                return (
+                                                                    <div key={`row-book-item-${item.id}`} className='book-row row mb-3 pb-4'>
+                                                                        <div className='book-row-image col-3 d-flex flex-column align-items-center position-relative'>
+                                                                            <img src={`data:image/jpeg;base64,${item.image}`} alt='' title={item.name} onClick={() => handleSeeBookDetail(item.id)} />
+                                                                            {item.price !== item.current_price &&
+                                                                                <span
+                                                                                    className={isExtraExtraLarge === true ? "sale-off position-absolute bottom-0 end-1 badge bg-danger py-2" : "sale-off position-absolute bottom-0 end-0 badge bg-danger py-2"}
+                                                                                >
+                                                                                    -{Math.round(((item.price - item.current_price) * 100) / item.price)}%
+                                                                                </span>
+                                                                            }
+                                                                        </div>
+                                                                        <div className='book-row-content px-3 pt-1 col-9'>
+                                                                            <div className='book-title' title={item.name} onClick={() => handleSeeBookDetail(item.id)}>
+                                                                                <span>{item.name}</span>
+                                                                            </div>
+                                                                            <div className='d-flex justify-content-between align-items-center'>
+                                                                                <div>
+                                                                                    <div className='book-author'>
+                                                                                        <span>{item.author}</span>
+                                                                                    </div>
+                                                                                    <div className='price-box d-flex gap-3 align-items-end mb-2'>
+                                                                                        {item.price !== item.current_price ?
+                                                                                            <>
+                                                                                                <div className='book-current-price'>
+                                                                                                    <span>{NumberFormat(item.current_price)} </span>
+                                                                                                </div>
+                                                                                                <div className='book-price'>
+                                                                                                    <span>{NumberFormat(item.price)} </span>
+                                                                                                </div>
+                                                                                            </>
+                                                                                            :
+                                                                                            <div className='book-price-not-change'>
+                                                                                                <span>{NumberFormat(item.price)} </span>
+                                                                                            </div>
+                                                                                        }
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <div className='add-to-cart-btn'>
+                                                                                    <button
+                                                                                        className='btn btn-warning d-flex align-items-center gap-2'
+                                                                                        onClick={() => handleAddBookToShoppingCart({
+                                                                                            id: item.id,
+                                                                                            title: item.name,
+                                                                                            current_price: item.current_price,
+                                                                                            price: item.price,
+                                                                                            image: item.image,
+                                                                                            amount: 1
+                                                                                        })}
+                                                                                    >
+                                                                                        <BsCart3 />BUY NOW
+                                                                                    </button>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div className='book-description'>
+                                                                                {item.description}
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                )
+                                                            })
+                                                        }
+                                                    </div>
+                                                </MediaQuery>
                                             }
                                         </div>
-                                        :
-                                        <MediaQuery minWidth={992} onChange={handleMediaQueryChange}>
-                                            <div className='Row-display'>
-                                                {
-                                                    booksData && booksData.length > 0 &&
-                                                    booksData.map((item) => {
-                                                        return (
-                                                            <div key={`row-book-item-${item.id}`} className='book-row row mb-3 pb-4'>
-                                                                <div className='book-row-image col-3 d-flex flex-column align-items-center position-relative'>
-                                                                    <img src={`data:image/jpeg;base64,${item.image}`} alt='' title={item.name} onClick={() => handleSeeBookDetail(item.id)} />
-                                                                    {item.price !== item.current_price &&
-                                                                        <span
-                                                                            className={isExtraExtraLarge === true ? "sale-off position-absolute bottom-0 end-1 badge bg-danger py-2" : "sale-off position-absolute bottom-0 end-0 badge bg-danger py-2"}
-                                                                        >
-                                                                            -{Math.round(((item.price - item.current_price) * 100) / item.price)}%
-                                                                        </span>
-                                                                    }
-                                                                </div>
-                                                                <div className='book-row-content px-3 pt-1 col-9'>
-                                                                    <div className='book-title' title={item.name} onClick={() => handleSeeBookDetail(item.id)}>
-                                                                        <span>{item.name}</span>
-                                                                    </div>
-                                                                    <div className='d-flex justify-content-between align-items-center'>
-                                                                        <div>
-                                                                            <div className='book-author'>
-                                                                                <span>{item.author}</span>
-                                                                            </div>
-                                                                            <div className='price-box d-flex gap-3 align-items-end mb-2'>
-                                                                                {item.price !== item.current_price ?
-                                                                                    <>
-                                                                                        <div className='book-current-price'>
-                                                                                            <span>{NumberFormat(item.current_price)} </span>
-                                                                                        </div>
-                                                                                        <div className='book-price'>
-                                                                                            <span>{NumberFormat(item.price)} </span>
-                                                                                        </div>
-                                                                                    </>
-                                                                                    :
-                                                                                    <div className='book-price-not-change'>
-                                                                                        <span>{NumberFormat(item.price)} </span>
-                                                                                    </div>
-                                                                                }
-                                                                            </div>
-                                                                        </div>
-
-                                                                        <div className='add-to-cart-btn'>
-                                                                            <button
-                                                                                className='btn btn-warning d-flex align-items-center gap-2'
-                                                                                onClick={() => handleAddBookToShoppingCart({
-                                                                                    id: item.id,
-                                                                                    title: item.name,
-                                                                                    current_price: item.current_price,
-                                                                                    price: item.price,
-                                                                                    image: item.image,
-                                                                                    amount: 1
-                                                                                })}
-                                                                            >
-                                                                                <BsCart3 />BUY NOW
-                                                                            </button>
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <div className='book-description'>
-                                                                        {item.description}
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        )
-                                                    })
-                                                }
+                                        {booksData?.books_data && booksData?.books_data.length > 0 &&
+                                            <div className='pagination-container'>
+                                                <ReactPaginate
+                                                    nextLabel="next >"
+                                                    onPageChange={handlePageClick}
+                                                    pageRangeDisplayed={3}
+                                                    marginPagesDisplayed={3}
+                                                    forcePage={currentPage - 1}
+                                                    pageCount={booksData?.total_pages}
+                                                    previousLabel="< previous"
+                                                    pageClassName="page-item"
+                                                    pageLinkClassName="page-link page-background"
+                                                    previousClassName="page-item"
+                                                    previousLinkClassName="page-link pre-next"
+                                                    nextClassName="page-item"
+                                                    nextLinkClassName="page-link pre-next"
+                                                    breakLabel="..."
+                                                    breakClassName="page-item"
+                                                    breakLinkClassName="page-link"
+                                                    containerClassName="pagination justify-content-center"
+                                                    activeLinkClassName="page-active-background"
+                                                    renderOnZeroPageCount={null}
+                                                />
                                             </div>
-                                        </MediaQuery>
-                                    }
-                                </div>
-                                {booksData && booksData.length > 0 &&
-                                    <div className='pagination-container'>
-                                        <ReactPaginate
-                                            nextLabel="next >"
-                                            onPageChange={handlePageClick}
-                                            pageRangeDisplayed={3}
-                                            marginPagesDisplayed={3}
-                                            pageCount={5}
-                                            previousLabel="< previous"
-                                            pageClassName="page-item"
-                                            pageLinkClassName="page-link page-background"
-                                            previousClassName="page-item"
-                                            previousLinkClassName="page-link pre-next"
-                                            nextClassName="page-item"
-                                            nextLinkClassName="page-link pre-next"
-                                            breakLabel="..."
-                                            breakClassName="page-item"
-                                            breakLinkClassName="page-link"
-                                            containerClassName="pagination justify-content-center"
-                                            activeLinkClassName="page-active-background"
-                                            renderOnZeroPageCount={null}
-                                        />
-                                    </div>
+                                        }
+                                    </>
                                 }
                             </div>
                         </div>

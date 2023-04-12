@@ -56,7 +56,6 @@ const shoppingCartReducer = (state = INITIAL_STATE, action) => {
 
             if (state.bookList.length > 0) {
 
-                successToast('Products have been deleted!');
                 return {
                     ...state, bookList: [], booksCount: 0
                 };

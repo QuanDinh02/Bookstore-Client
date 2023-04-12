@@ -20,7 +20,6 @@ const Dashboard = (props) => {
     const fetchData = async (date) => {
         let result = await getDashboardInfo(date);
         if (result && result.EC === 0) {
-            console.log(result.DT);
             setData(result.DT);
         }
     }
@@ -63,7 +62,7 @@ const Dashboard = (props) => {
                         <div className="statis-item align-items-center d-flex justify-content-center gap-5">
                             <div><HiArchiveBox className="icon orange-icon" /></div>
                             <div className="content">
-                                <span className="statis-title">Today Orders</span>
+                                <span className="statis-title">Total Orders</span>
                                 <span className="statis-value orange-icon">{data?.orders_count}</span>
                             </div>
                         </div>

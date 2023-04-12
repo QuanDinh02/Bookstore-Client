@@ -12,9 +12,9 @@ const BookGroup = (props) => {
     const history = useHistory();
 
     const fetchBookList = async (id) => {
-        let result = await getBooksByBookCategory(id);
+        let result = await getBooksByBookCategory(id, 6,1);
         if (result && result.EC === 0) {
-            setBookList(result.DT);
+            setBookList(result.DT.books_data);
         }
     }
 

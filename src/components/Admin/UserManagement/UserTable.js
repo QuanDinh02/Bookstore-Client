@@ -80,7 +80,6 @@ const UserTable = (props) => {
     const fetchUserWithPagination = async () => {
         let result = await getUserWithPagination(userLimit, userCurrentPage);
         if (result && result.EC === 0) {
-            console.log(result.DT);
             setUsersList(result.DT);
         }
     }

@@ -1,5 +1,5 @@
 import './BookDetail.scss';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useHistory, useParams } from 'react-router-dom';
 
 import { AiFillCheckCircle } from "react-icons/ai";
 import { BsCart3 } from "react-icons/bs";

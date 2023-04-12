@@ -51,9 +51,9 @@ const HomepageContent = () => {
                             book_group_id={4}
                         />
                         <HighlightBook
-                            book_title='Comic'
+                            book_title='Technology'
                             backgroud_color='red-pink'
-                            book_id={3}
+                            book_id={27}
                         />
                         <BookGroup 
                             group_title='Science Book'
