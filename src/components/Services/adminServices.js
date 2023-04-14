@@ -194,6 +194,10 @@ const getDashboardInfo = async (date) => {
     return await axios.get(`/api/dashboard?date=${date}`);
 }
 
+const getBooksByName = async (limit, page, book_name) => {
+    return await axios.get(`/api/admin-search-book?limit=${limit}&page=${page}&name=${book_name}`);
+}
+
 export {
     getAllBookCategoryGroup, postCreateNewBookCategoryGroup,
     putUpdateBookCategoryGroup, deleteBookCategoryGroup,
@@ -214,5 +218,7 @@ export {
     putUpdateUser, deleteUser, getUserGroups,
 
     getOrderWithPagination, getOrderDetail, getOrderDetailById,
-    upateOrderStatus, deleteOrderDetailItem, deleteOrder, getDashboardInfo
+    upateOrderStatus, deleteOrderDetailItem, deleteOrder, getDashboardInfo,
+
+    getBooksByName
 }

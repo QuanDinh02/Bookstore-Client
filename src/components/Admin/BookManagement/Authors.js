@@ -18,7 +18,7 @@ const Authors = (props) => {
     const [showModalAuthor, setShowModalAuthor] = useState(false);
     const [authorsList, setAuthorsList] = useImmer([]);
     const [authorCurrentPage, setAuthorCurrentPage] = useState(1);
-    const [authorLimit, setAuthorLimit] = useState(2);
+    const [authorLimit, setAuthorLimit] = useState(5);
 
     const { setTitle } = props;
 
@@ -103,21 +103,6 @@ const Authors = (props) => {
                         </button>
                     </div>
                     <div className="authors-list-bottom px-4 py-3">
-                        <div className="select-search-box d-flex justify-content-between">
-                            <div className="item-amount-select d-flex align-items-center gap-1">
-                                <span>Show</span>
-                                <select className="form-select">
-                                    <option defaultValue="10">10</option>
-                                    <option value="50">50</option>
-                                    <option value="100">100</option>
-                                </select>
-                                <span> entries</span>
-                            </div>
-                            <div className="select-box d-flex align-items-center gap-1">
-                                <label>Search: </label>
-                                <input type='text' className="form-control" />
-                            </div>
-                        </div>
                         <div className="authors-list mt-4">
                             <table className="table table-hover">
                                 <thead>
@@ -164,19 +149,6 @@ const Authors = (props) => {
                                                             </div>
                                                         </div>
                                                     </td>
-                                                </tr>
-                                            )
-                                        })
-                                    }
-                                    {
-                                        authorsList?.authors.length < authorLimit &&
-                                        [...Array(authorLimit - authorsList?.authors.length)].map(item => {
-                                            return (
-                                                <tr key={`empty-item-${item}`}>
-                                                    <td>...</td>
-                                                    <td>...</td>
-                                                    <td>...</td>
-                                                    <td>...</td>
                                                 </tr>
                                             )
                                         })

@@ -9,6 +9,7 @@ import { getOrderWithPagination, deleteOrder } from '../../Services/adminService
 import { useImmer } from 'use-immer';
 import ModalDeleteOrder from '../Modal/ModalDeleteOrder';
 import { successToast, errorToast } from '../../Toast/Toast';
+import { NumberFormat } from '../../FormatNumber/currencyFormat';
 
 const OrderTable = (props) => {
 
@@ -18,7 +19,7 @@ const OrderTable = (props) => {
     const [showModalOrder, setShowModalOrder] = useState(false);
     const [orderList, setOrderList] = useImmer([]);
     const [orderCurrentPage, setOrderCurrentPage] = useState(1);
-    const [orderLimit, setOrderLimit] = useState(3);
+    const [orderLimit, setOrderLimit] = useState(10);
 
     const [orderDelete, setOrderDelete] = useState('');
 
@@ -88,21 +89,6 @@ const OrderTable = (props) => {
                         <span className="table-title">Orders List</span>
                     </div>
                     <div className="orders-list-bottom px-4 py-3">
-                        <div className="select-search-box d-flex justify-content-between">
-                            <div className="item-amount-select d-flex align-items-center gap-1">
-                                <span>Show</span>
-                                <select className="form-select">
-                                    <option defaultValue="10">10</option>
-                                    <option value="50">50</option>
-                                    <option value="100">100</option>
-                                </select>
-                                <span> entries</span>
-                            </div>
-                            <div className="select-box d-flex align-items-center gap-1">
-                                <label>Search: </label>
-                                <input type='text' className="form-control" />
-                            </div>
-                        </div>
                         <div className="orders-list  mt-4">
                             <table className="table">
                                 <thead>
@@ -153,7 +139,7 @@ const OrderTable = (props) => {
                                                     </td>
                                                     <td className='payment text-center'>{item.payment}</td>
                                                     <td className='date'>{item.date}</td>
-                                                    <td className='price'>{item.total_price}</td>
+                                                    <td className='price'>{NumberFormat(item.total_price)}</td>
                                                     <td className='total-books text-center'>{item.total_books}</td>
                                                     <td className='customer'>{item.User.id}</td>
                                                     <td className={`${item.status.toLowerCase()}-status`}>{item.status}</td>
@@ -164,20 +150,6 @@ const OrderTable = (props) => {
                                                             </div>
                                                         </div>
                                                     </td>
-                                                </tr>
-                                            )
-                                        })
-                                    }
-                                    {
-                                        orderList?.orders.length < orderLimit &&
-                                        [...Array(orderLimit - orderList?.orders.length)].map(item => {
-                                            return (
-                                                <tr key={`empty-item-${item}`}>
-                                                    {[...Array(8)].map(i => {
-                                                        return (
-                                                            <td>...</td>
-                                                        )
-                                                    })}
                                                 </tr>
                                             )
                                         })

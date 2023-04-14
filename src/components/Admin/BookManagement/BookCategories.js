@@ -18,12 +18,12 @@ const BookCategories = (props) => {
     const [showModalCategory, setShowModalCategory] = useState(false);
     const [bookCatgoryList, setBookCategoryList] = useImmer([]);
     const [categoryCurrentPage, setCategoryCurrentPage] = useState(1);
-    const [categoryLimit, setCategoryLimit] = useState(3);
+    const [categoryLimit, setCategoryLimit] = useState(10);
 
     const [showModalGroup, setShowModalGroup] = useState(false);
     const [catgoryGroupList, setCategoryGroupList] = useImmer([]);
     const [groupCurrentPage, setGroupCurrentPage] = useState(1);
-    const [groupLimit, setGroupLimit] = useState(3);
+    const [groupLimit, setGroupLimit] = useState(10);
 
     const { setTitle } = props;
 
@@ -136,21 +136,6 @@ const BookCategories = (props) => {
                             <button className="btn" onClick={() => handleShowModal('CREATE', 'CATEGORY')}><AiOutlinePlus /> Add New Category</button>
                         </div>
                         <div className="book-category-list-bottom px-4 py-3">
-                            <div className="select-search-box d-flex justify-content-between">
-                                <div className="item-amount-select d-flex align-items-center gap-1">
-                                    <span>Show</span>
-                                    <select className="form-select">
-                                        <option defaultValue="10">10</option>
-                                        <option value="50">50</option>
-                                        <option value="100">100</option>
-                                    </select>
-                                    <span> entries</span>
-                                </div>
-                                <div className="select-box d-flex align-items-center gap-1">
-                                    <label>Search: </label>
-                                    <input type='text' className="form-control" />
-                                </div>
-                            </div>
                             <div className="book-category-list mt-4">
                                 <table className="table table-hover">
                                     <thead>
@@ -187,19 +172,6 @@ const BookCategories = (props) => {
                                                                 </div>
                                                             </div>
                                                         </td>
-                                                    </tr>
-                                                )
-                                            })
-                                        }
-                                        {
-                                            bookCatgoryList?.book_categories.length < categoryLimit &&
-                                            [...Array(categoryLimit - bookCatgoryList?.book_categories.length)].map(item => {
-                                                return (
-                                                    <tr key={`empty-item-${item}`}>
-                                                        <td>...</td>
-                                                        <td>...</td>
-                                                        <td>...</td>
-                                                        <td>...</td>
                                                     </tr>
                                                 )
                                             })
@@ -244,12 +216,6 @@ const BookCategories = (props) => {
                             <button className="btn" onClick={() => handleShowModal('CREATE', 'CATEGORY_GROUP')}><AiOutlinePlus /> Add New Group</button>
                         </div>
                         <div className="book-category-list-bottom px-4 py-3">
-                            <div className="select-search-box d-flex">
-                                <div className="select-box d-flex align-items-center gap-1">
-                                    <label>Search: </label>
-                                    <input type='text' className="form-control" />
-                                </div>
-                            </div>
                             <div className="book-category-list mt-4">
                                 <table className="table table-hover">
                                     <thead>
@@ -290,20 +256,6 @@ const BookCategories = (props) => {
                                                                 </div>
                                                             </div>
                                                         </td>
-                                                    </tr>
-                                                )
-                                            })
-                                        }
-                                        {
-                                            catgoryGroupList?.category_groups.length < groupLimit &&
-                                            [...Array(groupLimit - catgoryGroupList?.category_groups.length)].map(item => {
-                                                return (
-                                                    <tr key={`empty-item-${item}`}>
-                                                        <td>...</td>
-                                                        <td>...</td>
-                                                        <td>...</td>
-                                                        <td>...</td>
-                                                        <td>...</td>
                                                     </tr>
                                                 )
                                             })

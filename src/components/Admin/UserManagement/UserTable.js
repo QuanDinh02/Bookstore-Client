@@ -21,7 +21,7 @@ const UserTable = (props) => {
     const [showModalUser, setShowModalUser] = useState(false);
     const [usersList, setUsersList] = useImmer([]);
     const [userCurrentPage, setUserCurrentPage] = useState(1);
-    const [userLimit, setUserLimit] = useState(2);
+    const [userLimit, setUserLimit] = useState(10);
 
     const { setTitle } = props;
 
@@ -115,21 +115,6 @@ const UserTable = (props) => {
                         <button className="btn" onClick={handleAddNewUser}><AiOutlinePlus /> Add New User</button>
                     </div>
                     <div className="users-list-bottom px-4 py-3">
-                        <div className="select-search-box d-flex justify-content-between">
-                            <div className="item-amount-select d-flex align-items-center gap-1">
-                                <span>Show</span>
-                                <select className="form-select">
-                                    <option defaultValue="10">10</option>
-                                    <option value="50">50</option>
-                                    <option value="100">100</option>
-                                </select>
-                                <span> entries</span>
-                            </div>
-                            <div className="select-box d-flex align-items-center gap-1">
-                                <label>Search: </label>
-                                <input type='text' className="form-control" />
-                            </div>
-                        </div>
                         <div className="users-list mt-4">
                             <table className="table table-hover">
                                 <thead>
@@ -192,20 +177,6 @@ const UserTable = (props) => {
                                                             </div>
                                                         </div>
                                                     </td>
-                                                </tr>
-                                            )
-                                        })
-                                    }
-                                    {
-                                        usersList?.users.length < userLimit &&
-                                        [...Array(userLimit - usersList?.users.length)].map(item => {
-                                            return (
-                                                <tr key={`empty-item-${item}`}>
-                                                    {[...Array(9)].map(i => {
-                                                        return (
-                                                            <td>...</td>
-                                                        )
-                                                    })}
                                                 </tr>
                                             )
                                         })

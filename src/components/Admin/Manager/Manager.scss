@@ -71,17 +71,16 @@ $processing-color: orange;
             }
 
             .book-category-list-bottom {
-                .select-search-box {
-                    .item-amount-select {
-                        width: 15%;
-                    }
-
-                    .select-box {
-                        width: 25%;
-                    }
-                }
 
                 .book-category-list {
+
+                    thead {
+                        tr {
+                            background-color: $green-color-1;
+                            color           : white;
+                        }
+                    }
+
                     tr {
                         td {
                             vertical-align: middle;
@@ -165,17 +164,14 @@ $processing-color: orange;
             }
 
             .authors-list-bottom {
-                .select-search-box {
-                    .item-amount-select {
-                        width: 15%;
-                    }
-
-                    .select-box {
-                        width: 25%;
-                    }
-                }
-
                 .authors-list {
+                    thead {
+                        tr {
+                            background-color: $green-color-1;
+                            color           : white;
+                        }
+                    }
+
                     tr {
                         td {
                             vertical-align: middle;
@@ -284,6 +280,14 @@ $processing-color: orange;
                 }
 
                 .books-list {
+                    
+                    thead {
+                        tr {
+                            background-color: $green-color-1;
+                            color           : white;
+                        }
+                    }
+
                     tr {
                         td {
                             vertical-align: middle;
@@ -417,17 +421,14 @@ $processing-color: orange;
             }
 
             .publishers-list-bottom {
-                .select-search-box {
-                    .item-amount-select {
-                        width: 15%;
-                    }
-
-                    .select-box {
-                        width: 25%;
-                    }
-                }
-
                 .publishers-list {
+                    thead {
+                        tr {
+                            background-color: $green-color-1;
+                            color           : white;
+                        }
+                    }
+
                     tr {
                         td {
                             word-wrap     : break-word;
@@ -524,17 +525,14 @@ $processing-color: orange;
             }
 
             .users-list-bottom {
-                .select-search-box {
-                    .item-amount-select {
-                        width: 15%;
-                    }
-
-                    .select-box {
-                        width: 25%;
-                    }
-                }
-
                 .users-list {
+                    thead {
+                        tr {
+                            background-color: $green-color-1;
+                            color           : white;
+                        }
+                    }
+
                     tr {
                         td {
                             vertical-align: middle;
@@ -720,15 +718,6 @@ $processing-color: orange;
             }
 
             .orders-list-bottom {
-                .select-search-box {
-                    .item-amount-select {
-                        width: 15%;
-                    }
-
-                    .select-box {
-                        width: 25%;
-                    }
-                }
 
                 .orders-list {
                     table {
@@ -935,8 +924,7 @@ $processing-color: orange;
                                         width: 60%;
 
                                         .book-name {
-                                            font-weight  : 600;
-                                            //word-wrap  : break-word;
+                                            font-weight: 600;
 
                                             display           : -webkit-box;
                                             -webkit-line-clamp: 1;

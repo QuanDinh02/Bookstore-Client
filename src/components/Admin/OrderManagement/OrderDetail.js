@@ -10,6 +10,7 @@ import { TailSpin } from 'react-loader-spinner';
 import ModalOrderDetail from '../Modal/ModalOrderDetail';
 import { useImmer } from 'use-immer';
 import { successToast, errorToast } from '../../Toast/Toast';
+import { NumberFormat } from '../../FormatNumber/currencyFormat';
 
 const OrderDetail = (props) => {
 
@@ -171,12 +172,12 @@ const OrderDetail = (props) => {
                                                                 <td>
                                                                     <div className='price-calc d-flex gap-2 align-items-center justify-content-center'>
                                                                         <span className='price'>
-                                                                            {item.Book.SellingBook.current_price} đ</span> x
+                                                                            {NumberFormat(item.Book.SellingBook.current_price)}</span> x
                                                                         <span className='amount'>{item.book_amount}</span>
                                                                     </div>
                                                                 </td>
                                                                 <td>
-                                                                    <div className='total text-end'>{item.price} đ</div>
+                                                                    <div className='total text-end'>{NumberFormat(item.price)}</div>
                                                                 </td>
                                                                 <td>
                                                                     {orderStatus === 'Processing' &&
@@ -203,7 +204,7 @@ const OrderDetail = (props) => {
                                         </table>
                                     </div>
                                     <div className='order-total-payment d-flex justify-content-end'>
-                                        <span><strong>Total</strong>: {detailData?.order?.total_price} đ</span>
+                                        <span><strong>Total</strong>: {NumberFormat(detailData?.order?.total_price)}</span>
                                     </div>
                                 </div>
                             </div>

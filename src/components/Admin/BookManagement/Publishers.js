@@ -17,7 +17,7 @@ const Publishers = (props) => {
     const [showModalPublisher, setShowModalPublisher] = useState(false);
     const [publisherList, setPublisherList] = useImmer([]);
     const [publisherCurrentPage, setPublisherCurrentPage] = useState(1);
-    const [publisherLimit, setPublisherLimit] = useState(3);
+    const [publisherLimit, setPublisherLimit] = useState(5);
 
     const { setTitle } = props;
 
@@ -98,21 +98,6 @@ const Publishers = (props) => {
                         <button className="btn" onClick={() => handleShowModal('CREATE')}><AiOutlinePlus /> Add New Publisher</button>
                     </div>
                     <div className="publishers-list-bottom px-4 py-3">
-                        <div className="select-search-box d-flex justify-content-between">
-                            <div className="item-amount-select d-flex align-items-center gap-1">
-                                <span>Show</span>
-                                <select className="form-select">
-                                    <option defaultValue="10">10</option>
-                                    <option value="50">50</option>
-                                    <option value="100">100</option>
-                                </select>
-                                <span> entries</span>
-                            </div>
-                            <div className="select-box d-flex align-items-center gap-1">
-                                <label>Search: </label>
-                                <input type='text' className="form-control" />
-                            </div>
-                        </div>
                         <div className="publishers-list mt-4">
                             <table className="table table-hover">
                                 <thead>
