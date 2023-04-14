@@ -13,7 +13,7 @@ import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import CartModal from './CartModal';
 import { successToast2, errorToast2 } from '../../Toast/Toast';
-import {NumberFormat} from '../../FormatNumber/currencyFormat';
+import { NumberFormat } from '../../FormatNumber/currencyFormat';
 
 const Cart = () => {
 
@@ -149,6 +149,9 @@ const Cart = () => {
                         }, 1500);
                     }
                 }
+            } else {
+                errorToast2(`Your address is not existed !`);
+                return;
             }
         }
     }

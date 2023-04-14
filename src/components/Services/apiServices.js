@@ -47,9 +47,13 @@ const createNewOrderDetails = async (data) => {
     return await axios.post('/api/order-detail', data);
 }
 
+const getSearchBooks = async (book_name) => {
+    return await axios.get(`/api/search/books?name=${book_name}`);
+}
+
 export {
     postCreateABook, getAllBookCategoryGroup, getHighlightBook,
     getBooksByBookCategory, getABookCategoryGroup, getBooksByCategoryGroup,
     getBookDetail, createNewOrder, createNewOrderDetails,
-    getBooksByAuthor, getBooksByPublisher
+    getBooksByAuthor, getBooksByPublisher, getSearchBooks
 }

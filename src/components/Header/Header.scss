@@ -94,6 +94,28 @@ $green-color-1   : #19ae70;
                     padding         : 1px 0;
                 }
             }
+
+            .search-list {
+                background-color: white;
+                width           : 100%;
+                border          : 1px solid rgb(204, 204, 204);
+                max-height      : 18.75rem;
+                overflow-y      : auto;
+
+                .search-item {
+                    margin-bottom: 0.5rem;
+                    padding      : 0.2rem 0.6rem;
+
+                    &:hover {
+                        cursor          : pointer;
+                        background-color: rgb(238, 238, 238);
+                    }
+                }
+
+                .selected {
+                    background-color: rgb(238, 238, 238);
+                }
+            }
         }
 
         .shoppingCart {

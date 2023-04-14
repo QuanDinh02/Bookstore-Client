@@ -15,11 +15,13 @@ import { useDispatch } from "react-redux";
 import { DeleteShoppingCart, UserLogin, UserLogout } from '../../redux/action/actions';
 
 import BookCategory from '../Content/BookCategory/BookCategory';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { fetchAccount, userLogout } from '../Services/userServices';
+import { getSearchBooks } from '../Services/apiServices';
 import { successToast } from '../Toast/Toast';
 import { NumberFormat } from '../FormatNumber/currencyFormat';
+import _ from 'lodash';
 
 const Header = (props) => {
 
@@ -38,6 +40,13 @@ const Header = (props) => {
     const [showDetailBookCategory, setShowDetailBookCategory] = useState(false);
     const [showShoppingCart, setShowShoppingCart] = useState(false);
 
+    const [search, setSearch] = useState('');
+    const [searchList, setSearchList] = useState([]);
+    const [showSearchList, setShowSearchList] = useState(true);
+
+    const [search2, setSearch2] = useState('');
+    const [currentSelect, setCurrentSelect] = useState(-1);
+
     const handleDeleteBookFromShoppingCart = (book_id) => {
         dispatch(DeleteShoppingCart(book_id));
     }
@@ -52,6 +61,142 @@ const Header = (props) => {
 
     const history = useHistory();
     const location = useLocation();
+
+    const bookSearch = useCallback(_.debounce(async (value) => {
+        let result = await getSearchBooks(value);
+        if (result && result.EC === 0) {
+            let books = result.DT.map(item => {
+                return {
+                    ...item, isSelected: false
+                }
+            })
+            setSearchList(books);
+        }
+    }, 500), []);
+
+    const handleSearchOnChange = (event) => {
+        setCurrentSelect(-1);
+        setSearch2('');
+        setSearch(event.target.value);
+    }
+
+    const handleKeyPress = (event) => {
+
+        if (searchList.length > 0) {
+            let _searchList = _.cloneDeep(searchList);
+            if(event.key === 'Enter') {
+                handleSearchButtonOnClick();
+            }
+
+            if (event.key === 'ArrowDown') {
+                if (currentSelect === -1) {
+                    setCurrentSelect(0);
+                    _searchList = _searchList.map((item, index) => {
+                        if (index === 0) {
+                            setSearch2(item.name);
+                            item.isSelected = true;
+                            return item;
+                        } else {
+                            item.isSelected = false;
+                            return item;
+                        }
+                    })
+                } else {
+                    if (currentSelect + 1 <= searchList.length - 1) {
+                        setCurrentSelect(currentSelect + 1);
+                        _searchList = _searchList.map((item, index) => {
+                            if (index === currentSelect + 1) {
+                                setSearch2(item.name);
+                                item.isSelected = true;
+                                return item;
+                            } else {
+                                item.isSelected = false;
+                                return item;
+                            }
+                        })
+                    }
+                }
+            }
+
+            if (event.key === 'ArrowUp') {
+                if (currentSelect === -1) {
+                    setCurrentSelect(searchList.length - 1);
+                    _searchList = _searchList.map((item, index) => {
+                        if (index === searchList.length - 1) {
+                            setSearch2(item.name);
+                            item.isSelected = true;
+                            return item;
+                        } else {
+                            item.isSelected = false;
+                            return item;
+                        }
+                    })
+                } else {
+                    if (currentSelect - 1 >= 0) {
+                        setCurrentSelect(currentSelect - 1);
+                        _searchList = _searchList.map((item, index) => {
+                            if (index === currentSelect - 1) {
+                                setSearch2(item.name);
+                                item.isSelected = true;
+                                return item;
+                            } else {
+                                item.isSelected = false;
+                                return item;
+                            }
+                        })
+                    }
+                }
+            }
+
+            setSearchList(_searchList);
+        }
+    }
+
+    const handleSearchButtonOnClick = async () => {
+        if (search) {
+            setCurrentSelect(-1);
+            let result = await getSearchBooks(search);
+            if (result && result.EC === 0) {
+                if (result.DT.length === 1) {
+                    let book = (result.DT)[0];
+                    setSearch(book.name);
+                    history.push(`/book/${book.id}`);
+                    window.scrollTo(0, 0);
+                }
+            }
+        }
+        if (search2) {
+            setSearch(search2);
+            setSearch2('');
+            setCurrentSelect(-1);
+            let result = await getSearchBooks(search2);
+            if (result && result.EC === 0) {
+                if (result.DT.length === 1) {
+                    let book = (result.DT)[0];
+                    history.push(`/book/${book.id}`);
+                    window.scrollTo(0, 0);
+                }
+            }
+        }
+    }
+
+    const handleSearchBookDetail = (bookId, book_name) => {
+        setSearch(book_name);
+        setShowSearchList(false);
+        setSearch2('');
+        setCurrentSelect(-1);
+        history.push(`/book/${bookId}`);
+        window.scrollTo(0, 0);
+    }
+
+    useEffect(() => {
+        if (search) {
+            bookSearch(search);
+        } else {
+            setSearchList([]);
+            bookSearch.cancel();
+        }
+    }, [search]);
 
     const handleViewBookDetail = (book_id) => {
         history.push(`/book/${book_id}`);
@@ -100,11 +245,17 @@ const Header = (props) => {
 
     useEffect(() => {
         setShowShoppingCart(false);
-
+        setShowSearchList(false);
         fetchAccountInfo();
+        if(search2) {
+            setSearch(search2);
+            setSearch2('');
+        }
 
         if (location.pathname === '/') {
             setShowBookCategory(true);
+            setSearch('');
+
         } else {
             setShowBookCategory(false);
         }
@@ -144,16 +295,42 @@ const Header = (props) => {
                         Mega<span className='brand'>book</span>.com
                     </div>
                     <div className='col-12 col-xl-9 d-flex justify-content-around gap-4'>
-                        <div className='searchBar col-12 col-md-7'>
+                        <div className='searchBar position-relative col-12 col-md-7'>
                             <div className='search-box flex-grow-1 py-1 ms-1'>
                                 <div className='icon d-flex justify-content-center align-items-center'><CiSearch /></div>
                                 <div className='search'>
-                                    <input placeholder='Search books, author' />
+                                    <input
+                                        placeholder='Search books name...'
+                                        value={search2 ? search2 : search}
+                                        onChange={(event) => handleSearchOnChange(event)}
+                                        onClick={() => setShowSearchList(true)}
+                                        onKeyDown={(event) => handleKeyPress(event)}
+                                    />
                                 </div>
-                                <div className='search-btn green d-flex justify-content-center align-items-center me-1'>
+                                <div
+                                    className='search-btn green d-flex justify-content-center align-items-center me-1'
+                                    onClick={handleSearchButtonOnClick}
+                                >
                                     Search
                                 </div>
                             </div>
+                            {showSearchList && search && searchList && searchList.length > 0 &&
+                                <div className='search-list position-absolute d-flex flex-column top-100'>
+                                    {
+                                        searchList.map(item => {
+                                            return (
+                                                <div
+                                                    key={`search-item-${item.id}`}
+                                                    className={item.isSelected ? 'search-item selected' : 'search-item'}
+                                                    onClick={() => handleSearchBookDetail(item.id, item.name)}
+                                                >
+                                                    <CiSearch /> {item.name}
+                                                </div>
+                                            )
+                                        })
+                                    }
+                                </div>
+                            }
                         </div>
                         <div className='col-3 d-none d-md-block d-md-flex justify-content-between'>
                             <div className='shoppingCart d-flex justify-content-end align-items-center position-relative'>
